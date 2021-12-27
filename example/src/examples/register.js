@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { StyleSheet , View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, Input, CheckBox } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const style = StyleSheet.create(
   { 
     body: { 
-      height: '100%',
       backgroundColor: '#ededed'
     },
     inputContainer: {
@@ -34,6 +34,9 @@ export default class extends React.PureComponent {
   static route = 'register';
   static navigationOptions = { title: '注册' };
 
+  state = {
+    checked: false
+  }
 
   submit = () => {
     alert('submit')
@@ -41,22 +44,23 @@ export default class extends React.PureComponent {
   
 
   render() {
-    const [checked, setChecked] = React.useState(true);
-
     return (
-      <View style={style.body}>
+      <ScrollView contentContainerStyle={style.body}>
         <View style={style.inputContainer}>
           <View>
             <CheckBox
               title='男'
-              //onIconPress={() => setChecked(!checked)}
-              checked={checked}
+              checkedIcon={ <Icon name='face' size={ 15 } color='rgb(2, 147, 254)'/> }
+              uncheckedIcon={ <Icon name='face' size={ 15 } color='rgb(154, 154, 154)'/> }
+              checked={ this.state.checked }
+              onPress={() => this.setState({checked: !this.state.checked})}
             />
             <CheckBox
               title='女'
-              checked={checked}
-
-              //onIconPress={() => setChecked(!checked)}
+              checkedIcon={ <Icon name='face-woman' size={ 15 } color='rgb(2, 147, 254)'/> }
+              uncheckedIcon={ <Icon name='face-woman' size={ 15 } color='rgb(154, 154, 154)'/> }
+              checked={ !this.state.checked }
+              onPress={ () => this.setState({checked: !this.state.checked}) }
             />
           </View>
           <Input
@@ -104,7 +108,7 @@ export default class extends React.PureComponent {
           }}
           onPress={this.submit}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
