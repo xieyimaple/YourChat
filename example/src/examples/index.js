@@ -2,6 +2,7 @@ import * as React from "react";
 import { ScrollView } from "react-native";
 import Example from "./example";
 import Login from "./login";
+import register from "./register";
 import Connect from "./connect";
 import ReceiveMessage from "./receive-message";
 import SendMessage from "./send-message";
@@ -33,6 +34,7 @@ import PushReceiver from "./push-receiver";
 
 const examples = [
   Login,
+  register,
   Connect,
   ReceiveMessage,
   SendMessage,
@@ -79,6 +81,7 @@ export default class extends React.PureComponent {
 
 export {
   Login,
+  register,
   Connect,
   ReceiveMessage,
   SendMessage,
