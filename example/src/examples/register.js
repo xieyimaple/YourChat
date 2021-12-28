@@ -31,7 +31,7 @@ const style = StyleSheet.create(
 
 
 export default class extends React.PureComponent {
-  static route = 'register';
+  static route = 'Register';
   static navigationOptions = { title: '注册' };
 
   state = {
