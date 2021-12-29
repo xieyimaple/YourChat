@@ -1,6 +1,10 @@
 import * as React from "react";
 import { ScrollView } from "react-native";
 import Example from "./example";
+import Login from "./login";
+import Register from "./register";
+import AddFriend from "./add-friend";
+import NewFriends from "./new-friends";
 import Connect from "./connect";
 import ReceiveMessage from "./receive-message";
 import SendMessage from "./send-message";
@@ -31,6 +35,10 @@ import CustomerService from "./customer-service";
 import PushReceiver from "./push-receiver";
 
 const examples = [
+  Login,
+  Register,
+  AddFriend,
+  NewFriends,
   Connect,
   ReceiveMessage,
   SendMessage,
@@ -76,6 +84,10 @@ export default class extends React.PureComponent {
 }
 
 export {
+  Login,
+  Register,
+  AddFriend,
+  NewFriends,
   Connect,
   ReceiveMessage,
   SendMessage,
