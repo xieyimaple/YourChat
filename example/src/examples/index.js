@@ -4,6 +4,7 @@ import Example from "./example";
 import Login from "./login";
 import Register from "./register";
 import AddFriend from "./add-friend";
+import NewFriends from "./new-friends";
 import Connect from "./connect";
 import ReceiveMessage from "./receive-message";
 import SendMessage from "./send-message";
@@ -37,6 +38,7 @@ const examples = [
   Login,
   Register,
   AddFriend,
+  NewFriends,
   Connect,
   ReceiveMessage,
   SendMessage,
@@ -85,6 +87,7 @@ export {
   Login,
   Register,
   AddFriend,
+  NewFriends,
   Connect,
   ReceiveMessage,
   SendMessage,
