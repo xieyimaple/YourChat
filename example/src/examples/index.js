@@ -5,6 +5,7 @@ import Login from "./login";
 import Register from "./register";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
+import Home from "./home";
 import Connect from "./connect";
 import ReceiveMessage from "./receive-message";
 import SendMessage from "./send-message";
@@ -39,6 +40,7 @@ const examples = [
   Register,
   AddFriend,
   NewFriends,
+  Home,
   Connect,
   ReceiveMessage,
   SendMessage,
@@ -84,6 +86,7 @@ export default class extends React.PureComponent {
 }
 
 export {
+  Home,
   Login,
   Register,
   AddFriend,
