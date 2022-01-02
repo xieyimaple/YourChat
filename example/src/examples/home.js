@@ -4,21 +4,10 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import message from './message';
+import contacts from './contacts';
+import find from './find';
+import user from './user';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,22 +20,11 @@ const style = StyleSheet.create(
   }
 );
 
-
-
 export default class extends React.PureComponent {
   static route = 'Home';
   static navigationOptions = { title: '主页' };
 
   state = {
-    footBar: [{
-      itemName: 'message'
-    },{
-      itemName: 'contacts' 
-    },{
-      itemName: 'find'
-    },{
-      itemName: 'me'
-    }]
   };
 
   render() {
@@ -67,10 +45,10 @@ export default class extends React.PureComponent {
             }
           })
         }>
-          <Tab.Screen name="消息" component={HomeScreen} />
-          <Tab.Screen name="联系人" component={SettingsScreen} />
-          <Tab.Screen name="发现" component={SettingsScreen} />
-          <Tab.Screen name="我" component={SettingsScreen} />
+          <Tab.Screen name="消息" component={message} />
+          <Tab.Screen name="联系人" component={contacts} />
+          <Tab.Screen name="发现" component={find} />
+          <Tab.Screen name="我" component={user} />
         </Tab.Navigator>
       </NavigationContainer>
     );
