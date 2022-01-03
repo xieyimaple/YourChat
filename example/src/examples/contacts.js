@@ -15,6 +15,14 @@ const style = StyleSheet.create(
 
 export default class extends React.PureComponent {
   static route = 'contacts';
+  static navigationOptions = { 
+    title: 'lian', 
+    headerRight: (
+      <Icon name='user' size={25} />
+    )
+  };
+
+
   state = {
     users : [{
       id: '1',

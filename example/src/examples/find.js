@@ -19,10 +19,13 @@ export default class extends React.PureComponent {
 
   state = {
     finds : [{
+      id: '123',
       textName: '爱公益'
     },{
+      id: '234',
       textName: '爱慈善'
     },{
+      id: '345',
       textName: '爱救援'
     }]
   }
