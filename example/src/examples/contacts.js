@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Avatar, Text, ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const style = StyleSheet.create(
   { 
