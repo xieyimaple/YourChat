@@ -5,6 +5,7 @@ import Login from "./login";
 import Register from "./register";
 import ResetUsername from "./reset-username";
 import AccountSecurity from "./account-security";
+import AllowNotice from "./allow-notice";
 import ResetPassword from "./reset-password";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
@@ -46,6 +47,7 @@ const examples = [
   NewFriends,
   ResetUsername,
   AccountSecurity,
+  AllowNotice,
   ResetPassword,
   Home,
   UserSetting,
@@ -102,6 +104,7 @@ export {
   NewFriends,
   ResetUsername,
   AccountSecurity,
+  AllowNotice,
   ResetPassword,
   Connect,
   ReceiveMessage,
