@@ -3,7 +3,8 @@ import { ScrollView } from "react-native";
 import Example from "./example";
 import Login from "./login";
 import Register from "./register";
-import ResetUsername from "./reset-username"
+import ResetUsername from "./reset-username";
+import AccountSecurity from "./account-security";
 import ResetPassword from "./reset-password";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
@@ -44,6 +45,7 @@ const examples = [
   AddFriend,
   NewFriends,
   ResetUsername,
+  AccountSecurity,
   ResetPassword,
   Home,
   UserSetting,
@@ -99,6 +101,7 @@ export {
   AddFriend,
   NewFriends,
   ResetUsername,
+  AccountSecurity,
   ResetPassword,
   Connect,
   ReceiveMessage,
