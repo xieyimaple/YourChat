@@ -8,6 +8,9 @@ import AccountSecurity from "./account-security";
 import AllowNotice from "./allow-notice";
 import CreateGroup from "./create-group";
 import CreateGrpupInformation from "./create-group-information"
+import MyGroups from "./my-groups";
+import FriendDetails from "./friend-details";
+import ResetRemark from "./reset-remark"
 import ResetPassword from "./reset-password";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
@@ -52,6 +55,9 @@ const examples = [
   AllowNotice,
   CreateGroup,
   CreateGrpupInformation,
+  MyGroups,
+  FriendDetails,
+  ResetRemark,
   ResetPassword,
   Home,
   UserSetting,
@@ -111,6 +117,9 @@ export {
   AllowNotice,
   CreateGroup,
   CreateGrpupInformation,
+  MyGroups,
+  FriendDetails,
+  ResetRemark,
   ResetPassword,
   Connect,
   ReceiveMessage,

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Avatar, Text, ListItem, SearchBar, CheckBox } from 'react-native-elements';
+import { color } from 'react-native-elements/dist/helpers';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const style = StyleSheet.create(
@@ -42,12 +43,12 @@ export default class extends React.PureComponent {
     },{
       id: '3',
       username: 'aaaa3',
-      checked: false,
+      checked: true,
       avator: 'https://img2.baidu.com/it/u=3084758157,2896901232&fm=26&fmt=auto'
     },{
       id: '4',
       username: 'aaaa4',
-      checked: false,
+      checked: true,
       avator: 'https://img0.baidu.com/it/u=2262462694,2417107806&fm=26&fmt=auto'
     }]
   }
@@ -57,14 +58,7 @@ export default class extends React.PureComponent {
     console.log(this.state);
   };
 
-  updateCheck = (item,checked) => {
-    console.log(item);
-    console.log(checked);
-    //this.setState({checked: !item.checked})
-  }
-
   render() {
-    var that=this;
     return (
       <ScrollView contentContainerStyle={style.body}>
         <SearchBar
@@ -77,15 +71,14 @@ export default class extends React.PureComponent {
         {this.state.users.map((item, i) => (
           <ListItem key={item.id}
                     onPress={ 
-                      (index) => {
-                        console.log(that.state.users[index]);
-                        this.setState(!that.state.users[index].checked);
+                      () => {
+                        item.checked = !item.checked
                       }
                     }
                   >
             <CheckBox
-              checkedIcon={ <Icon name='check-circle' size={20} /> }
-              uncheckedIcon={ <Icon name='circle-outline' size={20} /> }
+              checkedIcon={ <Icon name='check-circle' size={30} color='#0F0' /> }
+              uncheckedIcon={ <Icon name='circle-outline' size={30} color='#ededed' /> }
               checked={item.checked}
             />
             <Avatar
