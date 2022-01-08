@@ -6,6 +6,8 @@ import Register from "./register";
 import ResetUsername from "./reset-username";
 import AccountSecurity from "./account-security";
 import AllowNotice from "./allow-notice";
+import CreateGroup from "./create-group";
+import CreateGrpupInformation from "./create-group-information"
 import ResetPassword from "./reset-password";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
@@ -48,6 +50,8 @@ const examples = [
   ResetUsername,
   AccountSecurity,
   AllowNotice,
+  CreateGroup,
+  CreateGrpupInformation,
   ResetPassword,
   Home,
   UserSetting,
@@ -105,6 +109,8 @@ export {
   ResetUsername,
   AccountSecurity,
   AllowNotice,
+  CreateGroup,
+  CreateGrpupInformation,
   ResetPassword,
   Connect,
   ReceiveMessage,
