@@ -76,7 +76,7 @@ export default class extends React.PureComponent {
         </ListItem.Content>  
         </ListItem>
         <ListItem containerStyle={style.labelItem}>
-          <Text>深情留言</Text>
+          <Text>申请留言</Text>
         </ListItem>
         <ListItem containerStyle={style.messageItem}>
           <Input

@@ -15,6 +15,7 @@ import ResetPassword from "./reset-password";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
 import Home from "./home";
+import SingleFind from "./single-find";
 import UserSetting from "./user-setting";
 import Connect from "./connect";
 import ReceiveMessage from "./receive-message";
@@ -60,6 +61,7 @@ const examples = [
   ResetRemark,
   ResetPassword,
   Home,
+  SingleFind,
   UserSetting,
   Connect,
   ReceiveMessage,
@@ -120,6 +122,7 @@ export {
   MyGroups,
   FriendDetails,
   ResetRemark,
+  SingleFind,
   ResetPassword,
   Connect,
   ReceiveMessage,
