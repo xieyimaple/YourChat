@@ -12,10 +12,12 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-      <WebView
-        source={{uri: 'www.baidu.com'}}
-        style={{marginTop: 20}}
-      />
+      <ScrollView style={{backgroundColor: '#fff000',height: '100%', paddingTop: 50}}>
+        <WebView
+          source={{uri: 'www.baidu.com'}}
+          style={{height: '50%',backgroundColor: '#dddfff'}}
+        />
+      </ScrollView>
     );
   }
 }

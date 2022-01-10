@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Avatar, Text, ListItem, SearchBar, CheckBox } from 'react-native-elements';
-import { color } from 'react-native-elements/dist/helpers';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const style = StyleSheet.create(
@@ -68,11 +67,14 @@ export default class extends React.PureComponent {
             onChangeText={this.updateSearch}
             containerStyle={style.searchBarContainer}
           />
-        {this.state.users.map((item, i) => (
+        {this.state.users.map((item, index) => (
           <ListItem key={item.id}
-                    onPress={ 
+                    onPress={
                       () => {
-                        item.checked = !item.checked
+                        var users = this.state.users;
+                        users[index].checked = !users[index].checked;
+                        this.setState({users: [...users]});
+                        console.log(this.state.users);
                       }
                     }
                   >
