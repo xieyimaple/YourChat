@@ -671,6 +671,14 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@expo/react-native-action-sheet@^3.6.0":
+  "integrity" "sha512-EFLK35TBsM28W43SY54lISAIvjEm9584LIRWXsYaf5sgmfF65oWAOQP4UyKxMPLYGoaKjnCAJVFNtZUK80ss9A=="
+  "resolved" "https://registry.npmmirror.com/@expo/react-native-action-sheet/download/@expo/react-native-action-sheet-3.13.0.tgz"
+  "version" "3.13.0"
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.1"
+    "hoist-non-react-statics" "^3.3.0"
+
 "@hapi/address@2.x.x":
   "integrity" "sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ=="
   "resolved" "https://registry.npmjs.org/@hapi/address/-/address-2.1.4.tgz"
@@ -964,6 +972,14 @@
   "integrity" "sha512-VbjwR1fhsn2h2KXAY4oy1fm7dCxaKy0D+deTb8Ilc3Eo3rc5+5eA4rfYmZaHgNJKxVyI0f6WIXzO2zLkVmQPHA=="
   "resolved" "https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.40.tgz"
   "version" "2.0.40"
+
+"@types/hoist-non-react-statics@^3.3.1":
+  "integrity" "sha1-ESSq/lEYy1kZd66xzqrtEHDrA58="
+  "resolved" "https://registry.npmmirror.com/@types/hoist-non-react-statics/download/@types/hoist-non-react-statics-3.3.1.tgz?cache=0&sync_timestamp=1637266809459&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fhoist-non-react-statics%2Fdownload%2F%40types%2Fhoist-non-react-statics-3.3.1.tgz"
+  "version" "3.3.1"
+  dependencies:
+    "@types/react" "*"
+    "hoist-non-react-statics" "^3.3.0"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   "integrity" "sha512-sz7iLqvVUg1gIedBOvlkxPlc8/uVzyS5OwGz1cKjXzkl3FpL3al0crU8YGU1WoHkxn0Wxbw5tyi6hvzJKNzFsw=="
@@ -1801,7 +1817,7 @@
   "resolved" "https://registry.npmmirror.com/csstype/download/csstype-3.0.10.tgz?cache=0&sync_timestamp=1637224808721&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcsstype%2Fdownload%2Fcsstype-3.0.10.tgz"
   "version" "3.0.10"
 
-"dayjs@^1.8.15":
+"dayjs@^1.8.15", "dayjs@^1.8.26":
   "integrity" "sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig=="
   "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.10.7.tgz"
   "version" "1.10.7"
@@ -3905,7 +3921,7 @@
   dependencies:
     "asap" "~2.0.6"
 
-"prop-types@^15.6.2", "prop-types@^15.7.2":
+"prop-types@*", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.7.x":
   "integrity" "sha512-fDGekdaHh65eI3lMi5OnErU6a8Ighg2KjcjQxO7m8VHyWjcPyj5kiOgV1LQDOOOgVy3+5FgjXvdSSX7B8/5/4g=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.0.tgz"
   "version" "15.8.0"
@@ -3972,6 +3988,11 @@
   dependencies:
     "dooboolab-welcome" "^1.3.2"
 
+"react-native-communications@^2.2.1":
+  "integrity" "sha1-eIO1ayCgAu63kMET+GFuqGksp5U="
+  "resolved" "https://registry.nlark.com/react-native-communications/download/react-native-communications-2.2.1.tgz"
+  "version" "2.2.1"
+
 "react-native-document-picker@3.5.4":
   "integrity" "sha512-ZKGAa8ztQ7zA1eE95OCiNsI/Q6fiq1Q3es8MyOEakBkWcX9avWNYaJUrbv/8v80Vo4RzcNxsO3wT6a2hgfpz7A=="
   "resolved" "https://registry.npmjs.org/react-native-document-picker/-/react-native-document-picker-3.5.4.tgz"
@@ -4002,12 +4023,27 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
+"react-native-gifted-chat@^0.16.3":
+  "integrity" "sha1-7qmCkL/PcrNtKq8ALt3dkDU6puw="
+  "resolved" "https://registry.nlark.com/react-native-gifted-chat/download/react-native-gifted-chat-0.16.3.tgz"
+  "version" "0.16.3"
+  dependencies:
+    "@expo/react-native-action-sheet" "^3.6.0"
+    "dayjs" "^1.8.26"
+    "prop-types" "^15.7.2"
+    "react-native-communications" "^2.2.1"
+    "react-native-iphone-x-helper" "^1.2.1"
+    "react-native-lightbox" "^0.8.1"
+    "react-native-parsed-text" "0.0.22"
+    "react-native-typing-animation" "^0.1.7"
+    "uuid" "3.4.0"
+
 "react-native-image-picker@1.1.0":
   "integrity" "sha512-/KjHf4NNAjl6XM7FQuqvGDz1wB9sRdLf86+2yksLW/QTRR7CitX4TLCM8ZF9CX6Y0MsCTndkZia3zWE+nt/GiA=="
   "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-1.1.0.tgz"
   "version" "1.1.0"
 
-"react-native-iphone-x-helper@^1.0.3":
+"react-native-iphone-x-helper@^1.0.3", "react-native-iphone-x-helper@^1.2.1":
   "integrity" "sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg=="
   "resolved" "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   "version" "1.3.1"
@@ -4019,6 +4055,20 @@
   dependencies:
     "prop-types" "^15.6.2"
     "react-native-iphone-x-helper" "^1.0.3"
+
+"react-native-lightbox@^0.8.1":
+  "integrity" "sha1-TlYexG5hYXoPPxLIjsJpU2CZiHg="
+  "resolved" "https://registry.nlark.com/react-native-lightbox/download/react-native-lightbox-0.8.1.tgz"
+  "version" "0.8.1"
+  dependencies:
+    "prop-types" "^15.7.2"
+
+"react-native-parsed-text@0.0.22":
+  "integrity" "sha1-ojx1bqpdZyQpaBR1UIUSf5By5fU="
+  "resolved" "https://registry.npmmirror.com/react-native-parsed-text/download/react-native-parsed-text-0.0.22.tgz"
+  "version" "0.0.22"
+  dependencies:
+    "prop-types" "^15.7.x"
 
 "react-native-ratings@8.0.4":
   "integrity" "sha1-79XrrYrMCL+Y0005sY+3poE++ZE="
@@ -4057,6 +4107,11 @@
   "integrity" "sha1-JNDPwzWixzD21YvXtD6lpBvktJ8="
   "resolved" "https://registry.npmmirror.com/react-native-size-matters/download/react-native-size-matters-0.3.1.tgz"
   "version" "0.3.1"
+
+"react-native-typing-animation@^0.1.7":
+  "integrity" "sha1-jyzwjZQArlQ6EQKS631xUj3aVSg="
+  "resolved" "https://registry.npmmirror.com/react-native-typing-animation/download/react-native-typing-animation-0.1.7.tgz"
+  "version" "0.1.7"
 
 "react-native-vector-icons@^9.0.0", "react-native-vector-icons@>7.0.0":
   "integrity" "sha512-qKX5d5/TafHmI4B7UOSZCL3BAGh7ZfF30iLwRgxBkKfZl2lKSuHp8Ottj9OyWh9b5fFtlg+LtyvZrns3g2kh+w=="
@@ -4133,7 +4188,7 @@
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.4.3.tgz"
   "version" "0.4.3"
 
-"react@*", "react@^16.8.0 || ^17.0.0", "react@16 || 17", "react@16.13.1":
+"react@*", "react@^16.8.0 || ^17.0.0", "react@>=16.3.0", "react@16 || 17", "react@16.13.1":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"
@@ -4955,7 +5010,7 @@
   "resolved" "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   "version" "1.0.1"
 
-"uuid@^3.3.2":
+"uuid@^3.3.2", "uuid@3.4.0":
   "integrity" "sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz"
   "version" "3.4.0"

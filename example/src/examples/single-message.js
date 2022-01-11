@@ -1,86 +1,109 @@
-import * as React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { Avatar, Text, ListItem, Input } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+/* eslint-disable prettier/prettier */
+import React, { useState, useCallback, useEffect } from 'react';
+import { GiftedChat,Bubble,Send } from 'react-native-gifted-chat';
+// 引入中文语言包
+import 'dayjs/locale/zh-cn';
+import {View,Text,StyleSheet,SafeAreaView} from 'react-native';
 
-const style = StyleSheet.create(
-  { 
-    body: { 
+
+const styles = StyleSheet.create({
+  mainContent: {
+      flex: 1,
       backgroundColor: '#ededed',
-      minHeight: '90%'
-    },
-    bottomBar: {
-      height: '10%',
-      borderTopWidth: 1,
-      borderColor: '#ededed',
-      flexDirection: 'row',
-      backgroundColor: '#f7f7f7',
-    },
-    messageInput: {
-      width: '75%'
-    }
+  },
+  sendBtn: {
+      width: 63,
+      height: 32,
+      borderRadius: 3,
+      backgroundColor:'#07c160',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom:5,
+      marginRight:5,
   }
-);
-
-
+});
 
 export default class extends React.PureComponent {
   static route = 'SingleMessage';
   static navigationOptions = { title: '信息' };
 
+  messages = [];
+  setMessages = [];
 
-  state = {
-    search : '',
-    users : [{
-      id: '1',
-      username: 'aaaa',
-      checked: false,
-      avator: 'https://img0.baidu.com/it/u=1094578575,4095785529&fm=26&fmt=auto'
-    },{
-      id: '2',
-      username: 'aaaa2',
-      checked: false,
-      avator: 'https://img2.baidu.com/it/u=4020015437,2067593922&fm=26&fmt=auto'
-    },{
-      id: '3',
-      username: 'aaaa3',
-      checked: true,
-      avator: 'https://img2.baidu.com/it/u=3084758157,2896901232&fm=26&fmt=auto'
-    },{
-      id: '4',
-      username: 'aaaa4',
-      checked: true,
-      avator: 'https://img0.baidu.com/it/u=2262462694,2417107806&fm=26&fmt=auto'
-    }]
-  }
+  useEffect = () => {
+    setMessages([
+        {
+            _id: 1,
+            text: '码农先生，开始聊天吧！',
+            createdAt: new Date(),
+            user: {
+                _id: 2,
+                name: 'React Native',
+                avatar: 'https://placeimg.com/140/140/any',
+            },
+        },
+    ])
+  };
 
-  render() {
+  onSend = useCallback((msg = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, msg))
+  }, []);
+
+  renderBubble = (props) => {
     return (
-      <View>
-        <View>
-          <ScrollView contentContainerStyle={style.body}>
-            {this.state.users.map((item, i) => (
-              <ListItem key={item.id}
-                        onPress={ 
-                          () => {
-                            item.checked = !item.checked
-                          }
-                        }
-                      >
-              
-              </ListItem>
-            ))}
-          </ScrollView>
-        </View>
-        <ListItem style={style.bottomBar}>
-          <Input
-            containerStyle = {style.messageInput}
+          <Bubble
+              {...props}
+              textStyle={{
+                  right: {
+                      color: 'black',
+                  },
+              }}
+              wrapperStyle={{
+                  left: {
+                      backgroundColor: '#fff',
+                  },
+                  right: {
+                      backgroundColor: '#95ec69',
+                  },
+              }}
           />
-          <Icon name='happy-outline' size={30} onPress={() => {alert('go to setting')}} />
-          <Icon name='add-circle-outline' size={30} onPress={() => {alert('go to setting')}} />
-        </ListItem>
-      </View>
-      
+      );
+  };
+
+  renderSend = (props) => {
+    return (
+        <Send
+            {...props}
+            alwaysShowSend={true}
+        >
+            <View style={styles.sendBtn}>
+                <Text style={{color: '#ffffff', fontSize: 17}}>发送</Text>
+            </View>
+        </Send>
     );
-  }
+  };
+
+  render () {
+    return (
+      <SafeAreaView style={styles.mainContent}>
+        <GiftedChat
+            messages={messages}
+            onSend={messages => onSend(messages)}
+            showUserAvatar={true}
+            locale={'zh-cn'}
+            showAvatarForEveryMessage={true}
+            renderBubble={renderBubble}
+            placeholder={'开始聊天吧'}
+            renderSend={renderSend}
+            inverted={true}
+            renderUsernameOnMessage={true}
+            user={{
+                _id: 50,
+                name: '阳光',
+                avatar: 'https://placeimg.com/140/140/any',
+            }}
+            alignTop={true}
+        />
+      </SafeAreaView>
+  )}
 }
