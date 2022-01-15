@@ -1,17 +1,75 @@
-import * as React from 'react';
-import { Platform, StyleSheet, Text, View, PermissionsAndroid } from 'react-native';
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import { init, connect, setServerInfo } from "@rongcloud/react-native-imlib";
-import config from "./config";
-import * as examples from "./examples";
 
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE).catch(() => {});
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).catch(() => {});
+/*
+* 文件名: App.js
+* 作者: liushun
+* 描述: App 入口
+* 修改人:
+* 修改时间:
+* 修改内容:
+* */
 
-if (config.naviServer != null && config.naviServer.length > 0) {
-     setServerInfo(config.naviServer, '');
+import React, {Component} from 'react';
+import AppNav from './Container/AppContainer'
+import { Provider } from 'react-redux'
+import configureStore from './Redux'
+import socket from 'socket.io-client'
+import {PersistGate} from 'redux-persist/integration/react'
+import {AddRoomMessage, AddRoomUnReadMsg} from './Redux/actionCreators'
+import Toast from "react-native-root-toast";
+import {getFriendList} from "./Service/action";
+import config from './Config'
+
+
+const io = socket(config.baseURL);
+
+global.io = io
+
+const {store, persistor} = configureStore();
+
+
+export default class App extends Component<Props> {
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppNav/>
+        </PersistGate>
+      </Provider>
+    );
+  }
 }
-init("n19jmcy59f1q9");
 
-export default createAppContainer(createStackNavigator(examples, { initialRouteName: "default" }));
+if(__DEV__) {
+  import('./Config/ReactotronConfig.js').then(() => console.log('Reactotron Configured'))
+}
+
+io.on('connect', (socket)=>{
+  console.tron.log('socket connect');
+})
+
+io.on('message',(obj)=>{
+  store.dispatch(AddRoomMessage(obj))
+  store.dispatch(AddRoomUnReadMsg(obj))
+})
+
+io.on('addFriend',()=>{
+  const user = (store.getState().UserReducer.get('user')).toJS();
+  store.dispatch(getFriendList(user.id))
+})
+
+io.on('disconnect', (socket)=>{
+  console.tron.log("socket disconnect");
+
+  Toast.show('未连接到服务器',{
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.TOP
+  })
+
+})
+
+
+
+
+
+
+
