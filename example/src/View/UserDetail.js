@@ -28,7 +28,7 @@ class UserDetail extends React.Component{
     }
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     this.props.friendList.some((item, index)=>{
       if(item.friendId.username === this.state.user.username){
         this.setState({

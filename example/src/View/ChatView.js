@@ -57,7 +57,7 @@ class ChatView extends React.Component{
     }
   }
 
-  async componentWillReceiveProps(nextProps): void {
+  async UNSAFE_componentWillReceiveProps(nextProps): void {
     if (((nextProps.messageList)[this.state.roomId])) {
       const mess = ((nextProps.messageList)[this.state.roomId]).pop()
 
@@ -74,7 +74,7 @@ class ChatView extends React.Component{
     }
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     const user = this.props.user;
     const roomId = sort(user.id, this.state.toId)
 

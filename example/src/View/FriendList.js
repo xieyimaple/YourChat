@@ -32,7 +32,7 @@ class FriendList extends React.Component{
     }
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     ApiUtil.request('getArticle',this.state.page,true).then((result)=>{
       if(result.data.errno === 0){
         this.setState({

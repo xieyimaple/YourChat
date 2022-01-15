@@ -30,7 +30,7 @@ class Home extends React.Component {
     }
   }
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     const user = this.props.user;
     const loginObj = this.props.loginObj;
     if(loginObj.login){
@@ -51,9 +51,6 @@ class Home extends React.Component {
     this.props.getFriendList(user.id);
   }
 
-  componentWillUnmount(): void {
-
-  }
 
   goChat=(item)=>{
     if(this.state.show){

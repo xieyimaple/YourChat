@@ -41,7 +41,7 @@ class RegisterView extends React.Component{
     };
   }
 
-  componentWillReceiveProps(nextProps): void {
+  UNSAFE_componentWillReceiveProps(nextProps): void {
     if(nextProps.registerObj.tip !== ''){
       Toast.show(nextProps.registerObj.tip,{
         duration: Toast.durations.SHORT,

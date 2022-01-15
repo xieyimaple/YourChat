@@ -39,7 +39,7 @@ class LoginView extends React.Component{
     };
   }
 
-  componentWillReceiveProps(nextProps): void {
+  UNSAFE_componentWillReceiveProps(nextProps): void {
 
     if(nextProps.loginObj.tip !== ''){
       Toast.show(nextProps.loginObj.tip,{

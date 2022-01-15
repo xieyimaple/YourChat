@@ -28,14 +28,6 @@ class Mail extends React.Component {
     }
   }
 
-  componentWillMount(): void {
-
-  }
-
-  componentWillUnmount(): void {
-
-  }
-
   addFriend=()=>{
     this.setState({
       show: false,
