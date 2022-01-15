@@ -57,17 +57,20 @@ class dropMenu extends React.Component{
           </View>
           <Text style={{color: 'black'}}>扫一扫&emsp;</Text>
         </View> */}
-        <View style={{
-          borderWidth: 10,
-          borderBottomColor:'black',
+
+
+        {/* 这里就是三角形的代码 */}
+        {/* <View style={{
+          borderWidth: 8,
+          borderBottomColor:'#999',
           borderTopColor:'rgba(0,0,0,0)',
           borderLeftColor:'rgba(0,0,0,0)',
           borderRightColor:'rgba(0,0,0,0)',
           position:'absolute',
           top:-20,
-          right: 20
+          right: 15
         }}>
-        </View>
+        </View> */}
       </View>
     )
   }

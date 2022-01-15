@@ -10,7 +10,7 @@
 import React from 'react';
 import MainView from '../components/MainView';
 import {FlatList, SectionList, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
-import {Header, ListItem} from "react-native-elements";
+import {Header, ListItem, Avatar} from "react-native-elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropMenu from "../components/DropMenu";
 import {connect} from "react-redux";
@@ -49,29 +49,42 @@ class Mail extends React.Component {
     return(
       <View>
         <ListItem
-      containerStyle={{}}
-      disabledStyle={{ opacity: 0.5 }}
-      onLongPress={() => console.log("onLongPress()")}
-      onPress={() => console.log("onLongPress()")}
-      pad={20}
-    >
-      <ListItem.Content>
-        <ListItem.Title>
-          <Text>Pranshu Chittora</Text>
-        </ListItem.Title>
-        <ListItem.Subtitle>
-          <Text>React Native Elements</Text>
-        </ListItem.Subtitle>
-      </ListItem.Content>
-    </ListItem>
-        {/* <ListItem
-          title={'新的朋友'}
-          leftAvatar={{
-            rounded: false,
-            source: { uri: config.baseURL+'/friend.jpg' },
-          }}
           bottomDivider
-        /> */}
+        >
+          <Avatar source={{
+            uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
+          }} />
+          <ListItem.Content>
+          <ListItem.Title>
+            <Text>新的朋友</Text>
+          </ListItem.Title>
+        </ListItem.Content>
+        </ListItem>
+        <ListItem
+          bottomDivider
+        >
+          <Avatar source={{
+            uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
+          }} />
+          <ListItem.Content>
+          <ListItem.Title>
+            <Text>新的朋友</Text>
+          </ListItem.Title>
+        </ListItem.Content>
+        </ListItem>
+        <ListItem
+          bottomDivider
+        >
+          <Avatar source={{
+            uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
+          }} />
+          <ListItem.Content>
+          <ListItem.Title>
+            <Text>新的朋友</Text>
+          </ListItem.Title>
+        </ListItem.Content>
+        </ListItem>
+
         {/* <ListItem
           title={'群聊'}
           leftAvatar={{
@@ -166,7 +179,6 @@ class Mail extends React.Component {
             }
             rightComponent={
               <View style={{flexDirection: 'row'}}>
-                <Ionicons name={'ios-search'} size={24} color={'black'}/>
                 <View style={{width: 10}}>
                 </View>
                 <TouchableOpacity onPress={()=>{
@@ -174,7 +186,7 @@ class Mail extends React.Component {
                     show: !this.state.show
                   })
                 }}>
-                  <Ionicons name={'ios-add-circle-outline'} size={24} color={'black'}/>
+                  <Ionicons name={'ios-add-circle-outline'} size={24} color={'#44a0df'}/>
                 </TouchableOpacity>
               </View>
             }
@@ -183,7 +195,7 @@ class Mail extends React.Component {
               justifyContent: 'space-around',
               paddingRight: 30,
               height: 60,
-              paddingTop: 0,
+              marginTop: 24,
             }}
           />
         </TouchableWithoutFeedback>

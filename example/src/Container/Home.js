@@ -127,9 +127,7 @@ class Home extends React.Component {
   render() {
     return (
       <MainView>
-
         {/*头部*/}
-
         <TouchableWithoutFeedback
           onPress={()=>{
             if(this.state.show){
@@ -162,7 +160,7 @@ class Home extends React.Component {
               justifyContent: 'space-around',
               paddingRight: 30,
               height: 60,
-              paddingTop: 0,
+              marginTop: 24,
             }}
           />
         </TouchableWithoutFeedback>
@@ -190,7 +188,7 @@ class Home extends React.Component {
 
         {this.state.show?
           <DropMenu
-            style={{position:'absolute', right:10, top: 60}}
+            style={{position:'absolute', right:20, top: 85}}
             navigation={this.props.navigation}
             addFriend={this.addFriend}
             createGroup={this.createGroup}
