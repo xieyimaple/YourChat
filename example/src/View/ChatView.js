@@ -57,7 +57,7 @@ class ChatView extends React.Component{
     }
   }
 
-  async UNSAFE_componentWillReceiveProps(nextProps): void {
+  async UNSAFE_componentWillReceiveProps(nextProps) {
     if (((nextProps.messageList)[this.state.roomId])) {
       const mess = ((nextProps.messageList)[this.state.roomId]).pop()
 
@@ -74,7 +74,7 @@ class ChatView extends React.Component{
     }
   }
 
-  UNSAFE_componentWillMount(): void {
+  UNSAFE_componentWillMount() {
     const user = this.props.user;
     const roomId = sort(user.id, this.state.toId)
 
@@ -84,7 +84,7 @@ class ChatView extends React.Component{
     })
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     if (Platform.OS === "android") {
       this.InputView.setMenuContainerHeight(316)
       this.InputView.showMenu(false)
@@ -94,7 +94,7 @@ class ChatView extends React.Component{
     AuroraIController.addMessageListDidLoadListener(this.messageListDidLoadEvent);
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     AuroraIController.removeMessageListDidLoadListener(this.messageListDidLoadEvent);
   }
 

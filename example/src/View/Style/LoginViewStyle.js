@@ -8,16 +8,19 @@ export default getStyle = function(){
       flex: 1,
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#ededed'
+      justifyContent: 'flex-start',
+      backgroundColor: '#ededed',
+      marginTop: "auto",
+      marginBottom: "auto"
     },
     tinyLogo: {
+      marginTop: '13%',
       width: 100,
       height: 100,
       resizeMode: 'contain',
     },
     LoginForm: {
-      marginTop: 80,
+      marginTop: '10%',
       width: width,
       flexDirection: 'column',
       alignItems: 'center',
@@ -25,14 +28,19 @@ export default getStyle = function(){
       paddingVertical: 10,
       paddingHorizontal: 20
     },
+    inputContainerStyle: {
+      borderBottomWidth: 0
+    },
     LoginInput: {
       borderRadius: 10,
+      height: 50,
       backgroundColor: 'white'
     },
     LoginPassword: {
       borderRadius: 10,
       backgroundColor: 'white',
-      marginTop: 50
+      height: 50,
+      marginTop: 20
     },
     LoginButton: {
       marginTop: 20,

@@ -32,7 +32,7 @@ class FriendList extends React.Component{
     }
   }
 
-  UNSAFE_componentWillMount(): void {
+  UNSAFE_componentWillMount() {
     ApiUtil.request('getArticle',this.state.page,true).then((result)=>{
       if(result.data.errno === 0){
         this.setState({
@@ -42,12 +42,12 @@ class FriendList extends React.Component{
     })
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }

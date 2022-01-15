@@ -23,13 +23,13 @@ class MainView extends React.Component{
     }
   }
 
-  async UNSAFE_componentWillMount(): void {
-    getStatusBarHeight().then((result) => {
-      this.setState({
-        statusBar: result.height
-      })
-    })
-  }
+  // async UNSAFE_componentWillMount() {
+  //   getStatusBarHeight().then((result) => {
+  //     this.setState({
+  //       statusBar: result.height
+  //     })
+  //   })
+  // }
 
   render(){
     Styles = getStyle();

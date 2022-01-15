@@ -39,7 +39,7 @@ class LoginView extends React.Component{
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps): void {
+  UNSAFE_componentWillReceiveProps(nextProps) {
 
     if(nextProps.loginObj.tip !== ''){
       Toast.show(nextProps.loginObj.tip,{
@@ -53,7 +53,7 @@ class LoginView extends React.Component{
     }
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     input.current.focus();
   }
 
@@ -103,9 +103,7 @@ class LoginView extends React.Component{
               <Input
                 ref={input}
                 containerStyle={ Styles.LoginInput}
-                inputStyle={ {
-                  borderBottomColor: 'white'
-                } }
+                inputContainerStyle={ Styles.inputContainerStyle }
                 placeholder='用户名'
                 leftIcon={
                   <FontAwesome
@@ -139,7 +137,8 @@ class LoginView extends React.Component{
               {/*密码输入框*/}
 
               <Input
-                containerStyle={ Styles.LoginInput}
+                containerStyle={ Styles.LoginPassword }
+                inputContainerStyle={ Styles.inputContainerStyle }
                 secureTextEntry={true}
                 placeholder='密码'
                 leftIcon={

@@ -14,7 +14,7 @@ import {Header, ListItem} from "react-native-elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropMenu from "../components/DropMenu";
 import {connect} from "react-redux";
-import config from '../Config'
+import config from '../Config/index'
 
 
 
@@ -49,14 +49,30 @@ class Mail extends React.Component {
     return(
       <View>
         <ListItem
+      containerStyle={{}}
+      disabledStyle={{ opacity: 0.5 }}
+      onLongPress={() => console.log("onLongPress()")}
+      onPress={() => console.log("onLongPress()")}
+      pad={20}
+    >
+      <ListItem.Content>
+        <ListItem.Title>
+          <Text>Pranshu Chittora</Text>
+        </ListItem.Title>
+        <ListItem.Subtitle>
+          <Text>React Native Elements</Text>
+        </ListItem.Subtitle>
+      </ListItem.Content>
+    </ListItem>
+        {/* <ListItem
           title={'新的朋友'}
           leftAvatar={{
             rounded: false,
             source: { uri: config.baseURL+'/friend.jpg' },
           }}
           bottomDivider
-        />
-        <ListItem
+        /> */}
+        {/* <ListItem
           title={'群聊'}
           leftAvatar={{
             rounded: false,
@@ -71,7 +87,7 @@ class Mail extends React.Component {
             source: { uri: config.baseURL+'/friend.jpg' },
           }}
           bottomDivider
-        />
+        /> */}
       </View>
     )
   }

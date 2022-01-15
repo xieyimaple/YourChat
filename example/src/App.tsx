@@ -1,75 +1,76 @@
-
 /*
-* 文件名: App.js
-* 作者: liushun
-* 描述: App 入口
-* 修改人:
-* 修改时间:
-* 修改内容:
-* */
+ * 文件名: App.js
+ * 作者: liushun
+ * 描述: App 入口
+ * 修改人:
+ * 修改时间:
+ * 修改内容:
+ * */
 
-import React, {Component} from 'react';
-import AppNav from './Container/AppContainer'
-import { Provider } from 'react-redux'
-import configureStore from './Redux'
-import socket from 'socket.io-client'
-import {PersistGate} from 'redux-persist/integration/react'
-import {AddRoomMessage, AddRoomUnReadMsg} from './Redux/actionCreators'
-import Toast from "react-native-root-toast";
-import {getFriendList} from "./Service/action";
-import config from './Config'
-
+import React, { Component } from 'react';
+import AppNav from './Container/AppContainer';
+import { Provider } from 'react-redux';
+import configureStore from './Redux';
+import socket from 'socket.io-client';
+import { PersistGate } from 'redux-persist/integration/react';
+import { AddRoomMessage, AddRoomUnReadMsg } from './Redux/actionCreators';
+import Toast from 'react-native-root-toast';
+import { getFriendList } from './Service/action';
+import config from './Config';
 
 const io = socket(config.baseURL);
 
-global.io = io
+global.io = io;
 
-const {store, persistor} = configureStore();
+const { store, persistor } = configureStore();
 
+export default () => {
+  
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppNav />
+      </PersistGate>
+    </Provider>
+  );
+};
+// export default class App extends Component<Props> {
+//   render() {
+//     return (
+//       <Provider store={store}>
+//         <PersistGate loading={null} persistor={persistor}>
+//           <AppNav />
+//         </PersistGate>
+//       </Provider>
+//     );
+//   }
+// }
 
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <AppNav/>
-        </PersistGate>
-      </Provider>
-    );
-  }
+if (__DEV__) {
+  import('./Config/ReactotronConfig.js').then(() =>
+    console.log('Reactotron Configured')
+  );
 }
 
-if(__DEV__) {
-  import('./Config/ReactotronConfig.js').then(() => console.log('Reactotron Configured'))
-}
+io.on('connect', (socket) => {
+  console.log('socket connect');
+});
 
-io.on('connect', (socket)=>{
-  console.tron.log('socket connect');
-})
+io.on('message', (obj) => {
+  store.dispatch(AddRoomMessage(obj));
+  store.dispatch(AddRoomUnReadMsg(obj));
+});
 
-io.on('message',(obj)=>{
-  store.dispatch(AddRoomMessage(obj))
-  store.dispatch(AddRoomUnReadMsg(obj))
-})
+io.on('addFriend', () => {
+  const user = store.getState().UserReducer.get('user').toJS();
+  store.dispatch(getFriendList(user.id));
+});
 
-io.on('addFriend',()=>{
-  const user = (store.getState().UserReducer.get('user')).toJS();
-  store.dispatch(getFriendList(user.id))
-})
+io.on('disconnect', (socket) => {
+  console.log('socket disconnect');
 
-io.on('disconnect', (socket)=>{
-  console.tron.log("socket disconnect");
-
-  Toast.show('未连接到服务器',{
+  Toast.show('未连接到服务器', {
     duration: Toast.durations.SHORT,
-    position: Toast.positions.TOP
-  })
-
-})
-
-
-
-
-
-
-
+    position: Toast.positions.TOP,
+  });
+});

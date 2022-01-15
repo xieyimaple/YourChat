@@ -30,7 +30,7 @@ class Home extends React.Component {
     }
   }
 
-  UNSAFE_componentWillMount(): void {
+  UNSAFE_componentWillMount() {
     const user = this.props.user;
     const loginObj = this.props.loginObj;
     if(loginObj.login){
@@ -45,7 +45,7 @@ class Home extends React.Component {
     }
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     const user = this.props.user;
     console.tron.log(user)
     this.props.getFriendList(user.id);
@@ -146,7 +146,6 @@ class Home extends React.Component {
             }
             rightComponent={
               <View style={{flexDirection: 'row'}}>
-                {/* <Ionicons name={'ios-search'} size={24} color={'black'}/> */}
                 <View style={{width: 10}}>
                 </View>
                 <TouchableOpacity onPress={()=>{
