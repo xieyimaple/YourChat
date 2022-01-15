@@ -45,6 +45,14 @@ export default getStyle = function(){
     LoginButton: {
       marginTop: 20,
       width: width-50
+    },
+    bottomButton: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: width-50
+    },
+    gray: {
+      color: '#999999'
     }
   }
 }

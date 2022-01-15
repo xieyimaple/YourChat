@@ -8,7 +8,7 @@
 * */
 
 import React from 'react';
-import {Text, View, Image} from "react-native";
+import {Text, View, Image, TouchableOpacity} from "react-native";
 import MainView from '../components/MainView'
 import getStyle from './Style/LoginViewStyle'
 import {connect} from "react-redux";
@@ -19,6 +19,7 @@ import { Input } from 'react-native-elements';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from "react-native-root-toast";
 import {encrypt} from '../Util/Tool'
+import { ListItem } from 'react-native-elements/dist/list/ListItem';
 
 
 let Styles = {};
@@ -104,12 +105,12 @@ class LoginView extends React.Component{
                 ref={input}
                 containerStyle={ Styles.LoginInput}
                 inputContainerStyle={ Styles.inputContainerStyle }
-                placeholder='用户名'
+                placeholder='请输入账号'
                 leftIcon={
                   <FontAwesome
                     name='user'
                     size={24}
-                    color='rgb(66, 122, 184)'
+                    color='#999999'
                   />
                 }
                 errorStyle={{ color: 'red' }}
@@ -140,12 +141,12 @@ class LoginView extends React.Component{
                 containerStyle={ Styles.LoginPassword }
                 inputContainerStyle={ Styles.inputContainerStyle }
                 secureTextEntry={true}
-                placeholder='密码'
+                placeholder='请输入密码'
                 leftIcon={
                   <FontAwesome
                     name='lock'
                     size={24}
-                    color='rgb(66, 122, 184)'
+                    color='#999999'
                   />
                 }
                 errorStyle={{ color: 'red' }}
@@ -176,6 +177,9 @@ class LoginView extends React.Component{
 
               <Button
                 title={"登录"}
+                titleStyle={{
+                  fontSize: 16
+                }}
                 buttonStyle={Styles.LoginButton}
                 loading={this.props.loginObj.loading}
                 onPress={this.login}
@@ -186,17 +190,24 @@ class LoginView extends React.Component{
             </View>
 
             {/*跳转到注册*/}
-            <Button
-              title="免费注册"
-              type="outline"
-              buttonStyle={{paddingHorizontal: 30}}
-              onPress={()=>{
-                this.props.navigation.navigate('RegisterView');
-              }}
-            >
+            <View style={Styles.bottomButton}>
+              <TouchableOpacity
+                onPress={ ()=>{
+                  this.props.navigation.navigate('RegisterView');
+                }}
+                style={Styles.register}>
+                <Text style={ Styles.gray}>免费注册</Text>
+              </TouchableOpacity>
 
-            </Button>
-        </View>
+              {/* <TouchableOpacity
+                onPress={ ()=>{
+                  console.log('choose line');
+                }}
+                style={Styles.register}>
+                <Text style={ Styles.gray}>选择线路</Text>
+              </TouchableOpacity> */}
+            </View>
+          </View>
       </MainView>
     )
   }
