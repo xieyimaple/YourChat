@@ -3,8 +3,21 @@ import { ScrollView } from "react-native";
 import Example from "./example";
 import Login from "./login";
 import Register from "./register";
+import ResetUsername from "./reset-username";
+import AccountSecurity from "./account-security";
+import AllowNotice from "./allow-notice";
+import CreateGroup from "./create-group";
+import CreateGrpupInformation from "./create-group-information"
+import MyGroups from "./my-groups";
+import FriendDetails from "./friend-details";
+import ResetRemark from "./reset-remark"
+import ResetPassword from "./reset-password";
 import AddFriend from "./add-friend";
 import NewFriends from "./new-friends";
+import Home from "./home";
+import SingleFind from "./single-find";
+import SingleMessage from "./single-message";
+import UserSetting from "./user-setting";
 import Connect from "./connect";
 import ReceiveMessage from "./receive-message";
 import SendMessage from "./send-message";
@@ -39,6 +52,19 @@ const examples = [
   Register,
   AddFriend,
   NewFriends,
+  ResetUsername,
+  AccountSecurity,
+  AllowNotice,
+  CreateGroup,
+  CreateGrpupInformation,
+  MyGroups,
+  FriendDetails,
+  ResetRemark,
+  ResetPassword,
+  Home,
+  SingleFind,
+  SingleMessage,
+  UserSetting,
   Connect,
   ReceiveMessage,
   SendMessage,
@@ -84,10 +110,23 @@ export default class extends React.PureComponent {
 }
 
 export {
+  Home,
+  UserSetting,
   Login,
   Register,
   AddFriend,
   NewFriends,
+  ResetUsername,
+  AccountSecurity,
+  AllowNotice,
+  CreateGroup,
+  CreateGrpupInformation,
+  MyGroups,
+  FriendDetails,
+  ResetRemark,
+  SingleFind,
+  SingleMessage,
+  ResetPassword,
   Connect,
   ReceiveMessage,
   SendMessage,

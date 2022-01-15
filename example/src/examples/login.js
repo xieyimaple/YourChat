@@ -12,7 +12,14 @@ const style = StyleSheet.create(
       height: '100%',
       textAlign: 'center',
       backgroundColor: '#ededed'
-    }, 
+    },
+    logoBox: {
+      flexDirection:'row',
+      alignItems:'center',
+      justifyContent:'center',
+      height:200,
+      width:120
+    },
     tinyLogo: {
       width: 50,
       height: 50,
@@ -39,10 +46,12 @@ export default class extends React.PureComponent {
   render() {
     return (
       <View style={style.body}>
-        <Image
-          style={style.tinyLogo}
-          source={require('../images/logo.png')}
-        />
+        <View style={style.logoBox}>
+          <Image
+            style={style.tinyLogo}
+            source={require('../images/logo.png')}
+          />
+        </View>
         <FormItem>
           <Input
             placeholder='请输入账号'
