@@ -1,79 +1,76 @@
-import * as React from 'react';
-import { Platform, StyleSheet, Text, View, PermissionsAndroid, Button } from 'react-native';
-// import { createAppContainer } from "react-navigation";
-// import { createStackNavigator } from "react-navigation-stack";
-import { init, connect, setServerInfo } from "@rongcloud/react-native-imlib";
-import config from "./config";
-// import * as examples from "./examples";
-import { YCChat } from './observable/lib/chat';
+/*
+ * 文件名: App.js
+ * 作者: liushun
+ * 描述: App 入口
+ * 修改人:
+ * 修改时间:
+ * 修改内容:
+ * */
 
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE).catch(() => {});
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).catch(() => {});
+import React, { Component } from 'react';
+import AppNav from './Container/AppContainer';
+import { Provider } from 'react-redux';
+import configureStore from './Redux';
+import socket from 'socket.io-client';
+import { PersistGate } from 'redux-persist/integration/react';
+import { AddRoomMessage, AddRoomUnReadMsg } from './Redux/actionCreators';
+import Toast from 'react-native-root-toast';
+import { getFriendList } from './Service/action';
+import config from './Config';
 
-if (config.naviServer != null && config.naviServer.length > 0) {
-     setServerInfo(config.naviServer, '');
-}
-init("n19jmcy59f1q9");
+const io = socket(config.baseURL);
 
-// export default createAppContainer(createStackNavigator(examples, { initialRouteName: "default" }));
+global.io = io;
+
+const { store, persistor } = configureStore();
+
 export default () => {
-     const getRegisterInfo = async () => {
-          const chat = YCChat.getInstance();
-          const result = await chat.validator.getRegisterInfo();
-          console.log(result);
-          console.log('END')
-     };
+  
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppNav />
+      </PersistGate>
+    </Provider>
+  );
+};
+// export default class App extends Component<Props> {
+//   render() {
+//     return (
+//       <Provider store={store}>
+//         <PersistGate loading={null} persistor={persistor}>
+//           <AppNav />
+//         </PersistGate>
+//       </Provider>
+//     );
+//   }
+// }
 
-     const register = async () => {
-          const chat = YCChat.getInstance();
-          const result = await chat.validator.register({
-               account: 'woshinibaba1233333',
-               password: 'woshinibaba123213',
-               gender: 'male',
-               upAcc: "jytest1"
-          });
-          console.log(result);
-          console.log('END')
-     };
-
-     const login = async () => {
-          const chat = YCChat.getInstance();
-          const result = await chat.validator.login('woshinibaba1233333', '123456');
-          console.log(result);
-          console.log('END')
-     };
-
-     const logout = async () => {
-          const chat = YCChat.getInstance();
-          const result = await chat.validator.logout();
-          console.log(result);
-          console.log('END')
-     };
-
-     const updatePassword = async () => {
-          const chat = YCChat.getInstance();
-          const result = await chat.currentUser.updatePassword({
-               newPwd: '123456',
-               oldPwd: chat.currentUser.password
-          });
-          console.log(result);
-          console.log('END')
-     };
-     return (
-          <View>
-               <Button onPress={getRegisterInfo} title='获取注册字段列表'></Button>
-               <Button onPress={register} title='注册'></Button>
-               <Button onPress={login} title='登录'></Button>
-               <Button onPress={logout} title='注销'></Button>
-               <Button onPress={updatePassword} title='修改密码'></Button>
-          </View>
-     );
+if (__DEV__) {
+  import('./Config/ReactotronConfig.js').then(() =>
+    console.log('Reactotron Configured')
+  );
 }
 
-// const time = 1000;
-// let _timer;
+io.on('connect', (socket) => {
+  console.log('socket connect');
+});
 
-// _timer && clearTimeout(_timer)
-// _timer = setTimeout(() => {
-//      // 处理函数
-// }, time);
+io.on('message', (obj) => {
+  store.dispatch(AddRoomMessage(obj));
+  store.dispatch(AddRoomUnReadMsg(obj));
+});
+
+io.on('addFriend', () => {
+  const user = store.getState().UserReducer.get('user').toJS();
+  store.dispatch(getFriendList(user.id));
+});
+
+io.on('disconnect', (socket) => {
+  console.log('socket disconnect');
+
+  Toast.show('未连接到服务器', {
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.TOP,
+  });
+});
