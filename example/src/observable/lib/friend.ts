@@ -4,6 +4,7 @@
  */
 
 import { YCObject } from './base';
+import { chatHttp, YCHttpInterfaceEnum } from './http';
 
 type YCFriendInfo = {
 	name: string;
@@ -77,4 +78,15 @@ export class YCFriend extends YCObject {
 
 	// 删除该好友的聊天记录
 	public deleteChatRecord() {}
+
+	public async setDisplayName(displayName: string): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.setDisplayName, {
+			uuid: this.id,
+			displayName
+		});
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
 }

@@ -21,10 +21,16 @@ export enum YCHttpInterfaceEnum {
 	registerVerification = '/kkrp/member/regPwd', // 注册验证
 	registerSMS = '/kkrp/member/reg_sms', // 注册短信
 	addFriend = '/kkrp/member/friend/apply_msg', // 添加好友
+	deleteFriend = '/kkrp/member/friend/delete_friend', // 删除好友
 	getFriendInfoByAccount = '/kkrp/member/friend/find_friend', // 根据账号搜索好友
 	queryAllFriend = '/kkrp/member/friend/list', // 查询所有好友
 	quitGroupChat = '/kkrp/im_group/group_quit', // 退出群聊
-	createGroupChat = '/kkrp/im_group/create_group' // 创建群聊
+	createGroupChat = '/kkrp/im_group/create_group', // 创建群聊
+	getFindLink = '/kkrp/linkset/findLink', // 获取发现页列表
+	setDisplayName = '/kkrp/member/friend/set_display_name', // 设置备注
+	updateInfo = '/kkrp/member/update', // 修改头像、昵称、性别、个性签名
+	batchUpdateInfo = '/kkrp/member/update', // 批量修改头像、昵称、性别
+	getMeme = '/kkrp/user_picture/list_all' // 获取表情列表
 }
 
 export type YCResultExt = {
