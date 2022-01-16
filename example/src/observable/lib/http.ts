@@ -3,7 +3,10 @@
  * @description 此模块为所有类的基类，维护所有类通用的公共属性，公共方法。
  */
 
+import sha1 from 'sha1';
+import { API_VER, CLIENT, CLIENT_TYPE, CLIENT_VER } from '../../utils';
 import { YCObject } from './base';
+import md5 from 'md5';
 
 export enum YCHttpInterfaceEnum {
 	getVersion = '/kkrp/app_version/find', // 获取版本
@@ -24,8 +27,32 @@ export enum YCHttpInterfaceEnum {
 	createGroupChat = '/kkrp/im_group/create_group' // 创建群聊
 }
 
+export type YCResultExt = {
+	ext?: object;
+	msg?: string;
+	param?: string;
+	rst?: boolean;
+}
+
+export enum YCHttpResponseCodeEnum {
+	ok = '200',
+	created = '201',
+	unauthorized = '401',
+	forbidden = '403',
+	notFound = '404'
+};
+
+export type YCHttpResultType = {
+	code: YCHttpResponseCodeEnum;
+	cont: any;
+	ext?: object;
+	msg?: string;
+	param?: string;
+	rst?: boolean;
+};
+
 class YCHttp extends YCObject {
-	private _baseUrl = 'http://api.efhgrihvwe-ioh3dmqgt6.com';
+	private _baseUrl = 'http://api.new689collection88.com';
 	private _token = '';
 	private _lastResponse = '';
 
@@ -50,19 +77,54 @@ class YCHttp extends YCObject {
 		return this._lastResponse;
 	}
 
-	public async post(path: YCHttpInterfaceEnum, content: Record<string, string>, headers?: Headers | string[][] | { [key: string]: string }, queryParams?: string) {
+	private _objKeySort(obj) { //排序的函数
+		var newkey = Object.keys(obj).sort(); //先用Object内置类的keys方法获取要排序对象的属性名，再利用Array原型上的sort方法对获取的属性名进行排序，newkey是一个数组
+		var newObj =  {}; //创建一个新的对象，用于存放排好序的键值对
+
+		for(var i = 0; i < newkey.length; i++) { //遍历newkey数组
+
+			newObj[newkey[i]] = obj[newkey[i]]; //向新创建的对象中按照排好的顺序依次增加键值对
+
+		}
+		return newObj; //返回排好序的新对象
+	}
+
+	public async post(path: YCHttpInterfaceEnum, content?: Record<string, any>, headers?: Headers | string[][] | { [key: string]: string }, queryParams: string = '') {
 		this.verifyParams();
+		const times = (new Date()).getTime();
+		if (content) {
+			content = {
+				apiVer: API_VER,
+				client: CLIENT,
+				clientType: CLIENT_TYPE,
+				clientVer: CLIENT_VER,
+				cont: content,
+				ext: {},
+				key: sha1('andriod').toUpperCase(),
+				timestamp: `${times}`,
+				sign: md5(`apiVer=${API_VER}&clientType=${CLIENT_TYPE}&clientVer=${CLIENT_VER}&timestamp=${times}&key=${sha1('andriod').toUpperCase()}&cont=${JSON.stringify(this._objKeySort(content))}`).toUpperCase()
+			}
+		}
+
+		console.log(content);
+		
 		try {
-			const result = await fetch(`${this.baseUrl}${path}${queryParams}`, {
+			const response = await fetch(`${this.baseUrl}${path}${queryParams}`, {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
+					"Authorization": this.token ? `Bearer ${this.token}` : '',
 					...headers
 				},
-				body: JSON.stringify(content)
+				body: content ? JSON.stringify(content) : '{}'
 			});
+			const result: YCHttpResultType = await response.json();
 			this._lastResponse = JSON.stringify(result);
+			if (result.code !== YCHttpResponseCodeEnum.ok) {
+				console.log(result.msg);
+				throw new Error(`请求失败: code: ${result.code}, msg: ${result.msg}`);
+			}
 			return result;
 		} catch (error) {
 			console.log(`Post ${this.baseUrl}${path} Error`);

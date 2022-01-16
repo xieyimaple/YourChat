@@ -5,9 +5,9 @@
 
 import { YCObject } from './base';
 import { YCConfig } from './config';
-import { YCConversation } from './conversation';
+import type { YCConversation } from './conversation';
 import { YCRongCloudServe } from './rongCloudServe';
-import { YCUser } from './user';
+import type { YCUser } from './user';
 import { YCValidator } from './validator';
 import { chatHttp, YCHttpInterfaceEnum } from './http';
 

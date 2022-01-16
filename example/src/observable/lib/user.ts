@@ -2,9 +2,67 @@
  * @module user
  * @description 此模块为用户相关类，主要功能为用户信息的获取（用户名、头像、好友列表，与好友建立长连接通信等等）
  */
-import { YCObject } from '..';
-import { YCChat } from './chat';
-import { YCFriend } from './friend';
+import { chatHttp, YCHttpInterfaceEnum } from './http';
+import { YCObject } from './base';
+import type { YCChat } from './chat';
+import type { YCFriend } from './friend';
+
+/**
+ * 用户信息接口
+ */
+export type YCUserDetails = {
+	account: string;
+	adcode: string;
+	autoAgree: 'YES' | 'NO';
+	birthday: string;
+	city: string;
+	createTime: string;
+	delReason: string;
+	delTime: string;
+	downMemberNum: string;
+	effective: 'YES' | 'NO';
+	email: string;
+	flagDel: boolean;
+	gender: string;
+	groupNum: number;
+	id: number;
+	identity: 'ORDINARY' | 'MEMBER';
+	isp: string;
+	lastLoginIp: string;
+	lastLoginTime: string;
+	lastLoginZone: string;
+	lat: string;
+	lng: string;
+	locRegion: string;
+	locationType: string;
+	loginCount: number;
+	loginErr: string;
+	logoutCount: number;
+	mark: string;
+	memberIp: string;
+	molDnum: number;
+	new: boolean;
+	nickname: string;
+	onlineSt: 'YES' | 'NO';
+	passwordHash: string;
+	passwordSalt: string;
+	paypwd: string;
+	phone: string;
+	portraitUri: string;
+	pro: string;
+	qqnum: string;
+	realname: string;
+	rectangle: string;
+	region: string;
+	registerIp: string;
+	seeLink: 'YES' | 'NO';
+	sign: string;
+	uid: number;
+	upAcc: string;
+	updateTime: string;
+	uuid: string;
+	wechat: string;
+}
 
 /**
  * 用户信息接口
@@ -16,6 +74,16 @@ export interface YCUserInfo {
 	photoUrl?: string;
 	photoPath?: string;
 	logined?: boolean;
+}
+
+export type updatePasswordOptions = {
+	newPwd: string;
+	oldPwd: string;
+	phone?: string;
+	region?: string;	// 国别号
+	vcode?: string;	// 图片验证码内容
+	vtoken?: string; // 图片验证码token
+
 }
 
 /**
@@ -125,5 +193,18 @@ export class YCUser extends YCObject implements YCUserInfo {
 		// 1. 创建群组
 
 		// 2. 创建群组会话（用以在界面显示，群组会话保存在owner的conversationList属性上）
+	}
+
+	// 修改密码
+	public async updatePassword(options: updatePasswordOptions): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, options);
+		// 修改成功
+		if (result.rst) {
+			this['_password'] = options.newPwd;
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
 	}
 }

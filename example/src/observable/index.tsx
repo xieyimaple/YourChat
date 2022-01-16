@@ -6,5 +6,5 @@ export * from './lib/user';
 export * from './lib/validator';
 export * from './lib/http';
 export * from './lib/socket';
-export * from './lib/message';
+// export * from './lib/message';
 export * from './lib/rongCloudServe';
