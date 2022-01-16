@@ -6,12 +6,14 @@
 * 修改时间:
 * 修改内容:
 * */
-import React from 'react';
+import React, { useState } from 'react';
 import MainView from '../components/MainView'
 import getStyle from './Style/FindStyle';
-import {Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
-import {Header, ListItem} from "react-native-elements";
+import {TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {Header, ListItem, Text} from "react-native-elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import DropMenu from "../components/DropMenu";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {getFriendList} from "../Service/action";
@@ -25,6 +27,16 @@ class Find extends React.Component {
     super(props);
     this.state={
       show: false,
+      finds : [{
+        id: '123',
+        textName: '爱公益'
+      },{
+        id: '234',
+        textName: '爱慈善'
+      },{
+        id: '345',
+        textName: '爱救援'
+      }]
     }
   }
 
@@ -35,6 +47,10 @@ class Find extends React.Component {
     this.props.navigation.navigate('AddFriend');
   }
 
+  goSingleFind(item) {
+    console.log(item.id);
+    this.props.navigation.navigate('SingFind');
+  }
 
   render() {
     Styles = getStyle();
@@ -58,7 +74,6 @@ class Find extends React.Component {
               }
               rightComponent={
                 <View style={{flexDirection: 'row'}}>
-                  <Ionicons name={'ios-search'} size={24} color={'black'}/>
                   <View style={{width: 10}}>
                   </View>
                   <TouchableOpacity onPress={()=>{
@@ -66,30 +81,31 @@ class Find extends React.Component {
                       show: !this.state.show
                     })
                   }}>
-                    <Ionicons name={'ios-add-circle-outline'} size={24} color={'black'}/>
+                    <Ionicons name={'ios-add-circle-outline'} size={24} color={'#44a0df'}/>
                   </TouchableOpacity>
                 </View>
               }
               containerStyle={{
-                backgroundColor: 'rgb(238, 238, 238)',
+                backgroundColor: 'white',
                 justifyContent: 'space-around',
                 paddingRight: 30,
                 height: 60,
-                paddingTop: 0,
+                marginTop: 24,
               }}
             />
-            <ListItem
-              title={"朋友圈"}
-              leftIcon={
-                <FontAwesome name={'circle-o-notch'} size={20} color={'black'}>
-                </FontAwesome>
-              }
-              bottomDivider
-              chevron
-              onPress={()=>{
-                this.props.navigation.navigate('FriendList')
-              }}
-            />
+            {this.state.finds.map((item, i) => (
+              <ListItem key={item.id}
+                        onPress={() => {
+                          this.goSingleFind(item)
+                        }}>
+                <ListItem.Content style={Styles.singleFind}>
+                  <ListItem.Title>
+                    <Text>{item.textName}</Text>
+                  </ListItem.Title>
+                  <AntDesign name='right' size={16} />
+                </ListItem.Content> 
+              </ListItem>
+            ))}
           </View>
         </TouchableWithoutFeedback>
         {/*弹窗*/}

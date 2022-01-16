@@ -12,6 +12,9 @@
 export default getStyle = function () {
 
   return {
-
+    singleFind: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    }
   }
 }

@@ -199,13 +199,13 @@ class LoginView extends React.Component{
                 <Text style={ Styles.gray}>免费注册</Text>
               </TouchableOpacity>
 
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 onPress={ ()=>{
                   console.log('choose line');
                 }}
                 style={Styles.register}>
                 <Text style={ Styles.gray}>选择线路</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           </View>
       </MainView>
