@@ -8,40 +8,39 @@
 * */
 
 import React from 'react';
-import {Text, View} from "react-native";
+import {Text, View, ScrollView} from "react-native";
 import MainView from '../components/MainView'
 import getStyle from './Style/RegisterViewStyle'
 import {connect} from "react-redux";
 import {register} from '../Service/action'
 import LinearGradient from 'react-native-linear-gradient';
-import { Button } from 'react-native-elements';
-import { Input } from 'react-native-elements';
+import { Button, Input, Header, ListItem, Avatar, CheckBox} from 'react-native-elements';
+import ImagePicker from 'react-native-image-crop-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Toast from 'react-native-root-toast';
+import ApiUtil from '../Service/ApiUtil'
 import {encrypt} from '../Util/Tool'
 
 let Styles = {};
 const input = React.createRef();
 const msg = {
   nameError: "用户名不能为空",
-  passError: "密码不能为空",
-  passConfirmError: "两次密码不一致"
+  passError: "密码不能为空"
 }
 
 class RegisterView extends React.Component{
   constructor(props){
     super(props)
     this.state = {
+      nickname: "",
       username: "",
-      nameError:"",
       password: "",
-      passError:"",
-      passwordConfirm: "",
-      passConfirmError: "",
+      inviteNo: ''
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps): void {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(nextProps.registerObj.tip !== ''){
       Toast.show(nextProps.registerObj.tip,{
         duration: Toast.durations.SHORT,
@@ -55,46 +54,44 @@ class RegisterView extends React.Component{
 
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     input.current.focus();
   }
 
+  uploadAvatar=()=>{
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(async image => {
+      console.log(image);
+      const result = await this.uploadImage(image.path)
+      const filename = JSON.parse(result.body).filename
+      const userId = this.props.user.id
+      ApiUtil.request('changeAvatar',{
+        userId,
+        'avatar': filename
+      }).then((result)=>{
+        if(result.data.errno === 0){
+          Toast.show(result.data.msg,{
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.CENTER
+          })
+          this.props.updateUser({
+            'key': 'avatar',
+            'value': filename
+          })
+        }
+      })
+    });
+  }
+
   register=()=>{
-    let {nameError, passError, passConfirmError, username, password, passwordConfirm} = this.state;
-
-    if(nameError !== ''){
-      Toast.show(nameError,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-      return;
-    }
-
-    if(passError !== ''){
-      Toast.show(passError,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-      return;
-    }
-
-    if(passConfirmError !== ''){
-      Toast.show(passConfirmError,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-      return;
-    }
-
-
-
-    password = encrypt(password)
-    passwordConfirm = encrypt(passwordConfirm)
+    let { username, password} = this.state;
 
     this.props.register({
       'username': username,
-      'password': password,
-      'passwordConfirm': passwordConfirm
+      'password': password
     })
 
   }
@@ -103,39 +100,88 @@ class RegisterView extends React.Component{
     Styles = getStyle();
     return(
       <MainView>
-        <LinearGradient colors={['rgb(66, 122, 184)', 'rgb(230, 230, 230)']} style={Styles.RegisterContainer}>
-          <Text style={Styles.RegisterLogo}>WECHAT</Text>
+        <Header
+            placement="left"
+            leftComponent={
+              <FontAwesome onPress={
+                () => {this.props.navigation.navigate('LoginView')}
+              } name={'angle-left'} size={20}></FontAwesome>
+            }
+            centerComponent={
+              { text: '注册', style: { color: '#000'}}
+            }
+            placement="center"
+            containerStyle={{
+              backgroundColor: 'white',
+              justifyContent: 'space-around',
+              paddingRight: 30,
+              height: 60,
+              marginTop: 24,
+            }}
+          />
+        <ScrollView style={Styles.RegisterContainer}>
+          
           <View style={Styles.RegisterForm}>
 
+            <ListItem style={Styles.uploadAvatar}
+              bottomDivider
+            >
+              <ListItem.Content>
+                <ListItem.Title style={Styles.Title}>
+                  <Text>上传头像</Text>
+                </ListItem.Title>
+              </ListItem.Content>
+              <Avatar source={{
+                  //uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
+                }} 
+                onPress={this.uploadAvatar}
+                size="large"
+                rounded
+                containerStyle={{ backgroundColor: "#BDBDBD" }}/>
+              <FontAwesome onPress={
+                this.uploadAvatar
+              } name={'angle-right'} size={20}></FontAwesome>
+            </ListItem>
+
+            <ListItem containerStyle={Styles.genderBox}
+              bottomDivider
+            >
+              <ListItem.Content>
+                <ListItem.Title style={Styles.Title}>
+                  <Text>性别</Text>
+                </ListItem.Title>
+              </ListItem.Content>
+              <CheckBox
+                containerStyle={Styles.gender}
+                title='男'
+                checkedIcon={ <MaterialCommunityIcons name='face' size={ 15 } color='rgb(2, 147, 254)'/> }
+                uncheckedIcon={ <MaterialCommunityIcons name='face' size={ 15 } color='rgb(154, 154, 154)'/> }
+                checked={ this.state.checked }
+                onPress={() => this.setState({checked: !this.state.checked})}
+              />
+              <CheckBox
+                containerStyle={Styles.gender}
+                title='女'
+                checkedIcon={ <MaterialCommunityIcons name='face-woman' size={ 15 } color='rgb(2, 147, 254)'/> }
+                uncheckedIcon={ <MaterialCommunityIcons name='face-woman' size={ 15 } color='rgb(154, 154, 154)'/> }
+                checked={ !this.state.checked }
+                onPress={ () => this.setState({checked: !this.state.checked}) }
+              />
+            </ListItem>
             {/*用户名*/}
 
             <Input
               ref={input}
-              placeholder='用户名'
-              leftIcon={
-                <FontAwesome
-                  name='user'
-                  size={24}
-                  color='rgb(66, 122, 184)'
-                />
-              }
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.nameError}
-              leftIconContainerStyle={{marginRight: 10}}
-              value={this.state.username}
+              placeholder='请设置您的昵称'
+              label="昵称"
+              containerStyle={Styles.containerStyle}
+              inputContainerStyle={Styles.inputContainerStyle}
+              labelStyle={Styles.inputLabel}
+              inputStyle={Styles.input}
+              value={this.state.nickname}
               onChangeText={(text)=>{
                 this.setState({
-                  username: text
-                },()=>{
-                  if(!this.state.username){
-                    this.setState({
-                      nameError: msg.nameError
-                    })
-                  }else{
-                    this.setState({
-                      nameError: ''
-                    })
-                  }
+                  nickname: text
                 })
               }}
             >
@@ -144,32 +190,16 @@ class RegisterView extends React.Component{
             {/*密码*/}
 
             <Input
-              secureTextEntry={true}
-              placeholder='密码'
-              leftIcon={
-                <FontAwesome
-                  name='lock'
-                  size={24}
-                  color='rgb(66, 122, 184)'
-                />
-              }
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.passError}
-              leftIconContainerStyle={{marginRight: 10}}
-              value={this.state.password}
+              placeholder='5-17位字母或数字'
+              label="登录账号"
+              containerStyle={Styles.containerStyle}
+              inputContainerStyle={Styles.inputContainerStyle}
+              labelStyle={Styles.inputLabel}
+              inputStyle={Styles.input}
+              value={this.state.username}
               onChangeText={(text)=>{
                 this.setState({
-                  password: text
-                },()=>{
-                  if(!this.state.password){
-                    this.setState({
-                      passError: msg.passError
-                    })
-                  }else{
-                    this.setState({
-                      passError: ''
-                    })
-                  }
+                  username: text
                 })
               }}
             >
@@ -179,58 +209,46 @@ class RegisterView extends React.Component{
 
             <Input
               secureTextEntry={true}
-              placeholder='确认密码'
-              leftIcon={
-                <FontAwesome
-                  name='lock'
-                  size={24}
-                  color='rgb(66, 122, 184)'
-                />
-              }
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.passConfirmError}
-              leftIconContainerStyle={{marginRight: 10}}
-              value={this.state.passwordConfirm}
+              placeholder='5-17位字母或数字'
+              label="登录密码"
+              containerStyle={Styles.containerStyle}
+              inputContainerStyle={Styles.inputContainerStyle}
+              labelStyle={Styles.inputLabel}
+              inputStyle={Styles.input}
+              value={this.state.password}
               onChangeText={(text)=>{
                 this.setState({
-                  passwordConfirm: text
-                },()=>{
-                  if(this.state.passwordConfirm !== this.state.password){
-                    this.setState({
-                      passConfirmError: msg.passConfirmError
-                    })
-                  }else{
-                    this.setState({
-                      passConfirmError: ''
-                    })
-                  }
+                  password: text
                 })
               }}
             >
             </Input>
 
-            {/*注册按钮*/}
-
-            <Button
-              title={"注册"}
-              buttonStyle={Styles.RegisterButton}
-              onPress={this.register}
-              loading={this.props.loading}
-              disabled={this.state.username === '' || this.state.password === '' || this.state.passwordConfirm === ''}
+            {/* 邀请码 */}
+            <Input
+              placeholder='请输入邀请人账号'
+              label="邀请码"
+              containerStyle={Styles.containerStyle}
+              inputContainerStyle={Styles.lastInputContainerStyle}
+              labelStyle={Styles.inputLabel}
+              inputStyle={Styles.input}
+              value={this.state.inviteNo}
+              onChangeText={(text)=>{
+                this.setState({
+                  inviteNo: text
+                })
+              }}
             >
-
-            </Button>
+            </Input>
           </View>
           <Button
-            title="已有账号去登录"
-            type="outline"
-            buttonStyle={{paddingHorizontal: 30}}
-            onPress={()=>{
-              this.props.navigation.navigate('LoginView');
-            }}
-          >
-          </Button>
-        </LinearGradient>
+            title={"注册"}
+            buttonStyle={Styles.RegisterButton}
+            onPress={this.register}
+            loading={this.props.loading}
+            disabled={this.state.username === '' || this.state.password === ''}
+          ></Button>
+        </ScrollView>
       </MainView>
     )
   }
