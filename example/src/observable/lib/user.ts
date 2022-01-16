@@ -83,6 +83,15 @@ export type updatePasswordOptions = {
 	region?: string;	// 国别号
 	vcode?: string;	// 图片验证码内容
 	vtoken?: string; // 图片验证码token
+}
+
+export type forgetPasswordOptions = {
+	newPwd: string;
+	oldPwd: string;
+	phone?: string;
+	region?: string;	// 国别号
+	vcode?: string;	// 图片验证码内容
+	vtoken?: string; // 图片验证码token
 
 }
 
@@ -197,6 +206,19 @@ export class YCUser extends YCObject implements YCUserInfo {
 
 	// 修改密码
 	public async updatePassword(options: updatePasswordOptions): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, options);
+		// 修改成功
+		if (result.rst) {
+			this['_password'] = options.newPwd;
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 忘记密码
+	public async forgetPassword(options: forgetPasswordOptions): Promise<{ status: boolean; msg: string }> {
 		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, options);
 		// 修改成功
 		if (result.rst) {
