@@ -51,11 +51,6 @@ class RegisterView extends React.Component{
     if(nextProps.registerObj.register){
       this.props.navigation.navigate('LoginView')
     }
-
-  }
-
-  componentDidMount() {
-    input.current.focus();
   }
 
   uploadAvatar=()=>{

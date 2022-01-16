@@ -54,10 +54,6 @@ class LoginView extends React.Component{
     }
   }
 
-  componentDidMount() {
-    input.current.focus();
-  }
-
   //登录
   login=()=>{
     let {nameError, passError, username, password} = this.state;
