@@ -13,7 +13,7 @@ import MainView from '../components/MainView'
 import {TouchableOpacity} from 'react-native'
 import {Header, ListItem} from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Text } from 'react-native-elements';
 import ApiUtil from '../Service/ApiUtil'
 import Toast from "react-native-root-toast";
 import getStyle from './Style/AddFiendStyle'
@@ -31,16 +31,21 @@ class AddFriend extends React.Component{
     const {search} = this.state
 
     try{
-      const result = await ApiUtil.request('searchFriend', {'friendName': search}, true)
+      // const result = await ApiUtil.request('searchFriend', {'friendName': search}, true)
 
-      if (result.data.errno === 0) {
-        this.props.navigation.navigate('UserDetail', {'user': result.data.data});
-      } else {
-        Toast.show(result.data.msg, {
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER
-        })
-      }
+      // if (result.data.errno === 0) {
+      //this.props.navigation.navigate('UserDetail', {'user': result.data.data});
+      // } else {
+      //   Toast.show(result.data.msg, {
+      //     duration: Toast.durations.SHORT,
+      //     position: Toast.positions.CENTER
+      //   })
+      // }
+      this.props.navigation.navigate('UserDetail', {'user': {
+        username:'wohaole',
+        id:123123,
+        sex: 'man'
+      }});
     }catch {
 
     }
@@ -82,8 +87,8 @@ class AddFriend extends React.Component{
         {/*搜索框*/}
 
         <SearchBar
-          platform={'ios'}
-          placeholder="微信号/手机号"
+          platform={'android'}
+          placeholder="对方账号"
           value={this.state.search}
           containerStyle={{backgroundColor: 'white'}}
           inputContainerStyle={{backgroundColor: 'white'}}
@@ -95,10 +100,13 @@ class AddFriend extends React.Component{
         {
           this.state.search!==''?
             <ListItem
-              title={"搜索:"+this.state.search}
               bottomDivider
               onPress={this.search}
-            />:null
+            >
+              <ListItem.Title>
+                <Text>{"搜索:"+this.state.search}</Text>
+              </ListItem.Title>
+            </ListItem> : null
         }
 
       </MainView>

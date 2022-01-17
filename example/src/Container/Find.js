@@ -48,8 +48,7 @@ class Find extends React.Component {
   }
 
   goSingleFind(item) {
-    console.log(item.id);
-    this.props.navigation.navigate('SingFind');
+    this.props.navigation.navigate('SingleFind', {singleFindData: item});
   }
 
   render() {

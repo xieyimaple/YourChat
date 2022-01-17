@@ -6,8 +6,9 @@ export default getStyle = function () {
     headerContainer: {
       backgroundColor: 'white',
       justifyContent: 'space-around',
+      paddingRight: 30,
       height: 60,
-      paddingTop: 0,
+      marginTop: 24,
     }
   }
 }

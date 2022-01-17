@@ -23,6 +23,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ChatView from '../View/ChatView'
 import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
+import SingleFind from '../View/SingleFind'
 import UserView from '../View/UserView'
 import RegisterView from '../View/RegisterView'
 import UserMoreView from '../View/UserMoreView'
@@ -114,6 +115,12 @@ const MainNavigator = createStackNavigator({
   },
   AddFriend: {
     screen: AddFriend,
+    navigationOptions: {
+      header: null
+    }
+  },
+  SingleFind: {
+    screen: SingleFind,
     navigationOptions: {
       header: null
     }
