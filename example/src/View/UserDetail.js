@@ -10,7 +10,7 @@ import React from 'react'
 import {View, Text, TouchableOpacity, Alert} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
-import {Header, ListItem, Button} from "react-native-elements";
+import {Header, ListItem, Button, Avatar} from "react-native-elements";
 import MainView from '../components/MainView'
 import config from '../Config'
 import ApiUtil from '../Service/ApiUtil'
@@ -24,7 +24,8 @@ class UserDetail extends React.Component{
     super(props);
     this.state={
       user: this.props.navigation.getParam('user'),
-      isFriend: false
+      //isFriend: false // test
+      isFriend: true
     }
   }
 
@@ -110,8 +111,9 @@ class UserDetail extends React.Component{
           containerStyle={{
             backgroundColor: 'rgb(238, 238, 238)',
             justifyContent: 'space-around',
+            paddingRight: 30,
             height: 60,
-            paddingTop: 0
+            marginTop: 24,
           }}
           rightComponent={
             <TouchableOpacity onPress={()=>{
@@ -126,15 +128,25 @@ class UserDetail extends React.Component{
 
         {/**/}
         <ListItem
-          leftAvatar={{ source: { uri: config.baseURL+'/'+user.avatar} }}
-          title={user.username}
-          subtitle={user.address}
           containerStyle={{paddingVertical: 30, paddingHorizontal: 30}}
           onPress={()=>{
             this.props.navigation.navigate('UserView');
           }}
           bottomDivider
-        />
+        >
+          <Avatar
+            source={{
+              //uri: config.baseURL+'/'+user.avatar}
+              uri: user.avatar,
+            }}
+          />
+          <ListItem.Title>
+          {user.username}
+          </ListItem.Title>
+          <ListItem.Subtitle>
+          {user.address}
+          </ListItem.Subtitle>
+        </ListItem>
         {
           this.state.isFriend?
             <Button

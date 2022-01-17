@@ -43,8 +43,10 @@ class AddFriend extends React.Component{
       // }
       this.props.navigation.navigate('UserDetail', {'user': {
         username:'wohaole',
-        id:123123,
-        sex: 'man'
+        _id:123123,
+        avatar: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
+        sex: 'man',
+        address: 'beijing'
       }});
     }catch {
 
