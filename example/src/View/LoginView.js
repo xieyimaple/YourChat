@@ -20,6 +20,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from "react-native-root-toast";
 import {encrypt} from '../Util/Tool'
 import { ListItem } from 'react-native-elements/dist/list/ListItem';
+// import { YCChat } from '../observable/lib/chat';
 
 
 let Styles = {};
@@ -34,9 +35,7 @@ class LoginView extends React.Component{
     super(props)
     this.state = {
       username: "",
-      nameError: "",
-      password: "",
-      passError: ""
+      password: ""
     };
   }
 
@@ -55,26 +54,30 @@ class LoginView extends React.Component{
   }
 
   //登录
-  login=()=>{
-    let {nameError, passError, username, password} = this.state;
+  login= async ()=>{
+    let { username, password} = this.state;
 
-    if(nameError !== ''){
-      Toast.show(nameError,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-      return;
-    }
+    // if(nameError !== ''){
+    //   Toast.show(nameError,{
+    //     duration: Toast.durations.SHORT,
+    //     position: Toast.positions.CENTER
+    //   })
+    //   return;
+    // }
 
-    if(passError !== ''){
-      Toast.show(passError,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-      return;
-    }
-
-    password = encrypt(password)
+    // if(passError !== ''){
+    //   Toast.show(passError,{
+    //     duration: Toast.durations.SHORT,
+    //     position: Toast.positions.CENTER
+    //   })
+    //   return;
+    // }
+    // const chat = YCChat.getInstance();
+    // console.log('username:' + username);
+    // console.log('password:' + password);
+    // const result = await chat.validator.login(username, password);
+    // console.log(result);
+    // console.log('END');
 
     this.props.login({
       username,

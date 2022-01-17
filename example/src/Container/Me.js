@@ -28,12 +28,13 @@ class Me extends React.Component {
     Styles = getStyle();
     return (
       <MainView>
-        <ListItem style={Styles.userContainer}>
+        <ListItem style={Styles.userContainer} onPress={()=>{
+            this.props.navigation.navigate('UserView');
+          }} >
           <Avatar
             activeOpacity={0.2}
             avatarStyle={{}}
             containerStyle={{ backgroundColor: "#BDBDBD",marginTop: 50 }}
-            onPress={() => alert("onPress")}
             rounded
             size="large"
             source={{ uri: this.props.user.avator }}
@@ -49,7 +50,6 @@ class Me extends React.Component {
 
 
         <ListItem onPress={()=>{
-            console.log(1);
             this.props.navigation.navigate('UserView');
           }} containerStyle={Styles.listItemContainer}>
           <AntDesign name='setting' size={12}/>

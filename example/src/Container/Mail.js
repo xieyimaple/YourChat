@@ -1,192 +1,176 @@
 /*
-* 文件名: Mail.js
-* 作者: liushun
-* 描述: 通讯录页面
-* 修改人:
-* 修改时间:
-* 修改内容:
-* */
+ * 文件名: Mail.js
+ * 作者: liushun
+ * 描述: 通讯录页面
+ * 修改人:
+ * 修改时间:
+ * 修改内容:
+ * */
 
 import React from 'react';
 import MainView from '../components/MainView';
-import {FlatList, SectionList, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
-import {Header, ListItem, Avatar} from "react-native-elements";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import DropMenu from "../components/DropMenu";
-import {connect} from "react-redux";
-import config from '../Config/index'
+import {
+  FlatList,
+  SectionList,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { Header, ListItem, Avatar } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import DropMenu from '../components/DropMenu';
+import { connect } from 'react-redux';
+import config from '../Config/index';
 
-
-
-let Styles = {}
+let Styles = {};
 
 class Mail extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       show: false,
-    }
+    };
   }
 
-  addFriend=()=>{
+  addFriend = () => {
     this.setState({
       show: false,
-    })
+    });
     this.props.navigation.navigate('AddFriend');
-  }
+  };
 
-  goChat=(param)=>{
-    if(this.state.show){
+  goChat = (param) => {
+    if (this.state.show) {
       this.setState({
         show: false,
-      })
+      });
       return;
     }
-    this.props.navigation.navigate('UserDetail',{...param});
-  }
+    this.props.navigation.navigate('UserDetail', { ...param });
+  };
 
-  renderHeader=()=>{
-    return(
+  renderHeader = () => {
+    return (
       <View>
-        <ListItem
-          bottomDivider
-        >
-          <Avatar source={{
-            uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
-          }} />
+        <ListItem bottomDivider>
+          <Avatar
+            source={{
+              uri: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
+            }}
+          />
           <ListItem.Content>
             <ListItem.Title>
               <Text>新的朋友</Text>
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
-        <ListItem
-          bottomDivider
-        >
-          <Avatar source={{
-            uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
-          }} />
+        <ListItem bottomDivider>
+          <Avatar
+            source={{
+              uri: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
+            }}
+          />
           <ListItem.Content>
-          <ListItem.Title>
-            <Text>新的朋友</Text>
-          </ListItem.Title>
-        </ListItem.Content>
+            <ListItem.Title>
+              <Text>群组</Text>
+            </ListItem.Title>
+          </ListItem.Content>
         </ListItem>
-        <ListItem
-          bottomDivider
-        >
-          <Avatar source={{
-            uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
-          }} />
-          <ListItem.Content>
-          <ListItem.Title>
-            <Text>新的朋友</Text>
-          </ListItem.Title>
-        </ListItem.Content>
-        </ListItem>
-
-        {/* <ListItem
-          title={'群聊'}
-          leftAvatar={{
-            rounded: false,
-            source: { uri: config.baseURL+'/friend.jpg' },
-          }}
-          bottomDivider
-        />
-        <ListItem
-          title={'标签'}
-          leftAvatar={{
-            rounded: false,
-            source: { uri: config.baseURL+'/friend.jpg' },
-          }}
-          bottomDivider
-        /> */}
       </View>
-    )
-  }
+    );
+  };
 
-  keyExtractor = (item, index) => index.toString()
+  keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item }) => {
-    return(
+    return (
       <TouchableOpacity
-        onPress={()=>{
-            this.goChat({'user': item})
-          }
-        }
+        onPress={() => {
+          this.goChat({ user: item });
+        }}
       >
         <ListItem
           title={item.username}
           leftAvatar={{
             rounded: false,
-            source: { uri: config.baseURL +'/'+item.avatar },
+            source: { uri: config.baseURL + '/' + item.avatar },
           }}
           bottomDivider
         />
       </TouchableOpacity>
-    )
-
-  }
+    );
+  };
 
   renderSectionHeader = (item) => {
     let title = item.section.title;
     return (
-      <View style={{height:30, backgroundColor: 'gray', flexDirection:'row', alignItems: 'center', paddingHorizontal: 10}}>
+      <View
+        style={{
+          height: 30,
+          backgroundColor: 'gray',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+        }}
+      >
         <Text>{title}</Text>
       </View>
-    )
+    );
   };
 
   render() {
+    let sectionData = [];
 
-    let sectionData = []
+    let data = {};
 
-    let data = {}
-
-    this.props.friendList.length !== 0 && this.props.friendList.forEach((item, index)=>{
-        if(!data[item.friendId.letter]){
-          data[item.friendId.letter] = []
-          data[item.friendId.letter].push(item.friendId)
-        }else{
-          data[item.friendId.letter].push(item.friendId)
+    this.props.friendList.length !== 0 &&
+      this.props.friendList.forEach((item, index) => {
+        if (!data[item.friendId.letter]) {
+          data[item.friendId.letter] = [];
+          data[item.friendId.letter].push(item.friendId);
+        } else {
+          data[item.friendId.letter].push(item.friendId);
         }
-    })
+      });
 
-    for(let key in data){
-      let obj = {}
-      obj['title'] = key
-      obj['data'] = data[key]
-      sectionData.push(obj)
+    for (let key in data) {
+      let obj = {};
+      obj.title = key;
+      obj.data = data[key];
+      sectionData.push(obj);
     }
-
 
     return (
       <MainView>
         {/*头部*/}
         <TouchableWithoutFeedback
-          onPress={()=>{
-            if(this.state.show){
+          onPress={() => {
+            if (this.state.show) {
               this.setState({
-                show: false
-              })
+                show: false,
+              });
             }
           }}
         >
           <Header
             placement="left"
-            leftComponent={
-              <Text style={{fontSize: 16}}>通讯录</Text>
-            }
+            leftComponent={<Text style={{ fontSize: 16 }}>通讯录</Text>}
             rightComponent={
-              <View style={{flexDirection: 'row'}}>
-                <View style={{width: 10}}>
-                </View>
-                <TouchableOpacity onPress={()=>{
-                  this.setState({
-                    show: !this.state.show
-                  })
-                }}>
-                  <Ionicons name={'ios-add-circle-outline'} size={24} color={'#44a0df'}/>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ width: 10 }} />
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({
+                      show: !this.state.show,
+                    });
+                  }}
+                >
+                  <Ionicons
+                    name={'ios-add-circle-outline'}
+                    size={24}
+                    color={'#44a0df'}
+                  />
                 </TouchableOpacity>
               </View>
             }
@@ -208,38 +192,33 @@ class Mail extends React.Component {
           renderItem={this.renderItem}
           sections={sectionData}
           stickySectionHeadersEnabled={false}
-          onScroll={()=>{
-            if(this.state.show){
+          onScroll={() => {
+            if (this.state.show) {
               this.setState({
                 show: false,
-              })
+              });
             }
           }}
         />
 
         {/*弹窗*/}
-        {this.state.show?
+        {this.state.show ? (
           <DropMenu
-            style={{position:'absolute', right:10, top: 60}}
+            style={{ position: 'absolute', right: 10, top: 60 }}
             navigation={this.props.navigation}
             addFriend={this.addFriend}
-          >
-
-          </DropMenu>:null}
+          />
+        ) : null
+        }
       </MainView>
     );
   }
 }
 
-const mapState = state => ({
-  friendList: state.UserReducer.get('friendList').toJS()
-})
+const mapState = (state) => ({
+  friendList: state.UserReducer.get('friendList').toJS(),
+});
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({});
 
-})
-
-export default connect(
-  mapState,
-  mapDispatch
-)(Mail)
+export default connect(mapState, mapDispatch)(Mail);

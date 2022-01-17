@@ -108,13 +108,16 @@ class UserView extends React.Component{
           }
           centerComponent={{ text: '个人信息', style: { color: 'black', fontSize: 16 } }}
           containerStyle={{
-            backgroundColor: 'rgb(238, 238, 238)',
+            backgroundColor: 'white',
             justifyContent: 'space-around',
+            paddingRight: 30,
             height: 60,
-            paddingTop: 0
+            marginTop: 24,
           }}
         />
-        <ListItem
+
+        
+        {/* <ListItem
           rightAvatar={{ source: { uri: config.baseURL+'/'+this.props.user.avatar} }}
           title={"头像"}
           bottomDivider
@@ -152,7 +155,7 @@ class UserView extends React.Component{
           onPress={()=>{
             this.props.navigation.navigate('UserMoreView');
           }}
-        />
+        /> */}
       </MainView>
     )
   }
