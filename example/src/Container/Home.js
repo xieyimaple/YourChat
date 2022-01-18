@@ -99,26 +99,30 @@ class Home extends React.Component {
         onPress={()=>this.goChat(item)}
         onLongPress={()=>this.goAction(item)}
       >
-        <ListItem
-          title={item.username}
-          subtitle={item.lastMsg && item.lastMsg.text}
-          leftElement={
-            <View>
-              <Avatar
-                round={false}
-                source={{
-                  uri: config.baseURL +'/'+ item.avatar
-                }}
-              />
-              {item.unReadMsg > 0?
-                <Badge value={item.unReadMsg} status="error" containerStyle={{ position: 'absolute', top: -15, right: -15}}></Badge>
-                :
-                null
-              }
-            </View>
-          }
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <View>
+            <Avatar
+              round={false}
+              source={{
+                uri: item.avator
+                //uri: config.baseURL +'/'+ item.avatar
+              }}
+            />
+            {item.unReadMsg > 0?
+              <Badge value={item.unReadMsg} status="error" containerStyle={{ position: 'absolute', top: -15, right: -15}}></Badge>
+              :
+              null
+            }
+          </View>
+          <ListItem.Content>
+            <ListItem.Title>
+              {item.username}
+            </ListItem.Title>
+            <ListItem.Subtitle>
+              {item.lastMsg && item.lastMsg.text}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
       </TouchableOpacity>
     )
   }
@@ -203,7 +207,33 @@ class Home extends React.Component {
 const mapState = state => ({
   user: state.UserReducer.get('user').toJS(),
   loginObj: state.UserReducer.get('loginObj').toJS(),
-  talkList: state.UserReducer.get('talkList').toJS()
+  //talkList: state.UserReducer.get('talkList').toJS()
+  talkList: [{
+    _id: 123123,
+    username: 'xxx',
+    avator: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
+    lastMsg: {
+      text: '你可真臭'
+    },
+    unReadMsg: 22
+  },
+  {
+    _id: 123124,
+    username: 'xxxx',
+    avator: 'https://img2.baidu.com/it/u=3886895525,3764775842&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+    lastMsg: {
+      text: 'woshinibaba'
+    },
+    unReadMsg: 1
+  },{
+    _id: 123125,
+    username: 'xxxxx',
+    avator: 'https://img2.baidu.com/it/u=2955499920,3807435344&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
+    lastMsg: {
+      text: 'woshichoudidi'
+    },
+    unReadMsg: 5
+  }]
 })
 
 const mapDispatch = dispatch => ({

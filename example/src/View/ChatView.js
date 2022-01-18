@@ -10,9 +10,6 @@
 import React from 'react'
 import MainView from '../components/MainView'
 import IMUI from 'aurora-imui-react-native'
-let InputView = IMUI.ChatInput
-let MessageListView = IMUI.MessageList
-const AuroraIController = IMUI.AuroraIMUIController
 import getStyle from './Style/ChatViewStyle'
 import {View, Platform, Button, TouchableOpacity} from 'react-native'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -23,10 +20,13 @@ import config from '../Config'
 import {sort} from '../Util/Tool'
 import {AddRoomLastMsg, DeleteRoomUnReadMsg} from '../Redux/actionCreators'
 import ApiUtil from '../Service/ApiUtil'
-let RNFS = require('react-native-fs');
 import {Dimensions} from "react-native";
 
 const window = Dimensions.get('window')
+let InputView = IMUI.ChatInput
+let MessageListView = IMUI.MessageList
+const AuroraIController = IMUI.AuroraIMUIController
+let RNFS = require('react-native-fs');
 
 
 let Styles = {};
@@ -265,7 +265,7 @@ class ChatView extends React.Component{
 
     })
 
-    console.tron.log("on finish record voice")
+    console.log("on finish record voice")
   }
 
   onCancelRecordVoice = () => {
@@ -279,12 +279,12 @@ class ChatView extends React.Component{
 
     let uploadBegin = (response) => {
       let jobId = response.jobId;
-      console.tron.log('UPLOAD HAS BEGUN! JobId: ' + jobId);
+      console.log('UPLOAD HAS BEGUN! JobId: ' + jobId);
     };
 
     let uploadProgress = (response) => {
       let percentage = Math.floor((response.totalBytesSent / response.totalBytesExpectedToSend) * 100);
-      console.tron.log('UPLOAD IS ' + percentage + '% DONE!');
+      console.log('UPLOAD IS ' + percentage + '% DONE!');
     };
 
     let files = [
@@ -323,11 +323,11 @@ class ChatView extends React.Component{
       progressDivider: 5,
       begin: (res) => {
         //开始下载时回调
-        console.tron.log('begin', res);
+        console.log('begin', res);
       },
       progress: (res) => {
         //下载过程中回调，根据options中设置progressDivider:5，则在完成5%，10%，15%，...，100%时分别回调一次，共回调20次。
-        console.tron.log('progress', res)
+        console.log('progress', res)
       }
     }
 
@@ -358,8 +358,9 @@ class ChatView extends React.Component{
           }
           centerComponent={{ text: this.state.toName, style:{color: 'black', fontSize: 16}}}
           containerStyle={{
+            paddingRight: 30,
             height: 60,
-            paddingTop: 0,
+            marginTop: 24,
             backgroundColor: 'white',
             justifyContent: 'space-around',
             zIndex: 1000,
