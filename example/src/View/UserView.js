@@ -8,7 +8,7 @@
 * */
 
 import React from 'react';
-import {Header, ListItem} from "react-native-elements";
+import {Header, ListItem, Avatar} from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MainView from '../components/MainView'
 import {TouchableOpacity} from 'react-native'
@@ -32,7 +32,7 @@ class UserView extends React.Component{
       height: 400,
       cropping: true
     }).then(async image => {
-      console.tron.log(image);
+      console.log(image);
       const result = await this.uploadImage(image.path)
       const filename = JSON.parse(result.body).filename
       const userId = this.props.user.id
@@ -117,45 +117,79 @@ class UserView extends React.Component{
         />
 
         
-        {/* <ListItem
-          rightAvatar={{ source: { uri: config.baseURL+'/'+this.props.user.avatar} }}
-          title={"头像"}
+        <ListItem
           bottomDivider
           chevron
           onPress={this.uploadAvatar}
-        />
-        <ListItem
-          title={"用户名"}
-          rightTitle={this.props.user.username}
-          bottomDivider
+        >
+          <ListItem.Content>
+            <ListItem.Title>
+              头像
+            </ListItem.Title>
+          </ListItem.Content>
+          <Avatar
+            source={{
+              //uri: config.baseURL+'/'+this.props.user.avatar
+              uri: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400'
+            }}
+          />
+        </ListItem>
+        <ListItem bottomDivider
           chevron
           onPress={()=>{
             this.props.navigation.navigate('ChangeName')
           }}
-        />
+        >
+          <ListItem.Content>
+            <ListItem.Title>
+              用户名
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Content>
+            <ListItem.Title>
+              {this.props.user.username}
+            </ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
         <ListItem
-          title={"微信号"}
-          rightTitle={this.props.user.id}
           bottomDivider
           chevron
-        />
+        >
+          <ListItem.Content>
+            <ListItem.Title>
+              微信号
+            </ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Content>
+            <ListItem.Title>
+            {this.props.user.id}
+            </ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
         <ListItem
-          title={"二维码名片"}
-          rightIcon={
-            <FontAwesome name={'qrcode'} size={20} color={'black'}>
-            </FontAwesome>
-          }
           bottomDivider
           chevron
-        />
-        <ListItem
-          title={"更多"}
-          bottomDivider
+        >
+          <ListItem.Content>
+            <ListItem.Title>
+              二维码名片
+            </ListItem.Title>
+          </ListItem.Content>
+          <FontAwesome name={'qrcode'} size={20} color={'black'}>
+          </FontAwesome>
+        </ListItem>
+        <ListItem bottomDivider
           chevron
           onPress={()=>{
             this.props.navigation.navigate('UserMoreView');
           }}
-        /> */}
+        >
+          <ListItem.Content>
+            <ListItem.Title>
+            更多
+            </ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
       </MainView>
     )
   }
