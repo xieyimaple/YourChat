@@ -44,19 +44,19 @@ class Me extends React.Component {
             <Text style={Styles.notes}>{this.props.user.notes}</Text>
           </View>
           <View style={ Styles.iconRight }>
-            <AntDesign name={'right'} size={20} onPress={() => {alert('go to setting')}} />
+            <AntDesign name={'right'} size={20} />
           </View> 
         </ListItem>
 
 
         <ListItem onPress={()=>{
-            this.props.navigation.navigate('UserView');
+            this.props.navigation.navigate('AccountSecurity');
           }} containerStyle={Styles.listItemContainer}>
           <AntDesign name='setting' size={12}/>
           <ListItem.Title>
             <Text>账号安全</Text>
           </ListItem.Title>
-          <AntDesign style={{marginLeft:'65%'}} name='right' size={12} onPress={() => {alert('go to setting')}} />
+          <AntDesign style={{marginLeft:'65%'}} name='right' size={12} />
         </ListItem>
 
 

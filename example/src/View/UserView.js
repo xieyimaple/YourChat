@@ -23,7 +23,6 @@ import Toast from "react-native-root-toast";
 class UserView extends React.Component{
   constructor(props) {
     super(props);
-
   }
 
   uploadAvatar=()=>{
@@ -127,7 +126,7 @@ class UserView extends React.Component{
               头像
             </ListItem.Title>
           </ListItem.Content>
-          <Avatar
+          <Avatar size={'large'}
             source={{
               //uri: config.baseURL+'/'+this.props.user.avatar
               uri: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400'
@@ -142,12 +141,13 @@ class UserView extends React.Component{
         >
           <ListItem.Content>
             <ListItem.Title>
-              用户名
+              昵称
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Content>
             <ListItem.Title>
-              {this.props.user.username}
+              奥术大师
+              {/* {this.props.user.username} */}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -157,12 +157,13 @@ class UserView extends React.Component{
         >
           <ListItem.Content>
             <ListItem.Title>
-              微信号
+              账号
             </ListItem.Title>
           </ListItem.Content>
           <ListItem.Content>
             <ListItem.Title>
-            {this.props.user.id}
+              testAccount
+            {/* {this.props.user.id} */}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -172,13 +173,17 @@ class UserView extends React.Component{
         >
           <ListItem.Content>
             <ListItem.Title>
-              二维码名片
+              性别
             </ListItem.Title>
           </ListItem.Content>
-          <FontAwesome name={'qrcode'} size={20} color={'black'}>
-          </FontAwesome>
+          <ListItem.Content>
+            <ListItem.Title>
+              男
+            {/* {this.props.user.sex} */}
+            </ListItem.Title>
+          </ListItem.Content>
         </ListItem>
-        <ListItem bottomDivider
+        {/* <ListItem bottomDivider
           chevron
           onPress={()=>{
             this.props.navigation.navigate('UserMoreView');
@@ -189,7 +194,7 @@ class UserView extends React.Component{
             更多
             </ListItem.Title>
           </ListItem.Content>
-        </ListItem>
+        </ListItem> */}
       </MainView>
     )
   }

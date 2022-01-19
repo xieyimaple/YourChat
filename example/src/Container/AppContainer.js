@@ -25,6 +25,9 @@ import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
 import SingleFind from '../View/SingleFind'
 import UserView from '../View/UserView'
+import AccountSecurity from '../View/AccountSecurity'
+import AllowNotice from '../View/AllowNotice'
+import ResetPassword from '../View/ResetPassword'
 import RegisterView from '../View/RegisterView'
 import UserMoreView from '../View/UserMoreView'
 import SettingView from '../View/SettingView'
@@ -127,6 +130,24 @@ const MainNavigator = createStackNavigator({
   },
   UserView: {
     screen: UserView,
+    navigationOptions: {
+      header: null
+    }
+  },
+  AccountSecurity: {
+    screen: AccountSecurity,
+    navigationOptions: {
+      header: null
+    }
+  },
+  AllowNotice: {
+    screen: AllowNotice,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ResetPassword: {
+    screen: ResetPassword,
     navigationOptions: {
       header: null
     }
