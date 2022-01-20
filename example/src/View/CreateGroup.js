@@ -20,6 +20,8 @@ import { SearchBar, Text } from 'react-native-elements';
 import ApiUtil from '../Service/ApiUtil'
 import Toast from "react-native-root-toast";
 import getStyle from './Style/AddFiendStyle'
+import { connect } from 'react-redux';
+
 
 let Styles = {}
 class CreateGroup extends React.Component{
@@ -113,7 +115,7 @@ class CreateGroup extends React.Component{
     this.props.navigation.navigate('EnterGroupName');
   }
 
-  render(){
+  render() {
     let sectionData = [];
 
     let data = {};
@@ -220,4 +222,4 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({});
-export default CreateGroup;
+export default connect(mapState, mapDispatch)(CreateGroup);
