@@ -34,7 +34,6 @@ class ChangeName extends React.Component{
         })
         this.props.navigation.goBack()
       }
-
     })
   }
 
@@ -59,14 +58,15 @@ class ChangeName extends React.Component{
           containerStyle={{
             backgroundColor: 'rgb(238, 238, 238)',
             justifyContent: 'space-around',
+            paddingRight: 30,
             height: 60,
-            paddingTop: 0,
+            marginTop: 24,
           }}
           rightComponent={
             <Button
               title={'保存'}
-              titleStyle={{fontSize: 14}}
-              buttonStyle={{backgroundColor: 'green'}}
+              titleStyle={{fontSize: 14,color:'#0395fc'}}
+              buttonStyle={{backgroundColor: 'none',height:25}}
               onPress={this.changeName}
             >
             </Button>

@@ -47,6 +47,13 @@ class Find extends React.Component {
     this.props.navigation.navigate('AddFriend');
   }
 
+  createGroup=()=>{
+    this.setState({
+      show: false,
+    })
+    this.props.navigation.navigate('CreateGroup');
+  }
+
   goSingleFind(item) {
     this.props.navigation.navigate('SingleFind', {singleFindData: item});
   }
@@ -110,9 +117,10 @@ class Find extends React.Component {
         {/*弹窗*/}
         {this.state.show?
           <DropMenu
-            style={{position:'absolute', right:10, top: 60}}
+            style={{position:'absolute', right:20, top: 85}}
             navigation={this.props.navigation}
             addFriend={this.addFriend}
+            createGroup={this.createGroup}
           >
 
           </DropMenu>:null}

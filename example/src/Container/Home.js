@@ -84,11 +84,10 @@ class Home extends React.Component {
   }
 
   createGroup=()=>{
-    console.log('go to createGroup');
-    // this.setState({
-    //   show: false,
-    // })
-    // this.props.navigation.navigate('CreateGroup');
+    this.setState({
+      show: false,
+    })
+    this.props.navigation.navigate('CreateGroup');
   }
 
   keyExtractor = (item, index) => item._id.toString()
@@ -195,6 +194,7 @@ class Home extends React.Component {
             style={{position:'absolute', right:20, top: 85}}
             navigation={this.props.navigation}
             addFriend={this.addFriend}
+            createGroup={this.createGroup}
             createGroup={this.createGroup}
           >
 

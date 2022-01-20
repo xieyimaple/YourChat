@@ -23,6 +23,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ChatView from '../View/ChatView'
 import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
+import CreateGroup from '../View/CreateGroup';
+import EnterGroupName from '../View/EnterGroupName';
 import SingleFind from '../View/SingleFind'
 import UserView from '../View/UserView'
 import AccountSecurity from '../View/AccountSecurity'
@@ -118,6 +120,18 @@ const MainNavigator = createStackNavigator({
   },
   AddFriend: {
     screen: AddFriend,
+    navigationOptions: {
+      header: null
+    }
+  },
+  CreateGroup: {
+    screen: CreateGroup,
+    navigationOptions: {
+      header: null
+    }
+  },
+  EnterGroupName: {
+    screen: EnterGroupName,
     navigationOptions: {
       header: null
     }

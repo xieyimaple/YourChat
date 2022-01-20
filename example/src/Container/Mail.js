@@ -40,6 +40,13 @@ class Mail extends React.Component {
     this.props.navigation.navigate('AddFriend');
   };
 
+  createGroup=()=>{
+    this.setState({
+      show: false,
+    })
+    this.props.navigation.navigate('CreateGroup');
+  }
+
   goChat = (param) => {
     if (this.state.show) {
       this.setState({
@@ -91,13 +98,20 @@ class Mail extends React.Component {
         }}
       >
         <ListItem
-          title={item.username}
-          leftAvatar={{
-            rounded: false,
-            source: { uri: config.baseURL + '/' + item.avatar },
-          }}
           bottomDivider
-        />
+        >
+          <Avatar
+            activeOpacity={0.2}
+            avatarStyle={{}}
+            rounded={false}
+            source={{ uri: config.baseURL + '/' + item.avatar }}
+          />
+          <ListItem.Content>
+            <ListItem.Title>
+            {item.username}
+            </ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
       </TouchableOpacity>
     );
   };
@@ -123,6 +137,8 @@ class Mail extends React.Component {
     let sectionData = [];
 
     let data = {};
+
+    this.props.friendList = [];
 
     this.props.friendList.length !== 0 &&
       this.props.friendList.forEach((item, index) => {
@@ -204,9 +220,10 @@ class Mail extends React.Component {
         {/*弹窗*/}
         {this.state.show ? (
           <DropMenu
-            style={{ position: 'absolute', right: 10, top: 60 }}
+            style={{position:'absolute', right:20, top: 85}}
             navigation={this.props.navigation}
             addFriend={this.addFriend}
+            createGroup={this.createGroup}
           />
         ) : null
         }
