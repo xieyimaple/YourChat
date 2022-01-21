@@ -2,9 +2,67 @@
  * @module user
  * @description 此模块为用户相关类，主要功能为用户信息的获取（用户名、头像、好友列表，与好友建立长连接通信等等）
  */
-import { YCObject } from '..';
-import { YCChat } from './chat';
-import { YCFriend } from './friend';
+import { chatHttp, YCHttpInterfaceEnum } from './http';
+import { YCObject } from './base';
+import type { YCChat } from './chat';
+import type { YCFriend } from './friend';
+
+/**
+ * 用户信息接口
+ */
+export type YCUserDetails = {
+	account: string;
+	adcode: string;
+	autoAgree: 'YES' | 'NO';
+	birthday: string;
+	city: string;
+	createTime: string;
+	delReason: string;
+	delTime: string;
+	downMemberNum: string;
+	effective: 'YES' | 'NO';
+	email: string;
+	flagDel: boolean;
+	gender: string;
+	groupNum: number;
+	id: number;
+	identity: 'ORDINARY' | 'MEMBER';
+	isp: string;
+	lastLoginIp: string;
+	lastLoginTime: string;
+	lastLoginZone: string;
+	lat: string;
+	lng: string;
+	locRegion: string;
+	locationType: string;
+	loginCount: number;
+	loginErr: string;
+	logoutCount: number;
+	mark: string;
+	memberIp: string;
+	molDnum: number;
+	new: boolean;
+	nickname: string;
+	onlineSt: 'YES' | 'NO';
+	passwordHash: string;
+	passwordSalt: string;
+	paypwd: string;
+	phone: string;
+	portraitUri: string;
+	pro: string;
+	qqnum: string;
+	realname: string;
+	rectangle: string;
+	region: string;
+	registerIp: string;
+	seeLink: 'YES' | 'NO';
+	sign: string;
+	uid: number;
+	upAcc: string;
+	updateTime: string;
+	uuid: string;
+	wechat: string;
+}
 
 /**
  * 用户信息接口
@@ -16,6 +74,68 @@ export interface YCUserInfo {
 	photoUrl?: string;
 	photoPath?: string;
 	logined?: boolean;
+}
+
+export type updatePasswordOptions = {
+	newPwd: string;
+	oldPwd: string;
+	phone?: string;
+	region?: string;	// 国别号
+	vcode?: string;	// 图片验证码内容
+	vtoken?: string; // 图片验证码token
+}
+
+export type forgetPasswordOptions = {
+	newPwd: string;
+	pcode: string;
+	phone: string;
+	region?: string;	// 国别号
+	vcode?: string;	// 图片验证码内容
+	vtoken?: string; // 图片验证码token
+}
+
+export type createGroupChatOptions = {
+	memberId: string[];	// 成员的uuid组成的数组
+	name: string;	// 群名称
+	portraitUri: string; // 群头像url
+}
+
+export type FindListType = {
+	applinkaddress: string; // app端链接地址
+	custlinkaddress: string; // 客服人员链接地址	
+	defaultLink: string; // 默认地址	
+	linkIcon	: string; // 链接图标	
+	linkname: string; // app端链接名称	
+	onPwd: 'YES' | 'NO'; // 是否开启密码
+	password: string; // 密码
+	linksetVOS: FindListType[]; // 密码
+}
+
+export type FriendListType = {
+	createTime: string;
+	default: boolean;
+	displayName: string;
+	friendUuid: string;
+	lastLoginTime: string;
+	lastLoginTip: string;
+	message: string;
+	msgst: number;
+	nickname: string;
+	onlineSt: 'YES' | 'NO';
+	portraitUri: string;
+	uuid: string;
+}
+
+export enum YCUserInfoTypeEnum {
+	nickname = 1,
+	portraitUri = 2,
+	gender = 3,
+	sign = 4,
+	qqnum = 5,
+	wechat = 6,
+	email = 7,
+	realname = 8,
+	birthday = 9,
 }
 
 /**
@@ -115,15 +235,228 @@ export class YCUser extends YCObject implements YCUserInfo {
 	}
 
 	// 删除好友
-	public deleteFriend() {}
+	public async deleteFriend(friendId: string, message: string): Promise<{
+		status: boolean;
+		msg: string;
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.deleteFriend, {
+			message,
+			uuid: friendId
+		});
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
 
-	// 添加好友
-	public addFriend() {}
+	// 查询所有好友
+	public async queryAllFriend(): Promise<{
+		status: boolean;
+		msg: string;
+		friendList?: FriendListType[];
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.queryAllFriend);
+		// 查找成功
+		if (result.rst) {
+			return {
+				status: result.rst,
+				msg: result.msg,
+				friendList: result.cont
+			};
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 添加好友申请
+	public async addFriend(friendId: string, message: string): Promise<{
+		status: boolean;
+		msg: string;
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.addFriend, {
+			message,
+			uuid: friendId
+		});
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 根据账号查找好友
+	public async findFriendByAccount(account: string): Promise<{
+		status: boolean;
+		msg: string;
+		details?: YCUserDetails;
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.getFriendInfoByAccount, {
+			account
+		});
+		// 查找成功
+		if (result.rst) {
+			return {
+				status: result.rst,
+				msg: result.msg,
+				details: result.cont
+			};
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 上传媒体资源至阿里OSS
+	public async upLoadMediaResource() {
+
+	}
 
 	// 创建群聊
-	public createGroupChat() {
+	public async createGroupChat(options: createGroupChatOptions): Promise<{ 
+		status: boolean; 
+		msg: string;
+		groupInfo?: {
+			maxMemberCount: number;
+			memberCount: number;
+			uuid: string;
+		}
+	}> {
 		// 1. 创建群组
-
+		const result = await chatHttp.post(YCHttpInterfaceEnum.createGroupChat, options);
+		// 修改成功
+		if (result.rst) {
+			return {
+				status: result.rst,
+				msg: result.msg,
+				groupInfo: result.cont
+			};
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
 		// 2. 创建群组会话（用以在界面显示，群组会话保存在owner的conversationList属性上）
+	}
+
+	// 修改密码
+	public async updatePassword(options: updatePasswordOptions): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, options);
+		// 修改成功
+		if (result.rst) {
+			this['_password'] = options.newPwd;
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 忘记密码
+	public async forgetPassword(options: forgetPasswordOptions): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.forgotPassword, options);
+		// 修改成功
+		if (result.rst) {
+			this['_password'] = options.newPwd;
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 获取发现页列表
+	public async getFindList(): Promise<{ 
+		status: boolean; 
+		msg: string;
+		findList?: FindListType
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.getFindLink, {});
+		// 修改成功
+		if (result.rst) {
+			return {
+				status: result.rst,
+				msg: result.msg,
+				findList: result.cont
+			}
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 修改用户信息
+	public async updateSelfInfo(type: YCUserInfoTypeEnum, value: string): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.updateInfo, {
+			type,
+			value
+		});
+
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 批量修改用户信息
+	public async batchUpdateSelfInfo(gender: string, nickname: string, portraitUri: string): Promise<{ status: boolean; msg: string }> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.batchUpdateInfo, {
+			gender,
+			nickname,
+			portraitUri
+		});
+
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 查询用户信息
+	public async querySelfInfo(): Promise<{ 
+		status: boolean; 
+		msg: string;
+		info?: YCUserDetails;
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, {
+			uuid: this.id
+		});
+		// 修改成功
+		if (result.rst) {
+			return {
+				status: result.rst,
+				msg: result.msg,
+				info: result.cont
+			}
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
+	}
+
+	// 查询表情列表
+	public async queryMemeList(): Promise<{ 
+		status: boolean; 
+		msg: string;
+		list?: {
+			path: string;
+			uuid: string;
+		}[];
+	}> {
+		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword);
+		if (result.rst) {
+			return {
+				status: result.rst,
+				msg: result.msg,
+				list: result.cont || []
+			}
+		}
+		return {
+			status: result.rst,
+			msg: result.msg
+		};
 	}
 }

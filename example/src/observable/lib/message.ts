@@ -1,61 +1,61 @@
-/**
- * @module YCCutomeMessage
- * @description 此模块为自定义消息类。
- */
+// /**
+//  * @module YCCutomeMessage
+//  * @description 此模块为自定义消息类。
+//  */
+
+// // export enum YCObjectName {
+
+// // }
+
+// // enum MyObjectName {
+// // 	MyTextMsg = 'YC:textMsg',
+// // 	MyVideoMsg = 'YC:videoMsg',
+// // 	MyAudioMsg = 'YC:audioMsg',
+// // }
+
+// import type { MentionedInfo, MessageContent, ObjectName, UserInfo } from '@rongcloud/react-native-imlib';
 
 // export enum YCObjectName {
-
-// }
-
-// enum MyObjectName {
 // 	MyTextMsg = 'YC:textMsg',
 // 	MyVideoMsg = 'YC:videoMsg',
 // 	MyAudioMsg = 'YC:audioMsg',
 // }
 
-import { MentionedInfo, MessageContent, ObjectName, UserInfo } from 'rongcloud-react-native-imlib';
+// export class YCCutomeMessage implements MessageContent {
+// 	private _objectName: YCObjectName;
+// 	private _userInfo: UserInfo;
+// 	private _mentionedInfo: MentionedInfo;
+// 	private _content: string;
 
-export enum YCObjectName {
-	MyTextMsg = 'YC:textMsg',
-	MyVideoMsg = 'YC:videoMsg',
-	MyAudioMsg = 'YC:audioMsg',
-}
+// 	get objectName(): YCObjectName {
+// 		return this._objectName;
+// 	}
 
-export class YCCutomeMessage implements MessageContent {
-	private _objectName: YCObjectName;
-	private _userInfo: UserInfo;
-	private _mentionedInfo: MentionedInfo;
-	private _content: string;
+// 	set objectName(value: YCObjectName) {
+// 		this._objectName = value;
+// 	}
 
-	get objectName(): YCObjectName {
-		return this._objectName;
-	}
+// 	get userInfo(): UserInfo {
+// 		return this._userInfo;
+// 	}
 
-	set objectName(value: YCObjectName) {
-		this._objectName = value;
-	}
+// 	set userInfo(value: UserInfo) {
+// 		this._userInfo = value;
+// 	}
 
-	get userInfo(): UserInfo {
-		return this._userInfo;
-	}
+// 	get mentionedInfo(): MentionedInfo {
+// 		return this._mentionedInfo;
+// 	}
 
-	set userInfo(value: UserInfo) {
-		this._userInfo = value;
-	}
+// 	set mentionedInfo(value: MentionedInfo) {
+// 		this._mentionedInfo = value;
+// 	}
 
-	get mentionedInfo(): MentionedInfo {
-		return this._mentionedInfo;
-	}
+// 	get content(): string {
+// 		return this._content;
+// 	}
 
-	set mentionedInfo(value: MentionedInfo) {
-		this._mentionedInfo = value;
-	}
-
-	get content(): string {
-		return this._content;
-	}
-
-	set content(value: string) {
-		this._content = value;
-	}
-}
+// 	set content(value: string) {
+// 		this._content = value;
+// 	}
+// }
