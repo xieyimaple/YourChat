@@ -6,27 +6,24 @@ import {
 } from '../Redux/actionCreators'
 import ApiUtil from '../Service/ApiUtil';
 import {saveTokens} from '../Util/storageToken'
+import { YCChat } from '../observable/lib/chat';
+import { createImportSpecifier } from 'typescript';
+
 
 
 //登录
 export const login = (param) => async (dispatch) => {
   dispatch(LoginIn({loading: true, tip: '', login: false}));
-
+  
   try{
-    // const result = await ApiUtil.request('login', param, false)
-    // if(result.data.errno === 0){
-
-    //   //保存 token
-    //   const {access_token, refresh_token, access_expire, refresh_expire} = result.data.data
-    //   await saveTokens(access_token, refresh_token, access_expire, refresh_expire)
-
-    //   dispatch(SaveUser(result.data.data))
-    //  dispatch(LoginIn({loading: false, tip: result.data.msg, login: true}))
-    dispatch(LoginIn({loading: false, tip: '登录成功', login: true}))
-    // }else{
-    //   dispatch(LoginIn({loading: false, tip: result.data.msg, login: false}))
-    // }
-  }catch{
+    const chat = YCChat.getInstance();
+    const result = await chat.validator.login(param.username,param.password);
+    if(result.status == true){
+      dispatch(LoginIn({loading: false, tip: result.msg, login: true}))
+    }else{
+      dispatch(LoginIn({loading: false, tip: result.msg, login: false}))
+    }
+  }catch(e){
     dispatch(LoginIn({loading: false, tip: '登录异常', login: false}))
   }
 
@@ -36,26 +33,28 @@ export const login = (param) => async (dispatch) => {
 
 export const register = (param) => async (dispatch) => {
   dispatch(Register({loading: true, tip: '', register: false}));
-
   try {
-    const result = await ApiUtil.request('register', param)
-
-    if (result.data.errno === 0) {
-      dispatch(Register({loading: false, tip: result.data.msg, register: true}))
+    const chat = YCChat.getInstance();
+    let { account, password, gender, upAcc, nickname} = param;
+    const result = await chat.validator.register({
+      account, password, gender, upAcc, nickname
+    });
+    if(result.status){
+      dispatch(Register({loading: false, tip: result.msg, register: true}))
     } else {
-      dispatch(Register({loading: false, tip: result.data.msg, register: false}))
+      dispatch(Register({loading: false, tip: result.msg, register: false}))
     }
   } catch {
     dispatch(Register({loading: false, tip: '注册异常', register: false}))
   }
-
 }
 
 export const getFriendList=(param)=> async (dispatch) => {
   try {
-    const result = await ApiUtil.request('getFriendList', param, true)
-    if (result.data.errno === 0) {
-      dispatch(GetFriendList(result.data.data))
+    const chat = YCChat.getInstance();
+    const result = await chat.currentUser.queryAllFriend();
+    if (result.status) {
+      dispatch(GetFriendList(result.friendList))
     }
   } catch {
 

@@ -10,15 +10,14 @@ import React, { useState } from 'react';
 import MainView from '../components/MainView'
 import getStyle from './Style/FindStyle';
 import {TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
-import {Header, ListItem, Text} from "react-native-elements";
+import {Header, ListItem, Text, Avatar} from "react-native-elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import DropMenu from "../components/DropMenu";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {getFriendList} from "../Service/action";
-import {DeleteTalkList} from "../Redux/actionCreators";
 import {connect} from "react-redux";
+import { YCChat } from '../observable/lib/chat';
+import Toast from 'react-native-root-toast';
 
 let Styles = {};
 class Find extends React.Component {
@@ -27,16 +26,22 @@ class Find extends React.Component {
     super(props);
     this.state={
       show: false,
-      finds : [{
-        id: '123',
-        textName: '爱公益'
-      },{
-        id: '234',
-        textName: '爱慈善'
-      },{
-        id: '345',
-        textName: '爱救援'
-      }]
+      findList: []
+    }
+  }
+
+  async componentDidMount() {
+    Toast.show('请稍候...',{
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER
+    })
+    const chat = YCChat.getInstance();
+    let result = await chat.currentUser.getFindList();
+    let findList = result.findList.linksetVOS;
+    if(result.status){
+      this.setState({
+        findList
+      })
     }
   }
 
@@ -99,14 +104,20 @@ class Find extends React.Component {
                 marginTop: 24,
               }}
             />
-            {this.state.finds.map((item, i) => (
-              <ListItem key={item.id}
+            {this.state.findList.map((item, i) => (
+              <ListItem key={item.applinkaddress}
                         onPress={() => {
                           this.goSingleFind(item)
                         }}>
+                <Avatar
+                  activeOpacity={0.2}
+                  containerStyle={{ backgroundColor: "#BDBDBD",marginLeft: 10 }}
+                  size="small"
+                  source={{ uri: item.linkIcon }}
+                />
                 <ListItem.Content style={Styles.singleFind}>
                   <ListItem.Title>
-                    <Text>{item.textName}</Text>
+                    <Text>{item.linkname}</Text>
                   </ListItem.Title>
                   <AntDesign name='right' size={16} />
                 </ListItem.Content> 

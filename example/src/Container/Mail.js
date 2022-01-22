@@ -22,6 +22,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropMenu from '../components/DropMenu';
 import { connect } from 'react-redux';
 import config from '../Config/index';
+import Pinyin from '../Util/ChinesePY';
 
 let Styles = {};
 
@@ -104,11 +105,11 @@ class Mail extends React.Component {
             activeOpacity={0.2}
             avatarStyle={{}}
             rounded={false}
-            source={{ uri: config.baseURL + '/' + item.avatar }}
+            source={{ uri: item.portraitUri }}
           />
           <ListItem.Content>
             <ListItem.Title>
-            {item.username}
+            {item.nickname}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -137,16 +138,14 @@ class Mail extends React.Component {
     let sectionData = [];
 
     let data = {};
-
-    this.props.friendList = [];
-
     this.props.friendList.length !== 0 &&
       this.props.friendList.forEach((item, index) => {
-        if (!data[item.friendId.letter]) {
-          data[item.friendId.letter] = [];
-          data[item.friendId.letter].push(item.friendId);
+        item.letter = Pinyin.GetJP(item.nickname).charAt(0).toUpperCase();
+        if (!data[item.letter]) {
+          data[item.letter] = [];
+          data[item.letter].push(item);
         } else {
-          data[item.friendId.letter].push(item.friendId);
+          data[item.letter].push(item);
         }
       });
 

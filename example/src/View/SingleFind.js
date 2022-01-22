@@ -32,7 +32,8 @@ class SingleFind extends React.Component{
 
     Styles = getStyle()
     const {params} = this.props.navigation.state;
-    console.log(params);
+    console.log(params.singleFindData);
+    console.log('params end')
     return(
       <MainView>
         {/*头部*/}
@@ -48,7 +49,7 @@ class SingleFind extends React.Component{
               </FontAwesome>
             </TouchableOpacity>
           }
-          centerComponent={{ text: '发现', style: { color: 'black', fontSize: 16 } }}
+          centerComponent={{ text: params.singleFindData.linkname, style: { color: 'black', fontSize: 16 } }}
           containerStyle={{
             backgroundColor: 'white',
             justifyContent: 'space-around',
@@ -58,7 +59,7 @@ class SingleFind extends React.Component{
           }}
         />
         <WebView
-          source={params.url}
+          source={{ uri: params.singleFindData.applinkaddress }}
           style={{height: '50%',backgroundColor: '#dddfff'}} // test
         />
       </MainView>

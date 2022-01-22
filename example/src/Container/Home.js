@@ -20,7 +20,7 @@ import { DeleteTalkList} from "../Redux/actionCreators";
 import Toast from "react-native-root-toast";
 import config from '../Config'
 import {sort} from '../Util/Tool'
-
+import { YCChat } from '../observable/lib/chat';
 
 class Home extends React.Component {
   constructor(props) {
@@ -47,8 +47,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     const user = this.props.user;
-    console.tron.log(user)
-    this.props.getFriendList(user.id);
+    this.props.getFriendList();
   }
 
 
@@ -204,8 +203,10 @@ class Home extends React.Component {
   }
 }
 
+const chat = YCChat.getInstance();
+
 const mapState = state => ({
-  user: state.UserReducer.get('user').toJS(),
+  user: chat.currentUser,
   loginObj: state.UserReducer.get('loginObj').toJS(),
   //talkList: state.UserReducer.get('talkList').toJS()
   talkList: [{

@@ -21,7 +21,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Toast from 'react-native-root-toast';
 import ApiUtil from '../Service/ApiUtil'
 import {encrypt} from '../Util/Tool';
-import { YCChat } from '../observable/lib/chat';
 
 let Styles = {};
 const input = React.createRef();
@@ -84,39 +83,14 @@ class RegisterView extends React.Component{
   }
 
   register= async () => {
-    Toast.show('正在加载...', {
-      position: Toast.positions.CENTER, // toast位置
-    });
-    const chat = YCChat.getInstance();
     let { username, password, checked, inviteNo, nickname} = this.state;
-    const result = await chat.validator.register({
-      account: username,
-      password: password,
-      gender: checked ? 'male' : 'femail',
-      upAcc: inviteNo,
-      nickname: nickname
-    });
-    console.log(result);
-    console.log('1')
-    console.log(result.status);
-    console.log('2');
-    console.log(result.msg);
-    console.log('3');
-    if(result.status){
-      Toast.show(result.msg,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-    } else {
-      Toast.show(result.msg,{
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      })
-    }
-    // this.props.register({
-    //   'username': username,
-    //   'password': password
-    // })
+    this.props.register({
+      'account': username,
+      'password': password,
+      'gender': checked ? 'male' : 'femail',
+      'upAcc': inviteNo,
+      'nickname': nickname
+    })
 
   }
 

@@ -7,34 +7,30 @@ import ApiUtil from "../Service/ApiUtil";
 import {UpdateUser} from "../Redux/actionCreators";
 import {connect} from "react-redux";
 import Toast from "react-native-root-toast";
+import { YCChat } from '../observable/lib/chat';
+
+
+const chat = YCChat.getInstance();
 
 class ChangeName extends React.Component{
   constructor(props) {
     super(props);
     this.state={
-      name: this.props.user.username
+      name: this.props.user.nickname
     }
   }
 
-  changeName=()=>{
-    const userId = this.props.user.userId
+  changeName = async () => {
     const username = this.state.name
-    ApiUtil.request('changeName',{
-      userId,
-      username
-    }).then((result)=>{
-      if(result.data.errno === 0){
-        Toast.show(result.data.msg,{
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER
-        })
-        this.props.updateUser({
-          'key': 'username',
-          'value': username
-        })
-        this.props.navigation.goBack()
-      }
-    })
+    let result = await chat.currentUser.updateSelfInfo(1,username);
+    console.log('change nickname start');
+    console.log(result);
+    console.log('change nickname end');
+    Toast.show('修改成功',{
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER
+    });
+    this.props.navigation.goBack();
   }
 
   render(){
@@ -84,8 +80,9 @@ class ChangeName extends React.Component{
 
 }
 
+
 const mapState = state => ({
-  user: state.UserReducer.get('user').toJS(),
+  user: chat.currentUser
 })
 
 const mapDispatch = dispatch => ({

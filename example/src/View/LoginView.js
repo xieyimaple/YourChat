@@ -20,16 +20,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from "react-native-root-toast";
 import {encrypt} from '../Util/Tool'
 import { ListItem } from 'react-native-elements/dist/list/ListItem';
-// import { YCChat } from '../observable/lib/chat';
-
 
 let Styles = {};
 const input = React.createRef();
-const msg = {
-  nameError: "用户名不能为空",
-  passError: "密码不能为空",
-  passConfirmError: "两次密码不一致"
-}
+
 class LoginView extends React.Component{
   constructor(props){
     super(props)
@@ -54,31 +48,8 @@ class LoginView extends React.Component{
   }
 
   //登录
-  login= async ()=>{
+  login= ()=>{
     let { username, password} = this.state;
-
-    // if(nameError !== ''){
-    //   Toast.show(nameError,{
-    //     duration: Toast.durations.SHORT,
-    //     position: Toast.positions.CENTER
-    //   })
-    //   return;
-    // }
-
-    // if(passError !== ''){
-    //   Toast.show(passError,{
-    //     duration: Toast.durations.SHORT,
-    //     position: Toast.positions.CENTER
-    //   })
-    //   return;
-    // }
-    // const chat = YCChat.getInstance();
-    // console.log('username:' + username);
-    // console.log('password:' + password);
-    // const result = await chat.validator.login(username, password);
-    // console.log(result);
-    // console.log('END');
-
     this.props.login({
       username,
       password
@@ -113,22 +84,11 @@ class LoginView extends React.Component{
                   />
                 }
                 errorStyle={{ color: 'red' }}
-                errorMessage={this.state.nameError}
                 leftIconContainerStyle={{marginRight: 10}}
                 value={this.state.username}
                 onChangeText={(text)=>{
                   this.setState({
                     username: text
-                  },()=>{
-                    if(!this.state.username){
-                      this.setState({
-                        nameError: msg.nameError
-                      })
-                    }else{
-                      this.setState({
-                        nameError: ''
-                      })
-                    }
                   })
                 }}
               >
@@ -149,23 +109,12 @@ class LoginView extends React.Component{
                   />
                 }
                 errorStyle={{ color: 'red' }}
-                errorMessage={this.state.passError}
                 leftIconContainerStyle={{marginRight: 10}}
 
                 value={this.state.password}
                 onChangeText={(text)=>{
                   this.setState({
                     password: text
-                  },()=>{
-                    if(!this.state.password){
-                      this.setState({
-                        passError: msg.passError
-                      })
-                    }else{
-                      this.setState({
-                        passError: ''
-                      })
-                    }
                   })
                 }}
 
@@ -180,7 +129,7 @@ class LoginView extends React.Component{
                   fontSize: 16
                 }}
                 buttonStyle={Styles.LoginButton}
-                loading={this.props.loginObj.loading}
+                //loading={this.props.loginObj.loading}
                 onPress={this.login}
                 disabled={this.state.username === '' || this.state.password === ''}
               >

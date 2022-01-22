@@ -16,12 +16,17 @@ import {TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import config from '../Config'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { YCChat } from '../observable/lib/chat';
 
 let Styles = {};
 
 class Me extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  UNSAFE_componentWillMount() {
+    const user = this.props.user;
   }
 
   render() {
@@ -37,11 +42,11 @@ class Me extends React.Component {
             containerStyle={{ backgroundColor: "#BDBDBD",marginTop: 50 }}
             rounded
             size="large"
-            source={{ uri: this.props.user.avator }}
+            source={{ uri: this.props.user._photoUrl }}
           />
           <View style={Styles.textBox}>
-            <Text style={Styles.username}>{this.props.user.username}</Text>
-            <Text style={Styles.notes}>{this.props.user.notes}</Text>
+            <Text style={Styles.username}>{this.props.user._name || ''}</Text>
+            <Text style={Styles.notes}>{this.props.user._nickname || ''}</Text>
           </View>
           <View style={ Styles.iconRight }>
             <AntDesign name={'right'} size={20} />
@@ -96,15 +101,9 @@ class Me extends React.Component {
 }
 
 
-
+const chat = YCChat.getInstance();
 const mapState = state => ({
-  //user: state.UserReducer.get('user')
-  user : {
-    id: '1',
-    username: 'aaaa',
-    notes: 'casdasd',
-    avator: 'https://img0.baidu.com/it/u=1094578575,4095785529&fm=26&fmt=auto'
-  }
+  user: chat.currentUser
 })
 
 const mapDispatch = dispatch => ({

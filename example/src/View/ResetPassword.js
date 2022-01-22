@@ -16,6 +16,9 @@ import {connect} from "react-redux";
 import {UpdateUser} from '../Redux/actionCreators'
 import getStyle from './Style/ResetPasswordStyle'
 import Icon from 'react-native-vector-icons/AntDesign';
+import { YCChat } from '../observable/lib/chat';
+import Toast from 'react-native-root-toast';
+
 
 let Styles = {};
 
@@ -35,16 +38,26 @@ class ResetPassword extends React.Component{
   }
 
 
-  // resetPassword = () => {
-  //   let { oldPassword, newPassword} = this.state;
-  //   console.log(oldPassword);
-  //   console.log(newPassword);
-
-  //   // this.props.register({
-  //   //   'oldPassword': oldPassword,
-  //   //   'newPassword': newPassword
-  //   // })
-  // }
+  resetPassword = async () => {
+    let { oldPassword, newPassword} = this.state;
+    const chat = YCChat.getInstance();
+    const result = await chat.currentUser.updatePassword({
+      newPwd: newPassword,
+      oldPwd: oldPassword
+    });
+    if(result.status){
+      Toast.show('修改密码成功', {
+        position: Toast.positions.CENTER, // toast位置
+      });
+      this.props.navigation.goBack();
+    }else{
+      console.log('reset password error')
+      Toast.show(result.msg, {
+        position: Toast.positions.CENTER, // toast位置
+      });
+    }
+    console.log(result);
+  }
   
 
   render(){
@@ -108,12 +121,12 @@ class ResetPassword extends React.Component{
             placeholder='请再次输入新密码'
             label="确认新密码"
             errorStyle={{ color: 'red' }}
-            errorMessage={this.state.passConfirmError}
+            errorMessage={this.state.confirmPassError}
             containerStyle={Styles.containerStyle}
             inputContainerStyle={Styles.inputContainerStyle}
             labelStyle={Styles.inputLabel}
             inputStyle={Styles.input}
-            value={this.state.confirmPassError}
+            value={this.state.confirmNewPassword}
             onChangeText={(text)=>{
               this.setState({
                 confirmNewPassword: text

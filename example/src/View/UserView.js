@@ -19,10 +19,15 @@ let RNFS = require('react-native-fs');
 import {UpdateUser} from '../Redux/actionCreators'
 import ApiUtil from '../Service/ApiUtil'
 import Toast from "react-native-root-toast";
+import { YCChat } from '../observable/lib/chat';
 
 class UserView extends React.Component{
   constructor(props) {
     super(props);
+  }
+
+  UNSAFE_componentWillMount() {
+    const user = this.props.user;
   }
 
   uploadAvatar=()=>{
@@ -58,12 +63,12 @@ class UserView extends React.Component{
 
     let uploadBegin = (response) => {
       let jobId = response.jobId;
-      console.tron.log('UPLOAD HAS BEGUN! JobId: ' + jobId);
+      console.log('UPLOAD HAS BEGUN! JobId: ' + jobId);
     };
 
     let uploadProgress = (response) => {
       let percentage = Math.floor((response.totalBytesSent / response.totalBytesExpectedToSend) * 100);
-      console.tron.log('UPLOAD IS ' + percentage + '% DONE!');
+      console.log('UPLOAD IS ' + percentage + '% DONE!');
     };
 
     let files = [
@@ -128,8 +133,7 @@ class UserView extends React.Component{
           </ListItem.Content>
           <Avatar size={'large'}
             source={{
-              //uri: config.baseURL+'/'+this.props.user.avatar
-              uri: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400'
+              uri: this.props.user._photoUrl
             }}
           />
         </ListItem>
@@ -146,8 +150,7 @@ class UserView extends React.Component{
           </ListItem.Content>
           <ListItem.Content>
             <ListItem.Title>
-              奥术大师
-              {/* {this.props.user.username} */}
+              {this.props.user._nickname || ''}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -162,8 +165,7 @@ class UserView extends React.Component{
           </ListItem.Content>
           <ListItem.Content>
             <ListItem.Title>
-              testAccount
-            {/* {this.props.user.id} */}
+            {this.props.user._name || ''}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -178,8 +180,7 @@ class UserView extends React.Component{
           </ListItem.Content>
           <ListItem.Content>
             <ListItem.Title>
-              男
-            {/* {this.props.user.sex} */}
+            {this.props.user.sex || '男'}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -200,9 +201,10 @@ class UserView extends React.Component{
   }
 
 }
+const chat = YCChat.getInstance();
 
 const mapState = state => ({
-  user: state.UserReducer.get('user').toJS(),
+  user: chat.currentUser
 })
 
 const mapDispatch = dispatch => ({
