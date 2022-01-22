@@ -16,7 +16,9 @@ import {connect} from "react-redux";
 import {UpdateUser} from '../Redux/actionCreators'
 import getStyle from './Style/AccountSecurityStyle'
 import Icon from 'react-native-vector-icons/AntDesign';
+import { YCChat } from '../observable/lib/chat';
 
+const chat = YCChat.getInstance();
 let Styles = {};
 
 
@@ -26,43 +28,22 @@ class AccountSecurity extends React.Component{
   }
 
   deleteChatHistory = () => {
+    
     console.log('deleteChatHistory');
   }
 
-  loginOut = () => {
-    console.log('loginOut');
+  loginOut= async () => {
+    
+    const result = await chat.validator.logout();
+    if(result.status){
+      this.props.navigation.navigate('LoginView')
+    }else{
+      Toast.show(result.msg,{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.TOP
+      })
+    }
   }
-
-  // loginOut= async () => {
-  //   await AsyncStorage.clear();
-
-  //   const user = this.props.user;
-
-  //   try{
-  //     const result = await ApiUtil.request('loginOut',user.id)
-  //     if(result.data.errno === 0){
-  //       Toast.show(result.data.msg,{
-  //         duration: Toast.durations.SHORT,
-  //         position: Toast.positions.TOP
-  //       })
-
-  //       this.props.logout();
-  //       this.props.navigation.navigate('LoginView')
-  //     }else{
-  //       Toast.show(result.data.msg,{
-  //         duration: Toast.durations.SHORT,
-  //         position: Toast.positions.TOP
-  //       })
-  //     }
-  //   }catch (e) {
-  //     Toast.show("退出异常",{
-  //       duration: Toast.durations.SHORT,
-  //       position: Toast.positions.TOP
-  //     })
-
-  //     this.props.logout();
-  //   }
-  // }
 
   render(){
     Styles = getStyle()
