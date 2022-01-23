@@ -32,8 +32,6 @@ class SingleFind extends React.Component{
 
     Styles = getStyle()
     const {params} = this.props.navigation.state;
-    console.log(params.singleFindData);
-    console.log('params end')
     return(
       <MainView>
         {/*头部*/}

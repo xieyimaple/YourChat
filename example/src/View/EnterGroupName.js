@@ -15,10 +15,12 @@ import {TouchableOpacity, View} from 'react-native'
 import {connect} from "react-redux";
 import {UpdateUser} from '../Redux/actionCreators'
 import getStyle from './Style/EnterGroupNameStyle'
+import { YCChat } from '../observable/lib/chat';
+import Toast from 'react-native-root-toast';
 
+const chat = YCChat.getInstance();
 let Styles = {};
-
-
+let params;
 
 class EnterGroupName extends React.Component{
   constructor(props) {
@@ -29,20 +31,35 @@ class EnterGroupName extends React.Component{
   }
 
 
-  EnterGroupName = () => {
+  EnterGroupName = async () => {
     let { groupName} = this.state;
-    console.log(groupName);
 
-    // this.props.register({
-    //   'groupName': groupName,
-    //   'newPassword': newPassword
-    // })
+    let users = params.params.users;
+    users.push(this.props.user._id);
+    let result = await chat.currentUser.createGroupChat({
+      memberId: users,
+      name: groupName,
+      portraitUri: ''
+    });
+    console.log(result);
+    if(result.status){
+      Toast.show('创建群聊成功',{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      })
+      
+    }else{
+      Toast.show(result.msg,{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      })
+    }
   }
   
 
   render(){
     Styles = getStyle()
-
+    params = this.props.navigation.state;
     return(
       <MainView>
         <Header
@@ -92,7 +109,7 @@ class EnterGroupName extends React.Component{
 }
 
 const mapState = state => ({
-  user: state.UserReducer.get('user').toJS(),
+  user: chat.currentUser
 })
 
 const mapDispatch = dispatch => ({

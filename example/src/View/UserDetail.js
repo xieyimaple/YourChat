@@ -7,10 +7,10 @@
 * 修改内容:
 * */
 import React from 'react'
-import {View, Text, TouchableOpacity, Alert} from "react-native";
+import {View, Text, TouchableOpacity, Alert, Dimensions} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
-import {Header, ListItem, Button, Avatar} from "react-native-elements";
+import {Header, ListItem, Button, Avatar, Input} from "react-native-elements";
 import MainView from '../components/MainView'
 import config from '../Config'
 import ApiUtil from '../Service/ApiUtil'
@@ -19,19 +19,27 @@ import Toast from "react-native-root-toast";
 import ActionSheet from 'react-native-actionsheet'
 import {DeleteTalkList, AddTalkList} from '../Redux/actionCreators'
 import {sort} from '../Util/Tool'
+import { YCChat } from '../observable/lib/chat';
+
+const width = Dimensions.get('window').width;
+
+const chat = YCChat.getInstance();
+
 class UserDetail extends React.Component{
   constructor(props) {
     super(props);
     this.state={
       user: this.props.navigation.getParam('user'),
-      //isFriend: false // test
-      isFriend: true
+      isFriend: false,
+      sendMsg: '',
     }
   }
 
   UNSAFE_componentWillMount() {
+    console.log('userdetail');
+    console.log(this.props.friendList);
     this.props.friendList.some((item, index)=>{
-      if(item.friendId.username === this.state.user.username){
+      if(item.nickname === this.state.user.nickname){
         this.setState({
           isFriend: true
         })
@@ -72,13 +80,15 @@ class UserDetail extends React.Component{
     this.props.navigation.navigate('ChatView',{'friendName': username, 'friendId': _id});
   }
 
-  addFriend= async () => {
+  addFriend = async () => {
 
     const self = this.props.self;
-    const user = this.state.user
-
+    const user = this.state.user;
+    const sendMsg = this.state.sendMsg;
+    console.log(sendMsg);
     try{
-      const result = await ApiUtil.request('addFriend', {'selfId': self.id, 'friendId': user.id}, true)
+      const result = await chat.currentUser.addFriend(user.uuid,sendMsg);
+      console.log(result);
       Toast.show(result.data.msg, {
         duration: Toast.durations.SHORT,
         position: Toast.positions.CENTER
@@ -108,6 +118,9 @@ class UserDetail extends React.Component{
               </FontAwesome>
             </TouchableOpacity>
           }
+          centerComponent={
+            { text: '添加好友', style: { color: '#000',marginTop: 5, textAlign:'center'}}
+          }
           containerStyle={{
             backgroundColor: 'rgb(238, 238, 238)',
             justifyContent: 'space-around',
@@ -135,33 +148,57 @@ class UserDetail extends React.Component{
           bottomDivider
         >
           <Avatar
+            size={'medium'}
             source={{
-              //uri: config.baseURL+'/'+user.avatar}
-              uri: user.avatar,
+              uri: user.portraitUri
             }}
           />
           <ListItem.Title>
-          {user.username}
+          {user.nickname}
           </ListItem.Title>
           <ListItem.Subtitle>
-          {user.address}
+          {user.lastLoginZone}
           </ListItem.Subtitle>
         </ListItem>
         {
           this.state.isFriend?
             <Button
               title="发消息"
-              titleStyle={{color:'blue'}}
-              buttonStyle={{backgroundColor: 'white'}}
+              titleStyle={{color:'white'}}
+              containerStyle={{width: '80%',marginLeft: '10%',marginTop: 20}}
               onPress={this.goChat}
             />
             :
-            <Button
-              title="添加到通讯录"
-              titleStyle={{color:'blue'}}
-              buttonStyle={{backgroundColor: 'white'}}
-              onPress={this.addFriend}
-            />
+            <View>
+              <ListItem containerStyle={{backgroundColor: '#ededed'}}>
+                <Text>申请留言</Text>
+              </ListItem>
+              <ListItem containerStyle={{flexDirection:'column'}}>
+                <Input
+                  label=""
+                  containerStyle={{}}
+                  inputContainerStyle={{borderBottomWidth: 0}}
+                  labelStyle={{}}
+                  inputStyle={{}}
+                  value={this.state.sendMsg}
+                  onChangeText={(text)=>{
+                    this.setState({
+                      sendMsg: text
+                    })
+                  }}
+                >
+              </Input>
+              
+              </ListItem>
+              <Button
+                title="提交申请"
+                containerStyle={{width: '80%',marginLeft: '10%',marginTop: 20}}
+                titleStyle={{color:'white'}}
+                onPress={this.addFriend}
+              />
+            </View>
+            
+            
         }
 
         <ActionSheet

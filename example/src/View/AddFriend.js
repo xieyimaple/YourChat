@@ -16,8 +16,10 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { SearchBar, Text } from 'react-native-elements';
 import ApiUtil from '../Service/ApiUtil'
 import Toast from "react-native-root-toast";
-import getStyle from './Style/AddFiendStyle'
+import getStyle from './Style/AddFiendStyle';
+import { YCChat } from '../observable/lib/chat';
 
+const chat = YCChat.getInstance();
 let Styles = {}
 class AddFriend extends React.Component{
   constructor(props) {
@@ -27,31 +29,22 @@ class AddFriend extends React.Component{
     };
   }
 
-  search= async () => {
+  search = async () => {
     const {search} = this.state
 
     try{
-      // const result = await ApiUtil.request('searchFriend', {'friendName': search}, true)
-
-      // if (result.data.errno === 0) {
-      //this.props.navigation.navigate('UserDetail', {'user': result.data.data});
-      // } else {
-      //   Toast.show(result.data.msg, {
-      //     duration: Toast.durations.SHORT,
-      //     position: Toast.positions.CENTER
-      //   })
-      // }
-      this.props.navigation.navigate('UserDetail', {'user': {
-        username:'wohaole',
-        _id:123123,
-        avatar: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
-        sex: 'man',
-        address: 'beijing'
-      }});
+      const result = await chat.currentUser.findFriendByAccount(search);
+      if (result.status) {
+        this.props.navigation.navigate('UserDetail', {'user': result.details});
+      } else {
+        Toast.show(result.msg, {
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER
+        })
+      }
     }catch {
 
     }
-
     this.setState({
       search: ''
     })

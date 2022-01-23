@@ -2,7 +2,7 @@
 /*
 * 文件名: AppContainer.js
 * 作者: liushun
-* 描述: 添加朋友
+* 描述: 创建群聊
 * 修改人:
 * 修改时间:
 * 修改内容:
@@ -14,13 +14,15 @@ import {TouchableOpacity,
   SectionList,
   TouchableWithoutFeedback,
   View,} from 'react-native'
-import {Header, ListItem, Button} from "react-native-elements";
+import {Header, ListItem, Button, Avatar, CheckBox} from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SearchBar, Text } from 'react-native-elements';
 import ApiUtil from '../Service/ApiUtil'
 import Toast from "react-native-root-toast";
 import getStyle from './Style/AddFiendStyle'
 import { connect } from 'react-redux';
+import Pinyin from '../Util/ChinesePY';
 
 
 let Styles = {}
@@ -30,31 +32,20 @@ class CreateGroup extends React.Component{
     this.state = {
       search: ''
     };
+    const beforeSearchList = this.props.friendList;
   }
 
   search= async () => {
     const {search} = this.state
-
-    try{
-      // const result = await ApiUtil.request('searchFriend', {'friendName': search}, true)
-
-      // if (result.data.errno === 0) {
-      //this.props.navigation.navigate('UserDetail', {'user': result.data.data});
-      // } else {
-      //   Toast.show(result.data.msg, {
-      //     duration: Toast.durations.SHORT,
-      //     position: Toast.positions.CENTER
-      //   })
-      // }
-      this.props.navigation.navigate('UserDetail', {'user': {
-        username:'wohaole',
-        _id:123123,
-        avatar: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
-        sex: 'man',
-        address: 'beijing'
-      }});
-    }catch {
-
+    if(search){
+      this.props.friendList.find((item,index)=> {
+        if(item.uuid === search){
+          this.props.friendList = [];
+          this.props.friendList.push(item);
+        }
+      })
+    }else {
+      this.props.friendList = beforeSearchList;
     }
 
     this.setState({
@@ -69,21 +60,40 @@ class CreateGroup extends React.Component{
 
   keyExtractor = (item, index) => index.toString();
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index}) => {
     return (
       <TouchableOpacity>
         <ListItem
           bottomDivider
+          onPress={
+            () => {
+              var users = this.props.friendList;
+              this.props.friendList[index].checked = !this.props.friendList[index].checked;
+              this.setState({users: [...users]});
+            }
+          }
         >
+          <CheckBox
+            checkedIcon={ <MaterialCommunityIcons name='check-circle' size={30} color='#0F0' /> }
+            uncheckedIcon={ <MaterialCommunityIcons name='circle-outline' size={30} color='#ededed' /> }
+            checked={item.checked}
+            onPress={
+              () => {
+                var users = this.props.friendList;
+                this.props.friendList[index].checked = !this.props.friendList[index].checked;
+                this.setState({users: [...users]});
+              }
+            }
+          />
           <Avatar
             activeOpacity={0.2}
-            avatarStyle={{}}
+            size={'medium'}
             rounded={false}
-            source={{ uri: config.baseURL + '/' + item.avatar }}
+            source={{ uri: item.portraitUri }}
           />
           <ListItem.Content>
             <ListItem.Title>
-            {item.username}
+            {item.nickname}
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
@@ -112,26 +122,30 @@ class CreateGroup extends React.Component{
     this.setState({
       show: false,
     })
-    this.props.navigation.navigate('EnterGroupName');
+    let users = [];
+    if(this.state.users){
+      this.state.users.find((item)=> {
+        if(item.checked){
+          users.push(item.uuid);
+        }
+      })
+    }
+    this.props.navigation.navigate('EnterGroupName', { users: users });
   }
 
   render() {
     let sectionData = [];
-
     let data = {};
-
-    this.props.friendList = [];
-
     this.props.friendList.length !== 0 &&
-      this.props.friendList.forEach((item, index) => {
-        if (!data[item.friendId.letter]) {
-          data[item.friendId.letter] = [];
-          data[item.friendId.letter].push(item.friendId);
-        } else {
-          data[item.friendId.letter].push(item.friendId);
-        }
-      });
-
+    this.props.friendList.forEach((item, index) => {
+      item.letter = Pinyin.GetJP(item.nickname).charAt(0).toUpperCase();
+      if (!data[item.letter]) {
+        data[item.letter] = [];
+        data[item.letter].push(item);
+      } else {
+        data[item.letter].push(item);
+      }
+    });
     for (let key in data) {
       let obj = {};
       obj.title = key;

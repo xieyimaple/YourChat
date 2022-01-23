@@ -17,6 +17,7 @@ import {connect} from "react-redux";
 import config from '../Config'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { YCChat } from '../observable/lib/chat';
+import { CLIENT } from '../utils/client'
 
 let Styles = {};
 
@@ -31,6 +32,7 @@ class Me extends React.Component {
 
   render() {
     Styles = getStyle();
+    const client = CLIENT;
     return (
       <MainView>
         <ListItem style={Styles.userContainer} onPress={()=>{
@@ -68,7 +70,7 @@ class Me extends React.Component {
         <ListItem containerStyle={Styles.version}>
           <AntDesign name='infocirlceo' size={12}/>
           <ListItem.Title>
-            <Text>当前版本 0.0.1</Text>
+            <Text>当前版本 {client.appVersion}</Text>
           </ListItem.Title>
         </ListItem>
         {/* <ListItem
