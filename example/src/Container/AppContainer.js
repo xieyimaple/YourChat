@@ -24,6 +24,7 @@ import ChatView from '../View/ChatView'
 import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
 import CreateGroup from '../View/CreateGroup';
+import GroupList from '../View/GroupList';
 import EnterGroupName from '../View/EnterGroupName';
 import SingleFind from '../View/SingleFind'
 import UserView from '../View/UserView'
@@ -45,7 +46,7 @@ const TabNavigator = createBottomTabNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
-      tabBarLabel: '微信',
+      tabBarLabel: '消息',
       tabBarOptions: {
         activeTintColor: '#44a0df',
         inactiveTintColor: '#9b9b9b',
@@ -186,6 +187,12 @@ const MainNavigator = createStackNavigator({
   },
   FriendList: {
     screen: FriendList,
+    navigationOptions: {
+      header: null
+    }
+  },
+  GroupList: {
+    screen: GroupList,
     navigationOptions: {
       header: null
     }

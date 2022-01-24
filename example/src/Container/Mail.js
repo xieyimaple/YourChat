@@ -73,7 +73,9 @@ class Mail extends React.Component {
             </ListItem.Title>
           </ListItem.Content>
         </ListItem>
-        <ListItem bottomDivider>
+        <ListItem
+          onPress={() => {this.props.navigation.navigate('GroupList')}} 
+          bottomDivider>
           <Avatar
             source={{
               uri: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
