@@ -7,6 +7,7 @@ const defaultState = fromJS({ // 将对象转成immutable对象
   registerObj: fromJS({}),
   friendList: fromJS([]),
   talkList: fromJS([]),
+  groupList: fromJS([]),
 })
 
 export default (state = defaultState, action) => {
@@ -25,6 +26,7 @@ export default (state = defaultState, action) => {
         user: fromJS({}),
         loginObj: fromJS({}),
         friendList: fromJS([]),
+        groupList: fromJS([]),
         talkList: fromJS([])
       })
     case actionTypes.Register:
@@ -34,6 +36,10 @@ export default (state = defaultState, action) => {
     case actionTypes.GetFriendList:
       return state.merge({
         friendList: fromJS(action.data)
+      })
+    case actionTypes.GetGroupList:
+      return state.merge({
+        groupList: fromJS(action.data)
       })
     case actionTypes.AddTalkList:
       let has = state.get('talkList').find((item)=>{

@@ -14,7 +14,7 @@ import {Text, TouchableOpacity, View, TouchableWithoutFeedback, FlatList} from "
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropMenu from '../components/DropMenu'
 import ApiUtil from '../Service/ApiUtil'
-import {getFriendList} from "../Service/action";
+import {getFriendList, getGroupList} from "../Service/action";
 import {connect} from "react-redux";
 import { DeleteTalkList} from "../Redux/actionCreators";
 import Toast from "react-native-root-toast";
@@ -32,22 +32,23 @@ class Home extends React.Component {
 
   UNSAFE_componentWillMount() {
     const user = this.props.user;
-    const loginObj = this.props.loginObj;
-    if(loginObj.login){
-      global.io.emit('login', user, (mes)=>{
-        Toast.show(mes,{
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.TOP
-        })
-      })
-    }else{
-      this.props.navigation.navigate('LoginView');
-    }
+    // const loginObj = this.props.loginObj;
+    // if(loginObj.login){
+    //   global.io.emit('login', user, (mes)=>{
+    //     Toast.show(mes,{
+    //       duration: Toast.durations.SHORT,
+    //       position: Toast.positions.TOP
+    //     })
+    //   })
+    // }else{
+    //   this.props.navigation.navigate('LoginView');
+    // }
   }
 
   componentDidMount() {
     const user = this.props.user;
     this.props.getFriendList();
+    this.props.getGroupList();
   }
 
 
@@ -207,7 +208,7 @@ const chat = YCChat.getInstance();
 
 const mapState = state => ({
   user: chat.currentUser,
-  loginObj: state.UserReducer.get('loginObj').toJS(),
+  //loginObj: state.UserReducer.get('loginObj').toJS(),
   //talkList: state.UserReducer.get('talkList').toJS()
   talkList: [{
     _id: 123123,
@@ -238,8 +239,14 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
+  init(param){
+    dispatch()
+  },
   getFriendList(param) {
     dispatch(getFriendList(param))
+  },
+  getGroupList(param) {
+    dispatch(getGroupList(param))
   },
   deleteTalk(obj){
     dispatch(DeleteTalkList(obj))

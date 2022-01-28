@@ -32,10 +32,25 @@ export function Register(data) {
   }
 }
 
+export function Init(data) {
+  return {
+    type:  actionTypes.Init,
+    data: data
+  }
+}
+
 //获取好友列表
 export function GetFriendList(data) {
   return {
     type:  actionTypes.GetFriendList,
+    data: data
+  }
+}
+
+//获取群组列表
+export function GetGroupList(data) {
+  return {
+    type:  actionTypes.GetGroupList,
     data: data
   }
 }

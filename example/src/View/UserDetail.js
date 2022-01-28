@@ -52,23 +52,30 @@ class UserDetail extends React.Component{
   }
 
   deleteFriend= async () => {
+    const result = await chat.currentUser.deleteFriend(user.uuid, '');
+      console.log(result);
+      Toast.show(result.data.msg, {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      });
+      this.props.navigation.navigate('Mail')
 
-      ApiUtil.request('deleteFriend', {
-        'selfId': this.props.self.id,
-        'friendId': this.state.user._id
-      }, true).then((result)=>{
-        if(result.data.errno === 0){
+      // ApiUtil.request('deleteFriend', {
+      //   'selfId': this.props.self.id,
+      //   'friendId': this.state.user._id
+      // }, true).then((result)=>{
+      //   if(result.data.errno === 0){
 
-          this.props.deleteFriend({'username': this.state.user.username})
+      //     this.props.deleteFriend({'username': this.state.user.username})
 
-          Toast.show(result.data.msg,{
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER
-          })
+      //     Toast.show(result.data.msg,{
+      //       duration: Toast.durations.SHORT,
+      //       position: Toast.positions.CENTER
+      //     })
 
-          this.props.navigation.navigate('Mail')
-        }
-      })
+      //     this.props.navigation.navigate('Mail')
+      //   }
+      // })
   }
 
   goChat=()=>{
@@ -119,7 +126,7 @@ class UserDetail extends React.Component{
             </TouchableOpacity>
           }
           centerComponent={
-            { text: '添加好友', style: { color: '#000',marginTop: 5, textAlign:'center'}}
+            { text: this.state.isFriend ? '详细资料': '添加好友', style: { color: '#000',marginTop: 5, textAlign:'center'}}
           }
           containerStyle={{
             backgroundColor: 'rgb(238, 238, 238)',
@@ -128,15 +135,6 @@ class UserDetail extends React.Component{
             height: 60,
             marginTop: 24,
           }}
-          rightComponent={
-            <TouchableOpacity onPress={()=>{
-              this.ActionSheet.show()
-            }}>
-              <Entypo name={'dots-three-horizontal'} size={24} color={'black'}
-              >
-              </Entypo>
-            </TouchableOpacity>
-          }
         />
 
         {/**/}
@@ -162,12 +160,25 @@ class UserDetail extends React.Component{
         </ListItem>
         {
           this.state.isFriend?
-            <Button
-              title="发消息"
-              titleStyle={{color:'white'}}
-              containerStyle={{width: '80%',marginLeft: '10%',marginTop: 20}}
-              onPress={this.goChat}
-            />
+            <View>
+              <Button
+                title="发消息"
+                titleStyle={{color:'white'}}
+                containerStyle={{width: '80%',marginLeft: '10%',marginTop: 20}}
+                onPress={this.goChat}
+              />
+              <Button
+                title="删除好友"
+                type="outline"
+                titleStyle={{color:'red'}}
+                containerStyle={{width: '80%',marginLeft: '10%',marginTop: 20}}
+                buttonStyle={{borderWidth: 0,backgroundColor: 'white'}}
+                onPress={()=>{
+                  this.ActionSheet.show()
+                }}
+              />
+            </View>
+            
             :
             <View>
               <ListItem containerStyle={{backgroundColor: '#ededed'}}>

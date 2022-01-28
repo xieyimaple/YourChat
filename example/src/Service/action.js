@@ -2,12 +2,15 @@ import {
   LoginIn,
   SaveUser,
   Register,
-  GetFriendList
+  GetFriendList,
+  GetGroupList,
+  Init
 } from '../Redux/actionCreators'
 import ApiUtil from '../Service/ApiUtil';
 import {saveTokens} from '../Util/storageToken'
 import { YCChat } from '../observable/lib/chat';
 import { createImportSpecifier } from 'typescript';
+import { ConditionalTypeSerializer } from 'typedoc/dist/lib/serialization/serializers';
 
 
 
@@ -54,8 +57,30 @@ export const getFriendList=(param)=> async (dispatch) => {
     const chat = YCChat.getInstance();
     const result = await chat.currentUser.queryAllFriend();
     if (result.status) {
-      dispatch(GetFriendList(result.friendList))
+      dispatch(GetFriendList(result.friends))
     }
+  } catch {
+
+  }
+}
+
+export const getGroupList=(param)=> async (dispatch) => {
+  try {
+    const chat = YCChat.getInstance();
+    const result = await chat.currentUser.initGroups();
+    console.log(result);
+    if (result.status) {
+      dispatch(GetGroupList(result.groups))
+    }
+  } catch {
+
+  }
+}
+
+export const init=(param)=> async (dispatch) => {
+  try {
+    const chat = YCChat.getInstance();
+    await chat.currentUser.init();
   } catch {
 
   }
