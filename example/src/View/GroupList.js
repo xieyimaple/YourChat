@@ -38,9 +38,8 @@ class GroupList extends React.Component {
       this.setState({
         show: false,
       });
-      return;
     }
-    //this.props.navigation.navigate('UserDetail', { ...param });
+    this.props.navigation.navigate('ChatView', { ...param });
   };
 
   keyExtractor = (item, index) => index.toString();
@@ -155,43 +154,6 @@ class GroupList extends React.Component {
   }
 }
 
-// const mapState = (state) => ({
-//   // groupList: [{
-//   //   name: 'ADD', // 群名
-//   //   portraitUri: '', // 群头像
-//   //   id: '111', // 群ID
-//   //   memberCount: '111', // 群当前人数
-//   //   maxMemberCount: '111', // 群最大人数
-//   //   creatorId: '111', // 群主id
-//   //   canShowAllMember: 'YES', // 显示所有成员
-//   //   canAddManagerFriend: 'NO', // 当前群是否可以加管理员好友
-//   //   canAddFriend: 'YES', // 当前群是否可以加好友
-//   //   allCanSay: 'NO' // 当前群是否禁言
-//   // },{
-//   //   name: 'wdd', // 群名
-//   //   portraitUri: '', // 群头像
-//   //   id: '222', // 群ID
-//   //   memberCount: '222', // 群当前人数
-//   //   maxMemberCount: '122211', // 群最大人数
-//   //   creatorId: '222', // 群主id
-//   //   canShowAllMember: 'YES', // 显示所有成员
-//   //   canAddManagerFriend: 'NO', // 当前群是否可以加管理员好友
-//   //   canAddFriend: 'YES', // 当前群是否可以加好友
-//   //   allCanSay: 'NO' // 当前群是否禁言
-//   // },{
-//   //   name: 'yys', // 群名
-//   //   portraitUri: '', // 群头像
-//   //   id: '333', // 群ID
-//   //   memberCount: '333', // 群当前人数
-//   //   maxMemberCount: '333', // 群最大人数
-//   //   creatorId: '333', // 群主id
-//   //   canShowAllMember: 'YES', // 显示所有成员
-//   //   canAddManagerFriend: 'NO', // 当前群是否可以加管理员好友
-//   //   canAddFriend: 'YES', // 当前群是否可以加好友
-//   //   allCanSay: 'NO' // 当前群是否禁言
-//   // }]
-//   groupList: state.UserReducer.get('groupList').toJS(),
-// });
 const mapState = (state) => ({
   groupList: chat.currentUser.groups,
 });

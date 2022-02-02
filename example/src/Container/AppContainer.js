@@ -21,6 +21,7 @@ import Me from './Me'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ChatView from '../View/ChatView'
+import GroupManage from '../View/GroupManage'
 import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
 import CreateGroup from '../View/CreateGroup';
@@ -145,6 +146,12 @@ const MainNavigator = createStackNavigator({
   },
   UserView: {
     screen: UserView,
+    navigationOptions: {
+      header: null
+    }
+  },
+  GroupManage: {
+    screen: GroupManage,
     navigationOptions: {
       header: null
     }

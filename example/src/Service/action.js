@@ -68,7 +68,6 @@ export const getGroupList=(param)=> async (dispatch) => {
   try {
     const chat = YCChat.getInstance();
     const result = await chat.currentUser.initGroups();
-    console.log(result);
     if (result.status) {
       dispatch(GetGroupList(result.groups))
     }

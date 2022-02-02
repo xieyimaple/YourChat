@@ -57,9 +57,8 @@ class Home extends React.Component {
       this.setState({
         show: false,
       })
-      return;
     }
-    this.props.navigation.navigate('ChatView', {'friendName':item.username, 'friendId':item._id});
+    this.props.navigation.navigate('ChatView', {user:{...item}});
   }
 
   goAction= async (item) => {

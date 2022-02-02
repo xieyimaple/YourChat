@@ -73,30 +73,6 @@ class Me extends React.Component {
             <Text>当前版本 {client.appVersion}</Text>
           </ListItem.Title>
         </ListItem>
-        {/* <ListItem
-          leftAvatar={{ source: { uri: config.baseURL +'/'+ this.props.user.avatar} }}
-          title={this.props.user.username}
-          subtitle={"微信号: ofdofsjodfjowefiwo"}
-          chevron
-          containerStyle={{paddingVertical: 30, paddingHorizontal: 30}}
-          onPress={()=>{
-            this.props.navigation.navigate('UserView');
-          }}
-        />
-        <ListItem
-          leftIcon={
-            <Feather name={'settings'} size={20} color={'black'}
-            >
-            </Feather>
-          }
-          title={"设置"}
-          bottomDivider
-          chevron
-          onPress={()=>{
-            this.props.navigation.navigate('SettingView');
-          }}
-          containerStyle={{marginTop: 10}}
-        /> */}
       </MainView>
     );
   }
