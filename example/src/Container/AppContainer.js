@@ -26,6 +26,7 @@ import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
 import CreateGroup from '../View/CreateGroup';
 import GroupList from '../View/GroupList';
+import NewFriends from '../View/NewFriends';
 import EnterGroupName from '../View/EnterGroupName';
 import SingleFind from '../View/SingleFind'
 import UserView from '../View/UserView'
@@ -146,6 +147,12 @@ const MainNavigator = createStackNavigator({
   },
   UserView: {
     screen: UserView,
+    navigationOptions: {
+      header: null
+    }
+  },
+  NewFriends: {
+    screen: NewFriends,
     navigationOptions: {
       header: null
     }

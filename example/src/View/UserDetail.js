@@ -53,7 +53,6 @@ class UserDetail extends React.Component{
 
   deleteFriend= async () => {
     const result = await chat.currentUser.deleteFriend(user.uuid, '');
-      console.log(result);
       Toast.show(result.data.msg, {
         duration: Toast.durations.SHORT,
         position: Toast.positions.CENTER
@@ -80,11 +79,19 @@ class UserDetail extends React.Component{
 
   goChat=()=>{
     const {username, _id} = this.state.user
+    console.log(this.state.user);
     const {id} = this.props.self
     const roomId = sort(id, _id)
     const data = {...this.state.user, roomId}
     this.props.addTalkList(data)
-    this.props.navigation.navigate('ChatView',{'friendName': username, 'friendId': _id});
+    //this.props.navigation.navigate('ChatView',{'friendName': username, 'friendId': _id});
+    this.props.navigation.navigate('ChatView', {user:
+      {
+        ...this.state.user, 
+        _id: this.state.user.uuid, 
+        username: this.state.user.nickname
+      }}
+    )
   }
 
   addFriend = async () => {
@@ -92,10 +99,8 @@ class UserDetail extends React.Component{
     const self = this.props.self;
     const user = this.state.user;
     const sendMsg = this.state.sendMsg;
-    console.log(sendMsg);
     try{
       const result = await chat.currentUser.addFriend(user.uuid,sendMsg);
-      console.log(result);
       Toast.show(result.data.msg, {
         duration: Toast.durations.SHORT,
         position: Toast.positions.CENTER

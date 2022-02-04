@@ -24,6 +24,7 @@ import { YCChat } from '../observable/lib/chat';
 class UserView extends React.Component{
   constructor(props) {
     super(props);
+    console.log(this.props.user);
   }
 
   UNSAFE_componentWillMount() {

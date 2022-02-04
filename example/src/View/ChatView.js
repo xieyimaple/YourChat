@@ -13,7 +13,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 export default function ChatView(props) {
     const [messages, setMessages] = useState([]);
     const _user = props.navigation.getParam('user');
-    const toName = _user._name;
+    const toName = _user.hasOwnProperty('_allCanSay') ? _user._name : _user.username;
     const toId = _user._id;
     useEffect(() => {
         setMessages([
@@ -75,7 +75,7 @@ export default function ChatView(props) {
           //   this.props.addRoomLastMsg({'roomId': this.state.roomId, 'message': lastMessage})
           // }
           // props.deleteRoomUnReadMsg({'roomId': this.state.roomId})
-          props.navigation.navigate('Home');
+          props.navigation.goBack();
         } }>
           <FontAwesome name={'angle-left'} size={24} color={'black'}
           >
@@ -92,7 +92,8 @@ export default function ChatView(props) {
         }}
         centerContainerStyle={{}}
         rightComponent={<TouchableOpacity onPress={() => {
-            props.navigation.navigate('GroupManage', { ..._user });
+            _user.hasOwnProperty('_allCanSay') ? 
+            props.navigation.navigate('GroupManage', { ..._user }) : console.log('好友信息')
         } }>
         <Entypo name={'dots-three-horizontal'} size={20} color={'black'}
         >
