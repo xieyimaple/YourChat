@@ -13,9 +13,9 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MainView from '../components/MainView'
 import {TouchableOpacity, View} from 'react-native'
 import {connect} from "react-redux";
-import {UpdateUser} from '../Redux/actionCreators'
 import getStyle from './Style/NewFriendsStyle'
 import { YCChat } from '../observable/lib/chat';
+import Toast from 'react-native-root-toast';
 
 const chat = YCChat.getInstance();
 let Styles = {};
@@ -25,49 +25,43 @@ class NewFriends extends React.Component{
   constructor(props) {
     super(props);
     this.state={
-      cont:[
-        {
-          uuid:"7df2b4b38bd943e38325a26af7d21990",
-          nickname:"明年",
-          portraitUri:"http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          msgst:20,
-          createTime:"2022-01-21 00:00:30",
-          friendUuid:"daaebm128bce16ec4f4e909c57dce04da10ed6"
-        },{
-          uuid:"20140f7a61de4cb1a25f910b1163524f",
-          nickname:"阶扬皆患",
-          portraitUri:"http://2020xl-apk.oss-accelerate.aliyuncs.com/1598348077543-18787.jpg",
-          message:"dasdas",
-          msgst:20,
-          createTime:"2022-01-21 00:04:57",
-          friendUuid:"daaebmdab2871e87d5432a9f061dcaaa194f97"
-        },{
-          uuid:"de18ada61e5d4bc8bfc8e48995192808",
-          nickname:"奥术大师",
-          portraitUri:"http://2020xl-apk.oss-accelerate.aliyuncs.com/1598348077543-18787.jpg",
-          message:"hello",
-          msgst:20,
-          createTime:"2022-01-23 01:53:43",
-          friendUuid:"daaebm94f91d182c484b5abf49afc8b1a40ba6"
-        },{
-          uuid:"7258c95ef99d4aaabc63ee8de0421540",
-          nickname:"奥术大师2",
-          portraitUri:"http://2020xl-apk.oss-accelerate.aliyuncs.com/1598348077543-18787.jpg",
-          message:"你好你好",
-          msgst:11,
-          createTime:"2022-02-02 22:44:14",
-          friendUuid:"daaebm1fd98d475061405f84c1f8c44d03d291"
-        }
-      ]
+      cont:[]
     }
   }
 
-  apply = (id) => {
-    console.log('apply' + id);
+  async componentDidMount() {
+    Toast.show('请稍候...',{
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER
+    })
+    let result = await chat.currentUser.applyList();
+    let cont = result.cont
+    if(result.status){
+      this.setState({
+        cont
+      })
+    }
+    console.log(this.state.cont)
   }
 
-  reject = (id) => {
-    console.log('reject' + id);
+  apply = async (id) => {
+    Toast.show('添加中...',{
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER
+    })
+    let result = await chat.currentUser.applyDeal(20, id);
+    console.log('newfriend添加好友');
+    console.log(result);
+  }
+
+  reject = async (id) => {
+    Toast.show('拒绝中...',{
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER
+    })
+    let result = await chat.currentUser.applyDeal(21, id);
+    console.log('newfriend拒绝好友');
+    console.log(result);
   }
   
   render(){
@@ -93,6 +87,7 @@ class NewFriends extends React.Component{
 
         { 
           this.state.cont.map((item, i) => (
+            (item.msgst === 11 || item.msgst === 20) ? 
             <ListItem bottomDivider key={i} containerStyle={Styles.listItem}>
               <ListItem.Title style={Styles.textBox}>
                 <Avatar
@@ -141,7 +136,7 @@ class NewFriends extends React.Component{
               </View> : null
               }
               
-            </ListItem>
+            </ListItem> : null
           ))}
       </MainView>
     )
@@ -154,9 +149,6 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  updateUser(param){
-    dispatch(UpdateUser(param))
-  }
 })
 
 export default connect(

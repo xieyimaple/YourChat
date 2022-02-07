@@ -19,7 +19,6 @@ import {
 } from 'react-native';
 import { Header, ListItem, Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons'
 import DropMenu from '../components/DropMenu';
 import { connect } from 'react-redux';
 import config from '../Config/index';

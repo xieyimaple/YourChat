@@ -33,7 +33,9 @@ export enum YCHttpInterfaceEnum {
 	getMeme = '/kkrp/user_picture/list_all', // 获取表情列表
 	getAllGroups = '/kkrp/im_group/show_groups', // 获取用户所有群组
 	getAliOssSts = '/kkrp/ali_oss/sts', // 获取ali-oss sts
-	upLoadImageResource = '/hx_file/file/upload/nenc'  // 上传图片
+	upLoadImageResource = '/hx_file/file/upload/nenc',  // 上传图片
+	applyList = '/kkrp/member/friend/apply_list', // 获取申请列表
+	applyDeal = '/kkrp/member/friend/apply_deal' // 处理申请记录
 }
 
 export type YCResultExt = {

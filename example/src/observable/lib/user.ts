@@ -391,6 +391,37 @@ export class YCUser extends YCObject implements YCUserInfo {
     };
   }
 
+  // 获取申请列表
+  public async applyList(): Promise<{
+    status: boolean;
+    msg: string;
+    cont: []
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.applyList, {});
+    return {
+      status: result.rst,
+      msg: result.msg,
+      cont: result.cont
+    };
+  }
+
+  // 处理申请列表
+  public async applyDeal(msgst: number, uuid:string): Promise<{
+    status: boolean;
+    msg: string;
+    cont: []
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.applyDeal, {
+      msgst,
+      uuid
+    });
+    return {
+      status: result.rst,
+      msg: result.msg,
+      cont: result.cont
+    };
+  }
+
   // 根据账号查找好友
   public async findFriendByAccount(account: string): Promise<{
     status: boolean;
