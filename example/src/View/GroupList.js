@@ -45,6 +45,7 @@ class GroupList extends React.Component {
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item }) => {
+    console.log(item.portraitUri)
     return (
       <TouchableOpacity
         onPress={() => {
@@ -56,9 +57,9 @@ class GroupList extends React.Component {
         >
           <Avatar
             activeOpacity={0.2}
-            avatarStyle={{ backgroundColor: "#BDBDBD" }}
+            avatarStyle={{}}
             rounded={false}
-            //source={{ uri: item.portraitUri }}
+            source={{ uri: item.portraitUri }}
           />
           <ListItem.Content>
             <ListItem.Title>

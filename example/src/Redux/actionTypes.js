@@ -13,4 +13,5 @@ export default {
   DeleteRoomUnReadMsg: 'DeleteRoomUnReadMsg',
   AddRoomLastMsg: 'AddRoomLastMsg',
   FriendAction: 'FriendAction',
+  UploadImage: 'UploadImage'
 }

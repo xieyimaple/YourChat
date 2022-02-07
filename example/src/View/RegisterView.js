@@ -12,7 +12,7 @@ import {Text, View, ScrollView} from "react-native";
 import MainView from '../components/MainView'
 import getStyle from './Style/RegisterViewStyle'
 import {connect} from "react-redux";
-import {register} from '../Service/action'
+import {register, uploadImage} from '../Service/action'
 import LinearGradient from 'react-native-linear-gradient';
 import { Button, Input, Header, ListItem, Avatar, CheckBox} from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -21,6 +21,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Toast from 'react-native-root-toast';
 import ApiUtil from '../Service/ApiUtil'
 import {encrypt} from '../Util/Tool';
+import { YCChat } from '../observable/lib/chat';
+
 
 let Styles = {};
 const input = React.createRef();
@@ -33,6 +35,7 @@ class RegisterView extends React.Component{
   constructor(props){
     super(props)
     this.state = {
+      Avatar: "http://h1.kk-api.com/jpg/2022/02/07/ce9b8c3d7bb6411bba290c9aa91a60ac.jpg",
       nickname: "",
       username: "",
       checked: false,
@@ -60,25 +63,21 @@ class RegisterView extends React.Component{
       height: 400,
       cropping: true
     }).then(async image => {
-      console.log(image);
-      const result = await this.uploadImage(image.path)
-      const filename = JSON.parse(result.body).filename
-      const userId = this.props.user.id
-      ApiUtil.request('changeAvatar',{
-        userId,
-        'avatar': filename
-      }).then((result)=>{
-        if(result.data.errno === 0){
-          Toast.show(result.data.msg,{
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER
-          })
-          this.props.updateUser({
-            'key': 'avatar',
-            'value': filename
-          })
-        }
+      const chat = YCChat.getInstance();
+      let filename = image.path.substring(image.path.lastIndexOf('/') + 1, image.path.length);
+      image.type = image.mime;
+      image.name = filename;
+      image.webkitRelativePath = image.path;
+      image.uri = image.path;
+      //const result = await this.props.uploadImage(image)
+      const result = await chat.validator.upLoadImageResource({
+        image
+      });
+      this.setState({
+        Avatar: result.cont.url
       })
+      console.log('回调结果');
+      console.log(result.cont.url);
     });
   }
 
@@ -130,12 +129,11 @@ class RegisterView extends React.Component{
                 </ListItem.Title>
               </ListItem.Content>
               <Avatar source={{
-                  //uri: "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
+                  uri: this.state.Avatar
                 }} 
                 onPress={this.uploadAvatar}
                 size="large"
-                rounded
-                containerStyle={{ backgroundColor: "#BDBDBD" }}/>
+                rounded />
               <FontAwesome onPress={
                 this.uploadAvatar
               } name={'angle-right'} size={20}></FontAwesome>
@@ -259,6 +257,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   register(param) {
     dispatch(register(param))
+  },
+  uploadImage(param) {
+    dispatch(uploadImage(param))
   }
 })
 

@@ -33,6 +33,8 @@ class Me extends React.Component {
   render() {
     Styles = getStyle();
     const client = CLIENT;
+    console.log('user');
+    console.log(this.props.user);
     return (
       <MainView>
         <ListItem style={Styles.userContainer} onPress={()=>{
@@ -41,7 +43,7 @@ class Me extends React.Component {
           <Avatar
             activeOpacity={0.2}
             avatarStyle={{}}
-            containerStyle={{ backgroundColor: "#BDBDBD",marginTop: 50 }}
+            containerStyle={{ marginTop: 50 }}
             rounded
             size="large"
             source={{ uri: this.props.user._photoUrl }}

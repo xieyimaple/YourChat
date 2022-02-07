@@ -2,6 +2,7 @@ import {
   LoginIn,
   SaveUser,
   Register,
+  UploadImage,
   GetFriendList,
   GetGroupList,
   Init
@@ -32,6 +33,23 @@ export const login = (param) => async (dispatch) => {
 
 }
 
+export const uploadImage = (param) => async (dispatch) => {
+  dispatch(UploadImage({loading: true, tip: '', uploadImage: false}));
+  try {
+    const chat = YCChat.getInstance();
+    const result = await chat.validator.upLoadImageResource({
+      param
+    });
+    console.log(result);
+    if(result.rst){
+      dispatch(UploadImage({loading: false, tip: result.msg, uploadImage: true, result: result}))
+    } else {
+      dispatch(UploadImage({loading: false, tip: result.msg, uploadImage: false}))
+    }
+  } catch {
+    dispatch(UploadImage({loading: false, tip: '上传', uploadImage: false}))
+  }
+}
 
 
 export const register = (param) => async (dispatch) => {

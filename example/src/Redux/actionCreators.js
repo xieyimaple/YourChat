@@ -32,6 +32,14 @@ export function Register(data) {
   }
 }
 
+//注册
+export function UploadImage(data) {
+  return {
+    type:  actionTypes.UploadImage,
+    data: data
+  }
+}
+
 export function Init(data) {
   return {
     type:  actionTypes.Init,

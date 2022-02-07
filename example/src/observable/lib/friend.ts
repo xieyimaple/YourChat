@@ -6,87 +6,159 @@
 import { YCObject } from './base';
 import { chatHttp, YCHttpInterfaceEnum } from './http';
 
-type YCFriendInfo = {
-	name: string;
-	id?: string;
-	password?: string;
-	photoUrl?: string;
-	photoPath?: string;
-	active?: boolean;
+type YCYesOrNoType = 'YES' | 'NO';
+
+export type YCFriendInfo = {
+  nickname: string;
+  uuid: string;
+  portraitUri: string;
+  gender: 'female' | 'male';
+  onlineSt: YCYesOrNoType;
+  displayName: string;
+  account: string;
+  lastLoginTip: string;
+  lastLoginTime: string;
+  friendUuid: string;
+  createTime: string;
+  message: string;
+  msgst: number;
 };
 
 export class YCFriend extends YCObject {
-	private _id?: string;
-	private _name: string;
-	private _active = false;
-	private _password?: string;
-	private _photoUrl?: string;
-	private _photoPath?: string;
+  private _id?: string;
+  private _friendId: string;
+  private _portraitUri?: string;
+  private _nickname: string;
+  private _gender: 'female' | 'male';
+  private _account: string;
+  private _displayName: string;
+  private _online: YCYesOrNoType;
+  private _lastLoginTip: string;
+  private _lastLoginTime: string;
+  private _createTime: string;
+  private _message: string;
+  private _msgst: number;
 
-	// get 访问器：获取好友id
-	get id(): string {
-		return this._id;
-	}
+  get id(): string {
+    return this._id;
+  }
 
-	// get 访问器：获取好友用户名
-	get name(): string {
-		return this._name;
-	}
+  get friendId(): string {
+    return this._friendId;
+  }
 
-	// get 访问器：获取好友头像URL
-	get photoUrl(): string {
-		return this._photoUrl;
-	}
+  get createTime(): string {
+    return this._createTime;
+  }
 
-	// get 访问器：获取好友头像路径
-	get photoPath(): string {
-		return this._photoPath;
-	}
+  get message(): string {
+    return this._message;
+  }
 
-	// get 访问器：获取好友头像
-	get photo(): string {
-		return this.photoPath || this.photoUrl || '默认头像';
-	}
+  get msgst(): number {
+    return this._msgst;
+  }
 
-	// get 访问器：获取当前好友的激活状态（即是否进入聊天界面）
-	get active(): boolean {
-		return this._active;
-	}
+  get portraitUri(): string {
+    return this._portraitUri;
+  }
 
-	// 构造函数
-	constructor({ id = '', name, password = '', active = false, photoUrl = '', photoPath = '' }: YCFriendInfo) {
-		super();
-		this._id = id;
-		this._name = name;
-		this._password = password;
-		this._active = active;
-		this._photoUrl = photoUrl;
-		this._photoPath = photoPath;
-	}
+  get lastLoginTip(): string {
+    return this._lastLoginTip;
+  }
 
-	// 将用户信息转为JSON格式，用于进程间通信或者数据发送
-	public toJson(): string {
-		return JSON.stringify({
-			id: this.id,
-			name: this.name,
-			photo: this.photo
-		});
-	}
+  get lastLoginTime(): string {
+    return this._lastLoginTime;
+  }
 
-	// 更新好友信息
-	public updateInfo() {}
+  // get 访问器：获取当前用户的昵称
+  get nickname(): string {
+    return this._nickname;
+  }
 
-	// 删除该好友的聊天记录
-	public deleteChatRecord() {}
+  // get 访问器：获取当前用户的性别
+  get gender(): 'female' | 'male' {
+    return this._gender;
+  }
 
-	public async setDisplayName(displayName: string): Promise<{ status: boolean; msg: string }> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.setDisplayName, {
-			uuid: this.id,
-			displayName
-		});
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // get 访问器：获取当前用户的账号名
+  get account(): string {
+    return this._account;
+  }
+
+  // get 访问器：获取当前用户的备注名
+  get displayName(): string {
+    return this._displayName;
+  }
+
+  // get 访问器：获取当前用户的备注名
+  set displayName(value: string) {
+    this._displayName = value;
+  }
+
+  // get 访问器：获取当前用户的备注名
+  get online(): YCYesOrNoType {
+    return this._online;
+  }
+
+  // get 访问器：获取当前用户的备注名
+  set online(value: YCYesOrNoType) {
+    this._online = value;
+  }
+
+  // 构造函数
+  constructor(options: YCFriendInfo) {
+    const {
+      nickname,
+      uuid,
+      portraitUri,
+      gender,
+      onlineSt,
+      displayName,
+      account,
+      lastLoginTip,
+      lastLoginTime,
+      friendUuid,
+      createTime,
+      message,
+      msgst,
+    } = options;
+
+    super();
+    this._id = uuid;
+    this._friendId = friendUuid;
+    this._portraitUri = portraitUri;
+    this._nickname = nickname;
+    this._gender = gender;
+    this._account = account;
+    this._displayName = displayName;
+    this._online = onlineSt;
+    this._lastLoginTip = lastLoginTip;
+    this._lastLoginTime = lastLoginTime;
+    this._createTime = createTime;
+    this._message = message;
+    this._msgst = msgst;
+  }
+
+  // 更新好友信息
+  public updateInfo() {}
+
+  // 删除该好友的聊天记录
+  public deleteChatRecord() {}
+
+  public async setDisplayName(
+    displayName: string
+  ): Promise<{ status: boolean; msg: string }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.setDisplayName, {
+      uuid: this.id,
+      displayName,
+    });
+    if (result.rst) {
+      this.displayName = displayName;
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
 }

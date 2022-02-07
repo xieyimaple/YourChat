@@ -2,140 +2,144 @@
  * @module user
  * @description 此模块为用户相关类，主要功能为用户信息的获取（用户名、头像、好友列表，与好友建立长连接通信等等）
  */
-import { chatHttp, YCHttpInterfaceEnum } from './http';
 import { YCObject } from './base';
+import { chatHttp, YCHttpInterfaceEnum } from './http';
 import type { YCChat } from './chat';
-import type { YCFriend } from './friend';
+import { YCFriend, YCFriendInfo } from './friend';
+import { YCGroup, YCGroupInfo } from './group';
+import type { YCConversation } from './conversation';
+import { ConversationType } from '@rongcloud/react-native-imlib';
+// import Realm from "realm";
 
 /**
  * 用户信息接口
  */
 export type YCUserDetails = {
-	account: string;
-	adcode: string;
-	autoAgree: 'YES' | 'NO';
-	birthday: string;
-	city: string;
-	createTime: string;
-	delReason: string;
-	delTime: string;
-	downMemberNum: string;
-	effective: 'YES' | 'NO';
-	email: string;
-	flagDel: boolean;
-	gender: string;
-	groupNum: number;
-	id: number;
-	identity: 'ORDINARY' | 'MEMBER';
-	isp: string;
-	lastLoginIp: string;
-	lastLoginTime: string;
-	lastLoginZone: string;
-	lat: string;
-	lng: string;
-	locRegion: string;
-	locationType: string;
-	loginCount: number;
-	loginErr: string;
-	logoutCount: number;
-	mark: string;
-	memberIp: string;
-	molDnum: number;
-	new: boolean;
-	nickname: string;
-	onlineSt: 'YES' | 'NO';
-	passwordHash: string;
-	passwordSalt: string;
-	paypwd: string;
-	phone: string;
-	portraitUri: string;
-	pro: string;
-	qqnum: string;
-	realname: string;
-	rectangle: string;
-	region: string;
-	registerIp: string;
-	seeLink: 'YES' | 'NO';
-	sign: string;
-	uid: number;
-	upAcc: string;
-	updateTime: string;
-	uuid: string;
-	wechat: string;
-}
+  account: string;
+  adcode: string;
+  autoAgree: 'YES' | 'NO';
+  birthday: string;
+  city: string;
+  createTime: string;
+  delReason: string;
+  delTime: string;
+  downMemberNum: string;
+  effective: 'YES' | 'NO';
+  email: string;
+  flagDel: boolean;
+  gender: string;
+  groupNum: number;
+  id: number;
+  identity: 'ORDINARY' | 'MEMBER';
+  isp: string;
+  lastLoginIp: string;
+  lastLoginTime: string;
+  lastLoginZone: string;
+  lat: string;
+  lng: string;
+  locRegion: string;
+  locationType: string;
+  loginCount: number;
+  loginErr: string;
+  logoutCount: number;
+  mark: string;
+  memberIp: string;
+  molDnum: number;
+  new: boolean;
+  nickname: string;
+  onlineSt: 'YES' | 'NO';
+  passwordHash: string;
+  passwordSalt: string;
+  paypwd: string;
+  phone: string;
+  portraitUri: string;
+  pro: string;
+  qqnum: string;
+  realname: string;
+  rectangle: string;
+  region: string;
+  registerIp: string;
+  seeLink: 'YES' | 'NO';
+  sign: string;
+  uid: number;
+  upAcc: string;
+  updateTime: string;
+  uuid: string;
+  wechat: string;
+};
 
 /**
  * 用户信息接口
  */
 export interface YCUserInfo {
-	name: string;
-	id?: string;
-	password?: string;
-	photoUrl?: string;
-	photoPath?: string;
-	logined?: boolean;
+  name: string;
+  id?: string;
+  password?: string;
+  photoUrl?: string;
+  photoPath?: string;
+  logined?: boolean;
 }
 
 export type updatePasswordOptions = {
-	newPwd: string;
-	oldPwd: string;
-	phone?: string;
-	region?: string;	// 国别号
-	vcode?: string;	// 图片验证码内容
-	vtoken?: string; // 图片验证码token
-}
+  newPwd: string;
+  oldPwd: string;
+  phone?: string;
+  region?: string; // 国别号
+  vcode?: string; // 图片验证码内容
+  vtoken?: string; // 图片验证码token
+};
 
 export type forgetPasswordOptions = {
-	newPwd: string;
-	pcode: string;
-	phone: string;
-	region?: string;	// 国别号
-	vcode?: string;	// 图片验证码内容
-	vtoken?: string; // 图片验证码token
-}
+  newPwd: string;
+  pcode: string;
+  phone: string;
+  region?: string; // 国别号
+  vcode?: string; // 图片验证码内容
+  vtoken?: string; // 图片验证码token
+};
 
 export type createGroupChatOptions = {
-	memberId: string[];	// 成员的uuid组成的数组
-	name: string;	// 群名称
-	portraitUri: string; // 群头像url
-}
+  memberId: string[]; // 成员的uuid组成的数组
+  name: string; // 群名称
+  portraitUri: string; // 群头像url
+};
 
 export type FindListType = {
-	applinkaddress: string; // app端链接地址
-	custlinkaddress: string; // 客服人员链接地址	
-	defaultLink: string; // 默认地址	
-	linkIcon	: string; // 链接图标	
-	linkname: string; // app端链接名称	
-	onPwd: 'YES' | 'NO'; // 是否开启密码
-	password: string; // 密码
-	linksetVOS: FindListType[]; // 密码
-}
+  applinkaddress: string; // app端链接地址
+  custlinkaddress: string; // 客服人员链接地址
+  defaultLink: string; // 默认地址
+  linkIcon: string; // 链接图标
+  linkname: string; // app端链接名称
+  onPwd: 'YES' | 'NO'; // 是否开启密码
+  password: string; // 密码
+  linksetVOS: FindListType[]; // 密码
+};
 
 export type FriendListType = {
-	createTime: string;
-	default: boolean;
-	displayName: string;
-	friendUuid: string;
-	lastLoginTime: string;
-	lastLoginTip: string;
-	message: string;
-	msgst: number;
-	nickname: string;
-	onlineSt: 'YES' | 'NO';
-	portraitUri: string;
-	uuid: string;
-}
+  createTime: string;
+  default: boolean;
+  displayName: string;
+  friendUuid: string;
+  lastLoginTime: string;
+  lastLoginTip: string;
+  message: string;
+  msgst: number;
+  nickname: string;
+  onlineSt: 'YES' | 'NO';
+  portraitUri: string;
+  uuid: string;
+};
 
 export enum YCUserInfoTypeEnum {
-	nickname = 1,
-	portraitUri = 2,
-	gender = 3,
-	sign = 4,
-	qqnum = 5,
-	wechat = 6,
-	email = 7,
-	realname = 8,
-	birthday = 9,
+  nickname = 1,
+  portraitUri = 2,
+  gender = 3,
+  sign = 4,
+  qqnum = 5,
+  wechat = 6,
+  email = 7,
+  realname = 8,
+  birthday = 9,
 }
 
 /**
@@ -143,320 +147,520 @@ export enum YCUserInfoTypeEnum {
  *  @desc 用户基类，该类的作用为实现用户相关功能以及属性。
  * */
 export class YCUser extends YCObject implements YCUserInfo {
-	private _id: string;
-	private _name: string;
-	private _logined = false;
-	private _password: string;
-	private _photoUrl: string;
-	private _photoPath: string;
+  private _id: string;
+  private _name: string;
+  private _logined = false;
+  private _password: string;
+  private _photoUrl: string;
+  private _photoPath: string;
+  private _nickname: string;
+  private _gender: 'female' | 'male';
+  private _account: string;
 
-	private _currentChattingFriend: YCFriend;
-	private _chatList: YCFriend[];
+  private _currentChattingFriend: YCFriend;
+  private _friends: YCFriend[];
+  private _groups: YCGroup[];
+  private _owner: YCChat;
 
-	// get 访问器：获取id
-	get id(): string {
-		return this._id;
-	}
+  get owner(): YCChat {
+    return this._owner;
+  }
 
-	// get 访问器：获取用户名
-	get name(): string {
-		return this._name;
-	}
+  // get 访问器：获取id
+  get id(): string {
+    return this._id;
+  }
 
-	// get 访问器：获取密码
-	get password(): string {
-		return this._password;
-	}
+  // get 访问器：获取用户名
+  get name(): string {
+    return this._name;
+  }
 
-	// get 访问器：获取头像URL
-	get photoUrl(): string {
-		return this._photoUrl;
-	}
+  // get 访问器：获取密码
+  get password(): string {
+    return this._password;
+  }
 
-	// get 访问器：获取头像路径
-	get photoPath(): string {
-		return this._photoPath;
-	}
+  // get 访问器：获取头像URL
+  get photoUrl(): string {
+    return this._photoUrl;
+  }
 
-	// get 访问器：获取头像
-	get photo(): string {
-		return this.photoPath || this.photoUrl || '默认头像';
-	}
+  // get 访问器：获取头像路径
+  get photoPath(): string {
+    return this._photoPath;
+  }
 
-	// get 访问器：获取当前用户的激活状态（即是否登录）
-	get logined(): boolean {
-		return this._logined;
-	}
+  // get 访问器：获取头像
+  get photo(): string {
+    return this.photoPath || this.photoUrl || '默认头像';
+  }
 
-	// get 访问器：获取当前正在聊天的
-	get currentChattingFriend(): YCFriend {
-		return this._currentChattingFriend;
-	}
+  // get 访问器：获取当前用户的激活状态（即是否登录）
+  get logined(): boolean {
+    return this._logined;
+  }
 
-	// get 访问器：获取用户名
-	set currentChattingFriend(value: YCFriend) {
-		this._currentChattingFriend = value;
-	}
+  // set 访问器：设置当前用户的激活状态（即是否登录）
+  set logined(value: boolean) {
+    this._logined = value;
+  }
 
-	// get 访问器：获取用户的聊天列表，用以显示界面上
-	get chatList(): YCFriend[] {
-		return this._chatList;
-	}
+  // get 访问器：获取当前正在聊天的
+  get currentChattingFriend(): YCFriend {
+    return this._currentChattingFriend;
+  }
 
-	// 构造函数
-	constructor(owner: YCChat, { id = '', name, password = '', logined = false, photoUrl = '', photoPath = '' }: YCUserInfo) {
-		super();
-		this._id = id;
-		this._name = name;
-		this._password = password;
-		this._logined = logined;
-		this._photoUrl = photoUrl;
-		this._photoPath = photoPath;
-	}
+  // get 访问器：获取用户名
+  set currentChattingFriend(value: YCFriend) {
+    this._currentChattingFriend = value;
+  }
 
-	// 将用户信息转为JSON格式，用于进程间通信或者数据发送
-	public toJson(): string {
-		return JSON.stringify({
-			id: this.id,
-			name: this.name,
-			photo: this.photo
-		});
-	}
+  // get 访问器：获取用户的聊天列表，用以显示界面上
+  get friends(): YCFriend[] {
+    return this._friends;
+  }
 
-	// 静态方法：通过json对象构造一个user对象
-	static fromJson(owner: YCChat, json: string) {
-		const jsonObj: { id: string; name: string } = JSON.parse(json);
-		if (jsonObj.name || jsonObj.id) {
-			throw Error('缺少关键参数id，name');
-		}
-		const user = new YCUser(owner, jsonObj);
-		user._id = jsonObj.id;
-		return user;
-	}
+  get groups(): YCGroup[] {
+    return this._groups;
+  }
 
-	// 删除好友
-	public async deleteFriend(friendId: string, message: string): Promise<{
-		status: boolean;
-		msg: string;
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.deleteFriend, {
-			message,
-			uuid: friendId
-		});
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // get 访问器：获取当前用户的昵称
+  get nickname(): string {
+    return this._nickname;
+  }
 
-	// 查询所有好友
-	public async queryAllFriend(): Promise<{
-		status: boolean;
-		msg: string;
-		friendList?: FriendListType[];
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.queryAllFriend);
-		// 查找成功
-		if (result.rst) {
-			return {
-				status: result.rst,
-				msg: result.msg,
-				friendList: result.cont
-			};
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // set 访问器：设置当前用户的昵称
+  set nickname(value: string) {
+    this._nickname = value;
+  }
 
-	// 添加好友申请
-	public async addFriend(friendId: string, message: string): Promise<{
-		status: boolean;
-		msg: string;
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.addFriend, {
-			message,
-			uuid: friendId
-		});
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // get 访问器：获取当前用户的性别
+  get gender(): 'female' | 'male' {
+    return this._gender;
+  }
 
-	// 根据账号查找好友
-	public async findFriendByAccount(account: string): Promise<{
-		status: boolean;
-		msg: string;
-		details?: YCUserDetails;
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.getFriendInfoByAccount, {
-			account
-		});
-		// 查找成功
-		if (result.rst) {
-			return {
-				status: result.rst,
-				msg: result.msg,
-				details: result.cont
-			};
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // set 访问器：设置当前用户的性别
+  set gender(value: 'female' | 'male') {
+    this._gender = value;
+  }
 
-	// 上传媒体资源至阿里OSS
-	public async upLoadMediaResource() {
+  // get 访问器：获取当前用户的账号名
+  get account(): string {
+    return this._account;
+  }
 
-	}
+  // 构造函数
+  constructor(
+    owner: YCChat,
+    {
+      id = '',
+      name,
+      password = '',
+      logined = false,
+      photoUrl = '',
+      photoPath = '',
+    }: YCUserInfo
+  ) {
+    super();
+    this._id = id;
+    this._name = name;
+    this._password = password;
+    this._logined = logined;
+    this._photoUrl = photoUrl;
+    this._photoPath = photoPath;
+    this._owner = owner;
+  }
 
-	// 创建群聊
-	public async createGroupChat(options: createGroupChatOptions): Promise<{ 
-		status: boolean; 
-		msg: string;
-		groupInfo?: {
-			maxMemberCount: number;
-			memberCount: number;
-			uuid: string;
-		}
-	}> {
-		// 1. 创建群组
-		const result = await chatHttp.post(YCHttpInterfaceEnum.createGroupChat, options);
-		// 修改成功
-		if (result.rst) {
-			return {
-				status: result.rst,
-				msg: result.msg,
-				groupInfo: result.cont
-			};
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-		// 2. 创建群组会话（用以在界面显示，群组会话保存在owner的conversationList属性上）
-	}
+  // 初始化方法
+  // 1. 构建好友对象
+  public async init() {
+    // 初始化本地数据库
+    
+    // 初始化好友列表
+    await this.initFriends();
 
-	// 修改密码
-	public async updatePassword(options: updatePasswordOptions): Promise<{ status: boolean; msg: string }> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, options);
-		// 修改成功
-		if (result.rst) {
-			this['_password'] = options.newPwd;
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+    // 初始化群组列表
+    await this.initGroups();
+  }
 
-	// 忘记密码
-	public async forgetPassword(options: forgetPasswordOptions): Promise<{ status: boolean; msg: string }> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.forgotPassword, options);
-		// 修改成功
-		if (result.rst) {
-			this['_password'] = options.newPwd;
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // 将用户信息转为JSON格式，用于进程间通信或者数据发送
+  public toJson(): string {
+    return JSON.stringify({
+      id: this.id,
+      name: this.name,
+      photo: this.photo,
+    });
+  }
 
-	// 获取发现页列表
-	public async getFindList(): Promise<{ 
-		status: boolean; 
-		msg: string;
-		findList?: FindListType
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.getFindLink, {});
-		// 修改成功
-		if (result.rst) {
-			return {
-				status: result.rst,
-				msg: result.msg,
-				findList: result.cont
-			}
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // 静态方法：通过json对象构造一个user对象
+  static fromJson(owner: YCChat, json: string) {
+    const jsonObj: { id: string; name: string } = JSON.parse(json);
+    if (jsonObj.name || jsonObj.id) {
+      throw Error('缺少关键参数id，name');
+    }
+    const user = new YCUser(owner, jsonObj);
+    user._id = jsonObj.id;
+    return user;
+  }
 
-	// 修改用户信息
-	public async updateSelfInfo(type: YCUserInfoTypeEnum, value: string): Promise<{ status: boolean; msg: string }> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.updateInfo, {
-			type,
-			value
-		});
+  // 删除好友
+  public async deleteFriend(
+    friendId: string,
+    message: string
+  ): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.deleteFriend, {
+      message,
+      uuid: friendId,
+    });
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
 
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // 查询所有好友
+  public async queryAllFriend(): Promise<{
+    status: boolean;
+    msg: string;
+    friends?: FriendListType[];
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.queryAllFriend);
+    // 查找成功
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        friends: result.cont,
+      };
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
 
-	// 批量修改用户信息
-	public async batchUpdateSelfInfo(gender: string, nickname: string, portraitUri: string): Promise<{ status: boolean; msg: string }> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.batchUpdateInfo, {
-			gender,
-			nickname,
-			portraitUri
-		});
+  public async initFriends() {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.queryAllFriend);
+    console.log(`getAllGroups result`);
+    console.log(result);
+    if (result.rst) {
+      const friends = [];
+      const friendInfoList = result.cont as YCFriendInfo[];
+      friendInfoList.forEach((item) => {
+        friends.push(
+          new YCFriend({
+            uuid: item.uuid,
+            friendUuid: item.friendUuid,
+            portraitUri: item.portraitUri,
+            nickname: item.nickname,
+            gender: item.gender,
+            account: item.account,
+            displayName: item.displayName,
+            onlineSt: item.onlineSt,
+            lastLoginTip: item.lastLoginTip,
+            lastLoginTime: item.lastLoginTime,
+            createTime: item.createTime,
+            message: item.message,
+            msgst: item.msgst,
+          })
+        );
+      });
+      this._friends = friends;
+      console.log(friends);
+    } else {
+      throw new Error(`初始化好友列表失败，详细信息: ${result.msg}`);
+    }
+  }
 
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // 添加好友申请
+  public async addFriend(
+    friendId: string,
+    message: string
+  ): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.addFriend, {
+      message,
+      uuid: friendId,
+    });
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
 
-	// 查询用户信息
-	public async querySelfInfo(): Promise<{ 
-		status: boolean; 
-		msg: string;
-		info?: YCUserDetails;
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, {
-			uuid: this.id
-		});
-		// 修改成功
-		if (result.rst) {
-			return {
-				status: result.rst,
-				msg: result.msg,
-				info: result.cont
-			}
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // 根据账号查找好友
+  public async findFriendByAccount(account: string): Promise<{
+    status: boolean;
+    msg: string;
+    details?: YCUserDetails;
+  }> {
+    const result = await chatHttp.post(
+      YCHttpInterfaceEnum.getFriendInfoByAccount,
+      {
+        account,
+      }
+    );
+    // 查找成功
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        details: result.cont,
+      };
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
 
-	// 查询表情列表
-	public async queryMemeList(): Promise<{ 
-		status: boolean; 
-		msg: string;
-		list?: {
-			path: string;
-			uuid: string;
-		}[];
-	}> {
-		const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword);
-		if (result.rst) {
-			return {
-				status: result.rst,
-				msg: result.msg,
-				list: result.cont || []
-			}
-		}
-		return {
-			status: result.rst,
-			msg: result.msg
-		};
-	}
+  // 上传媒体资源至阿里OSS
+  public async upLoadMediaResource(filePath: string, uploadProgress?: (p: any) => void) {
+    // const result = await chatHttp.post(YCHttpInterfaceEnum.getAliOssSts);
+    // const {accessKeyId, accessKeySecret, bucketName, endpoint, expiration, securityToken} = result.cont;
+
+    // AliyunOSS.enableOSSLog();
+    // const config = {
+    //   AccessKey: accessKeyId,  // your accessKeyId
+    //   SecretKey: accessKeySecret, // your accessKeySecret
+    //   SecretToken: securityToken, // your securityToken
+    // };
+    // const endPoint = endpoint; // your endPoint
+    // // 初始化阿里云组件
+    // AliyunOSS.initWithKey(config, endPoint);
+    // // upload config
+    // const uploadConfig = {
+    //   bucketName: bucketName,  //your bucketName
+    //   sourceFile: filePath, // local file path
+    //   ossFile: '' // the file path uploaded to oss
+    // };
+    // // 上传进度
+    // uploadProgress = uploadProgress || function (p) {
+    //   console.log(p.currentSize / p.totalSize);
+    // };
+    // // 增加上传事件监听
+    // AliyunOSS.addEventListener('uploadProgress', uploadProgress);
+    // // 执行上传
+    // await AliyunOSS.uploadObjectAsync(uploadConfig);
+    // // 去除事件监听
+    // AliyunOSS.removeEventListener('uploadProgress', uploadProgress);
+  }
+
+  // 创建群聊
+  public async createGroupChat(options: createGroupChatOptions): Promise<{
+    group: YCGroup;
+    conversation: YCConversation;
+  }> {
+    // 1. 创建群组
+    const result = await chatHttp.post(
+      YCHttpInterfaceEnum.createGroupChat,
+      options
+    );
+    // 修改成功
+    if (result.rst) {
+      const group = new YCGroup({
+        name: result.cont.name,
+        portraitUri: result.cont.portraitUri,
+        uuid: result.cont.uuid,
+        memberCount: result.cont.memberCount,
+        maxMemberCount: result.cont.maxMemberCount,
+        creatorUuid: result.cont.creatorUuid,
+        canShowAllMember: result.cont.canShowAllMember,
+        canAddManagerFriend: result.cont.canAddManagerFriend,
+        canAddFriend: result.cont.canAddFriend,
+        allCanSay: result.cont.allCanSay,
+      });
+      this.groups.push(group);
+      const conversation = this.owner.createConversation(
+        group.id,
+        ConversationType.GROUP
+      );
+      return {
+        group,
+        conversation,
+      };
+    }
+  }
+
+  // 修改密码
+  public async updatePassword(
+    options: updatePasswordOptions
+  ): Promise<{ status: boolean; msg: string }> {
+    const result = await chatHttp.post(
+      YCHttpInterfaceEnum.updatePassword,
+      options
+    );
+    // 修改成功
+    if (result.rst) {
+      this['_password'] = options.newPwd;
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 忘记密码
+  public async forgetPassword(
+    options: forgetPasswordOptions
+  ): Promise<{ status: boolean; msg: string }> {
+    const result = await chatHttp.post(
+      YCHttpInterfaceEnum.forgotPassword,
+      options
+    );
+    // 修改成功
+    if (result.rst) {
+      this['_password'] = options.newPwd;
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 获取发现页列表
+  public async getFindList(): Promise<{
+    status: boolean;
+    msg: string;
+    findList?: FindListType;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.getFindLink, {});
+    // 修改成功
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        findList: result.cont,
+      };
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 修改用户信息
+  public async updateSelfInfo(
+    type: YCUserInfoTypeEnum,
+    value: string
+  ): Promise<{ status: boolean; msg: string }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.updateInfo, {
+      type,
+      value,
+    });
+
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 批量修改用户信息
+  public async batchUpdateSelfInfo(
+    gender: string,
+    nickname: string,
+    portraitUri: string
+  ): Promise<{ status: boolean; msg: string }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.batchUpdateInfo, {
+      gender,
+      nickname,
+      portraitUri,
+    });
+
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 查询用户信息
+  public async querySelfInfo(): Promise<{
+    status: boolean;
+    msg: string;
+    info?: YCUserDetails;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword, {
+      uuid: this.id,
+    });
+    // 修改成功
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        info: result.cont,
+      };
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 查询表情列表
+  public async queryMemeList(): Promise<{
+    status: boolean;
+    msg: string;
+    list?: {
+      path: string;
+      uuid: string;
+    }[];
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.updatePassword);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        list: result.cont || [],
+      };
+    }
+    return {
+      status: result.rst,
+      msg: result.msg,
+    };
+  }
+
+  // 根据好友ID获取好友
+  public getFriend(friendId: string): YCFriend {
+    return this.friends.find((friend) => friend.id === friendId);
+  }
+
+  // 根据群组ID获取群组
+  public getGroup(groupId: string): YCGroup {
+    return this.groups.find((group) => group.id === groupId);
+  }
+
+  public async initGroups() {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.getAllGroups);
+    console.log(`getAllGroups result`);
+    console.log(result);
+    if (result.rst) {
+      const groups = [];
+      const groupInfoList = result.cont as YCGroupInfo[];
+      groupInfoList && groupInfoList.forEach((item) => {
+        groups.push(
+          new YCGroup({
+            name: item.name,
+            portraitUri: item.portraitUri,
+            uuid: item.uuid,
+            memberCount: item.memberCount,
+            maxMemberCount: item.maxMemberCount,
+            creatorUuid: item.creatorUuid,
+            canShowAllMember: item.canShowAllMember,
+            canAddManagerFriend: item.canAddManagerFriend,
+            canAddFriend: item.canAddFriend,
+            allCanSay: item.allCanSay,
+          })
+        );
+      });
+      this._groups = groups;
+    } else {
+      throw new Error(`初始化群组失败，详细信息: ${result.msg}`);
+    }
+  }
 }

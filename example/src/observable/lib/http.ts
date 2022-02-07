@@ -2,13 +2,13 @@
  * @module chat
  * @description 此模块为所有类的基类，维护所有类通用的公共属性，公共方法。
  */
-
+ import { YCObject } from './base';
 import sha1 from 'sha1';
 import { API_VER, CLIENT, CLIENT_TYPE, CLIENT_VER } from '../../utils';
-import { YCObject } from './base';
 import md5 from 'md5';
 
 export enum YCHttpInterfaceEnum {
+	getAppKeyAndToken = '/kkrp/ryim/get_token', // 获取appKey和Token
 	getVersion = '/kkrp/app_version/find', // 获取版本
 	login = '/kkrp/member/login', // 登录
 	logout = '/kkrp/member/logout', //注销
@@ -30,7 +30,10 @@ export enum YCHttpInterfaceEnum {
 	setDisplayName = '/kkrp/member/friend/set_display_name', // 设置备注
 	updateInfo = '/kkrp/member/update', // 修改头像、昵称、性别、个性签名
 	batchUpdateInfo = '/kkrp/member/update', // 批量修改头像、昵称、性别
-	getMeme = '/kkrp/user_picture/list_all' // 获取表情列表
+	getMeme = '/kkrp/user_picture/list_all', // 获取表情列表
+	getAllGroups = '/kkrp/im_group/show_groups', // 获取用户所有群组
+	getAliOssSts = '/kkrp/ali_oss/sts', // 获取ali-oss sts
+	upLoadImageResource = '/hx_file/file/upload/nenc'  // 上传图片
 }
 
 export type YCResultExt = {
@@ -124,6 +127,35 @@ class YCHttp extends YCObject {
 					...headers
 				},
 				body: content ? JSON.stringify(content) : '{}'
+			});
+			const result: YCHttpResultType = await response.json();
+			this._lastResponse = JSON.stringify(result);
+			if (result.code !== YCHttpResponseCodeEnum.ok) {
+				console.log(result.msg);
+				throw new Error(`请求失败: code: ${result.code}, msg: ${result.msg}`);
+			}
+			return result;
+		} catch (error) {
+			console.log(`Post ${this.baseUrl}${path} Error`);
+			console.log(error);
+			throw error;
+		}
+	}
+
+	public async uploadResources(path: YCHttpInterfaceEnum, content?: Record<string, any>, headers?: Headers | string[][] | { [key: string]: string }, queryParams: string = '') {
+		this.verifyParams();
+		
+		try {
+			let param = new FormData();
+			param.append('file', content.image);
+			const response = await fetch(`${this.baseUrl}${path}`, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'multipart/form-data',
+					...headers
+				},
+				body: param
 			});
 			const result: YCHttpResultType = await response.json();
 			this._lastResponse = JSON.stringify(result);
