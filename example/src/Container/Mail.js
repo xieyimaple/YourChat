@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import { Header, ListItem, Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons'
 import DropMenu from '../components/DropMenu';
 import { connect } from 'react-redux';
 import config from '../Config/index';
@@ -63,11 +64,12 @@ class Mail extends React.Component {
       <View>
         <ListItem 
           onPress={() => {this.props.navigation.navigate('NewFriends')}} 
-          bottomDivider>
+          bottomDivider
+          style={{height: 66}}
+          containerStyle={{height: 66}}>
           <Avatar
-            source={{
-              uri: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
-            }}
+            icon={{name: 'account-plus', type: 'material-community'}}
+            iconStyle={{backgroundColor: '#fbcf52', color: 'white',height: 33.8,width: 33.8}}
           />
           <ListItem.Content>
             <ListItem.Title>
@@ -77,11 +79,12 @@ class Mail extends React.Component {
         </ListItem>
         <ListItem
           onPress={() => {this.props.navigation.navigate('GroupList')}} 
-          bottomDivider>
+          bottomDivider
+          style={{height: 66}}
+          containerStyle={{height: 66}}>
           <Avatar
-            source={{
-              uri: 'https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4',
-            }}
+            icon={{name: 'account-group', type: 'material-community'}}
+            iconStyle={{backgroundColor: '#448ef1', color: 'white', height: 33.8, width: 33.8}}
           />
           <ListItem.Content>
             <ListItem.Title>
