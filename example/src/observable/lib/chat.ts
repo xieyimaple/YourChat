@@ -22,6 +22,15 @@ export class YCChat extends YCObject {
 	private _config: YCConfig;
 	private _client: YCRongCloudServe;
 	private _conversationList: YCConversation[] = [];
+	private _currentConversation: YCConversation;
+
+	get currentConversation(): YCConversation {
+		return this._currentConversation;
+	}
+
+	set currentConversation(value: YCConversation) {
+		this._currentConversation = value;
+	}
 
 	get currentUser(): YCUser {
 		return this._currentUser;
@@ -75,6 +84,9 @@ export class YCChat extends YCObject {
 
 	public getConversation(targetId: string, conversationType: ConversationType) {
 		// 从会话列表中查找
+		console.log('get conversation')
+		console.log(targetId);
+		console.log(conversationType);
 		let targetConversation = this.conversationList.find(conversation => {
 			return conversation.targetId === targetId;
 		});

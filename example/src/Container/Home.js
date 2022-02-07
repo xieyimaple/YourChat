@@ -14,7 +14,7 @@ import {Text, TouchableOpacity, View, TouchableWithoutFeedback, FlatList} from "
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropMenu from '../components/DropMenu'
 import ApiUtil from '../Service/ApiUtil'
-import {getFriendList, getGroupList} from "../Service/action";
+import {initFriends, getGroupList} from "../Service/action";
 import {connect} from "react-redux";
 import { DeleteTalkList} from "../Redux/actionCreators";
 import Toast from "react-native-root-toast";
@@ -47,7 +47,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     const user = this.props.user;
-    this.props.getFriendList();
+    this.props.initFriends();
     this.props.getGroupList();
   }
 
@@ -241,8 +241,8 @@ const mapDispatch = dispatch => ({
   init(param){
     dispatch()
   },
-  getFriendList(param) {
-    dispatch(getFriendList(param))
+  initFriends(param) {
+    dispatch(initFriends(param))
   },
   getGroupList(param) {
     dispatch(getGroupList(param))

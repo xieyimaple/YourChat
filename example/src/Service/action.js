@@ -70,12 +70,12 @@ export const register = (param) => async (dispatch) => {
   }
 }
 
-export const getFriendList=(param)=> async (dispatch) => {
+export const initFriends=(param)=> async (dispatch) => {
   try {
     const chat = YCChat.getInstance();
-    const result = await chat.currentUser.queryAllFriend();
+    const result = await chat.currentUser.initFriends();
     if (result.status) {
-      dispatch(GetFriendList(result.friends))
+      dispatch(initFriends(result.friends))
     }
   } catch {
 
@@ -98,8 +98,10 @@ export const init=(param)=> async (dispatch) => {
   try {
     const chat = YCChat.getInstance();
     await chat.currentUser.init();
+    if (result.status) {
+      dispatch(init(result))
+    }
   } catch {
-
   }
 }
 

@@ -5,31 +5,62 @@ import { GiftedChat,Bubble,Send } from 'react-native-gifted-chat';
 import 'dayjs/locale/zh-cn';
 import {View,Text,StyleSheet,SafeAreaView,TouchableOpacity} from 'react-native';
 import {Header} from "react-native-elements";
-import MainView from '../components/MainView'
+import { YCChat } from '../observable/lib/chat';
+import { ConversationType } from '@rongcloud/react-native-imlib';
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 
+const dataConversion = (messageList, _user) => {
+    let messageObj = {};
+    let messageArray = [];
+    for(let i = messageList.length - 1 ; i > 0; i--) {
+        let item = messageList[i];
+        messageObj = {
+            _id: item.messageId,
+            text: item.content.content,
+            createdAt: new Date(item.sentTime),
+            user: {
+                _id: item.senderUserId,
+                name: _user.nickname,
+                avatar: _user.portraitUri,
+            }
+        };
+        messageArray.push(messageObj);
+    }
+    return messageArray;
+};
+
 export default function ChatView(props) {
     const [messages, setMessages] = useState([]);
     const _user = props.navigation.getParam('user');
+
+    const chat = YCChat.getInstance();
+    console.log('chatView')
+    console.log(_user);
+    
     const toName = _user.hasOwnProperty('_allCanSay') ? _user._name : _user.username;
     const toId = _user._id;
+    
+
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: '码农先生，开始聊天吧！',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-        ])
+        let conversation = chat.getConversation(toId, _user.hasOwnProperty('_allCanSay') ? ConversationType.GROUP : ConversationType.PRIVATE);
+        (async () => {
+            await conversation.open();
+            conversation.addListener('receive-text-message', (message) => {
+                console.log(`message: `);
+                console.log(message);
+                setMessages(dataConversion(conversation.messageList, _user));
+            });
+            setMessages(dataConversion(conversation.messageList, _user));
+        })();
+
+        return () => {
+            conversation.removeAllListeners('receive-text-message');
+        }
     }, []);
-    const onSend = useCallback((msg = []) => {
+    const onSend = useCallback(async (msg = []) => {
+        await chat.currentConversation.sendTextMessage(msg[0].text);
         setMessages(previousMessages => GiftedChat.append(previousMessages, msg))
     }, []);
 
@@ -71,10 +102,6 @@ export default function ChatView(props) {
       <><Header
         placement="left"
         leftComponent={<TouchableOpacity onPress={() => {
-          // if(lastMessage.text){
-          //   this.props.addRoomLastMsg({'roomId': this.state.roomId, 'message': lastMessage})
-          // }
-          // props.deleteRoomUnReadMsg({'roomId': this.state.roomId})
           props.navigation.goBack();
         } }>
           <FontAwesome name={'angle-left'} size={24} color={'black'}
@@ -111,9 +138,9 @@ export default function ChatView(props) {
             inverted={true}
             renderUsernameOnMessage={true}
             user={{
-              _id: 50,
-              name: '阳光',
-              avatar: 'https://placeimg.com/140/140/any',
+              _id: chat.currentUser._id,
+              name: chat.currentUser.nickname,
+              avatar: chat.currentUser._photoUrl,
             }}
             alignTop={true} />
         </SafeAreaView></>
@@ -135,21 +162,3 @@ const styles = StyleSheet.create({
         marginRight:5,
     }
 });
-
-// const mapState = state => ({
-//   user: state.UserReducer.get('user'),
-// })
-
-// const mapDispatch = dispatch => ({
-//   addRoomLastMsg(param){
-//     dispatch(AddRoomLastMsg(param))
-//   },
-//   deleteRoomUnReadMsg(param){
-//     dispatch(DeleteRoomUnReadMsg(param))
-//   }
-// })
-
-// export default connect(
-//   mapState,
-//   mapDispatch
-// )(ChatView)

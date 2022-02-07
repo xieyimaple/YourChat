@@ -53,7 +53,7 @@ class Me extends React.Component {
             <Text style={Styles.notes}>{this.props.user._nickname || ''}</Text>
           </View>
           <View style={ Styles.iconRight }>
-            <AntDesign name={'right'} size={20} />
+            <AntDesign style={{marginLeft:'5%'}} name={'right'} size={20} />
           </View> 
         </ListItem>
 

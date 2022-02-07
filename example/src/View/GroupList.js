@@ -45,7 +45,6 @@ class GroupList extends React.Component {
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item }) => {
-    console.log(item.portraitUri)
     return (
       <TouchableOpacity
         onPress={() => {

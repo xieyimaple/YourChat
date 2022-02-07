@@ -37,25 +37,23 @@ class UserView extends React.Component{
       height: 400,
       cropping: true
     }).then(async image => {
-      console.log(image);
-      const result = await this.uploadImage(image.path)
-      const filename = JSON.parse(result.body).filename
-      const userId = this.props.user.id
-      ApiUtil.request('changeAvatar',{
-        userId,
-        'avatar': filename
-      }).then((result)=>{
-        if(result.data.errno === 0){
-          Toast.show(result.data.msg,{
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER
-          })
-          this.props.updateUser({
-            'key': 'avatar',
-            'value': filename
-          })
-        }
-      })
+      const chat = YCChat.getInstance();
+      let filename = image.path.substring(image.path.lastIndexOf('/') + 1, image.path.length);
+      image.type = image.mime;
+      image.name = filename;
+      image.webkitRelativePath = image.path;
+      image.uri = image.path;
+      //const result = await this.props.uploadImage(image)
+      const uploadResult = await chat.validator.upLoadImageResource({
+        image
+      });
+      this.props.user._photoUrl = uploadResult.cont.url;
+      let result = await chat.currentUser.updateSelfInfo(2,this.props.user._photoUrl);
+      console.log(result);
+      Toast.show('修改成功',{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      });
     });
   }
 

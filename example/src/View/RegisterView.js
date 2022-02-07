@@ -35,7 +35,7 @@ class RegisterView extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      Avatar: "http://h1.kk-api.com/jpg/2022/02/07/ce9b8c3d7bb6411bba290c9aa91a60ac.jpg",
+      uri: "",
       nickname: "",
       username: "",
       checked: false,
@@ -74,7 +74,8 @@ class RegisterView extends React.Component{
         image
       });
       this.setState({
-        Avatar: result.cont.url
+        ...this.state,
+        uri: result.cont.url
       })
       console.log('回调结果');
       console.log(result.cont.url);
@@ -128,9 +129,7 @@ class RegisterView extends React.Component{
                   <Text>上传头像</Text>
                 </ListItem.Title>
               </ListItem.Content>
-              <Avatar source={{
-                  uri: this.state.Avatar
-                }} 
+              <Avatar source={this.state} 
                 onPress={this.uploadAvatar}
                 size="large"
                 rounded />

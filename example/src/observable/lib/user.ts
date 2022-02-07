@@ -153,12 +153,12 @@ export class YCUser extends YCObject implements YCUserInfo {
   private _password: string;
   private _photoUrl: string;
   private _photoPath: string;
-  private _nickname: string;
+  private _nickname: string = 'a';
   private _gender: 'female' | 'male';
   private _account: string;
 
   private _currentChattingFriend: YCFriend;
-  private _friends: YCFriend[];
+  private _friends: YCFriend[] = [];
   private _groups: YCGroup[];
   private _owner: YCChat;
 
@@ -345,8 +345,6 @@ export class YCUser extends YCObject implements YCUserInfo {
 
   public async initFriends() {
     const result = await chatHttp.post(YCHttpInterfaceEnum.queryAllFriend);
-    console.log(`getAllGroups result`);
-    console.log(result);
     if (result.rst) {
       const friends = [];
       const friendInfoList = result.cont as YCFriendInfo[];
@@ -370,7 +368,6 @@ export class YCUser extends YCObject implements YCUserInfo {
         );
       });
       this._friends = friends;
-      console.log(friends);
     } else {
       throw new Error(`初始化好友列表失败，详细信息: ${result.msg}`);
     }

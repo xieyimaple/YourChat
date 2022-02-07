@@ -36,8 +36,6 @@ class UserDetail extends React.Component{
   }
 
   UNSAFE_componentWillMount() {
-    console.log('userdetail');
-    console.log(this.props.friendList);
     this.props.friendList.some((item, index)=>{
       if(item.nickname === this.state.user.nickname){
         this.setState({
@@ -52,29 +50,16 @@ class UserDetail extends React.Component{
   }
 
   deleteFriend= async () => {
-    const result = await chat.currentUser.deleteFriend(user.uuid, '');
-      Toast.show(result.data.msg, {
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER
-      });
-      this.props.navigation.navigate('Mail')
+    console.log('userdetail');
+    console.log(this.state.user.uuid);
+    const result = await chat.currentUser.deleteFriend(this.state.user.uuid, '');
+    console.log(result);
+    Toast.show(result.data.msg, {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER
+    });
+    this.props.navigation.navigate('Mail')
 
-      // ApiUtil.request('deleteFriend', {
-      //   'selfId': this.props.self.id,
-      //   'friendId': this.state.user._id
-      // }, true).then((result)=>{
-      //   if(result.data.errno === 0){
-
-      //     this.props.deleteFriend({'username': this.state.user.username})
-
-      //     Toast.show(result.data.msg,{
-      //       duration: Toast.durations.SHORT,
-      //       position: Toast.positions.CENTER
-      //     })
-
-      //     this.props.navigation.navigate('Mail')
-      //   }
-      // })
   }
 
   goChat=()=>{
