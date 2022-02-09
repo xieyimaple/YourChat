@@ -26,6 +26,8 @@ import GroupManageSelf from '../View/GroupManageSelf'
 import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
 import CreateGroup from '../View/CreateGroup';
+import AddRole from '../View/AddRole';
+import DelRole from '../View/DelRole';
 import AddMembers from '../View/AddMembers';
 import RemoveMembers from '../View/RemoveMembers';
 import UpdateGroupNotice from '../View/UpdateGroupNotice';
@@ -133,6 +135,18 @@ const MainNavigator = createStackNavigator({
   },
   CreateGroup: {
     screen: CreateGroup,
+    navigationOptions: {
+      header: null
+    }
+  },
+  AddRole: {
+    screen: AddRole,
+    navigationOptions: {
+      header: null
+    }
+  },
+  DelRole: {
+    screen: DelRole,
     navigationOptions: {
       header: null
     }

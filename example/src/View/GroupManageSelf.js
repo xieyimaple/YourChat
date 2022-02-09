@@ -28,8 +28,7 @@ class GroupManageSelf extends React.Component{
     super(props);
     this.state = {
       allowNotice: true,
-      groupId: this.props.navigation.state.params.groupId,
-      members: []
+      groupId: this.props.navigation.state.params.groupId
     }
   }
 
@@ -57,10 +56,18 @@ class GroupManageSelf extends React.Component{
         />
         <ListItem containerStyle={Styles.listItem}
                   onPress={() => {
-                    console.log('群管理');
+                    this.props.navigation.navigate('AddRole', { groupId: this.state.groupId });
                   }}>
           <ListItem.Title>
             <Text>设置管理员</Text>
+          </ListItem.Title>
+        </ListItem>
+        <ListItem containerStyle={Styles.listItem}
+                  onPress={() => {
+                    this.props.navigation.navigate('DelRole', { groupId: this.state.groupId });
+                  }}>
+          <ListItem.Title>
+            <Text>取消管理员</Text>
           </ListItem.Title>
         </ListItem>
         <ListItem containerStyle={Styles.listItem}

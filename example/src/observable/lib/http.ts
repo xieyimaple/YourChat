@@ -41,6 +41,9 @@ export enum YCHttpInterfaceEnum {
 	removeMember = '/kkrp/im_group/group_remove_member', //群删除成员
 	updateGroupNotice = '/kkrp/im_group/update_notice', // 更新群公告
 	groupTransfer = '/kkrp/im_group/group_transfer', // 转让群主
+	getManage = '/kkrp/im_group/get_manage', // 管理员列表
+	setRole = '/kkrp/im_group/set_role', // 设置管理员
+	delRole = '/kkrp/im_group/del_role' // 解除管理员
 }
 
 export type YCResultExt = {

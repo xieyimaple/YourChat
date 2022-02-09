@@ -727,6 +727,68 @@ export class YCUser extends YCObject implements YCUserInfo {
     }
   }
 
+  // 获取群组管理员
+  public async getManage(guuid: string, page: number, limit: number): Promise<{
+    status: boolean;
+    msg: string;
+    cont: [];
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.getManage, {
+      guuid,
+      page,
+      limit
+    });
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        cont: result.cont
+      }
+    } else {
+      throw new Error(`获取群成员失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // 删除群管理员
+  public async delRole(groupId: string, memberId: string[]): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.delRole, {
+      groupId,
+      memberId
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`删除群管理失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // 设置群管理员
+  public async setRole(groupId: string, memberId: string[]): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.setRole, {
+      groupId,
+      memberId
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`删除群管理失败，详细信息: ${result.msg}`);
+    }
+  }
+
   // 转让群主
   public async groupTransfer(guuid: string, muuid: string): Promise<{
     status: boolean;
