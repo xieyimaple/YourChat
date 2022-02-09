@@ -204,7 +204,7 @@ class GroupManage extends React.Component{
           this.state._group._creatorId === this.props.user._id ? 
           <ListItem containerStyle={Styles.listItem}
                     onPress={() => {
-                      console.log('群管理');
+                      this.props.navigation.navigate('GroupManageSelf', { groupId: this.state._group._id });
                     }}>
             <ListItem.Title>
               <Text>群管理</Text>

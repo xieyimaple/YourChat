@@ -39,7 +39,8 @@ export enum YCHttpInterfaceEnum {
 	showMember = '/kkrp/im_group/show_member', // 获取群成员（分页） TODO
 	addMember = '/kkrp/im_group/group_add_member', // 群增加成员
 	removeMember = '/kkrp/im_group/group_remove_member', //群删除成员
-	updateGroupNotice = '/kkrp/im_group/update_notice'
+	updateGroupNotice = '/kkrp/im_group/update_notice', // 更新群公告
+	groupTransfer = '/kkrp/im_group/group_transfer', // 转让群主
 }
 
 export type YCResultExt = {

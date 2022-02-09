@@ -727,6 +727,26 @@ export class YCUser extends YCObject implements YCUserInfo {
     }
   }
 
+  // 转让群主
+  public async groupTransfer(guuid: string, muuid: string): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.groupTransfer, {
+      guuid,
+      muuid
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`退出群失败，详细信息: ${result.msg}`);
+    }
+  }
+
   // 退出群
   public async quitGroupChat(groupId: string): Promise<{
     status: boolean;

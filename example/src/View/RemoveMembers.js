@@ -34,10 +34,26 @@ class RemoveMembers extends React.Component{
     this.state = {
       users: [],
       groupId: this.props.navigation.state.params.groupId,
-      members: this.props.navigation.state.params.members,
+      members: [],
+      isTransfer: this.props.navigation.state.params.isTransfer,
       search: '',
       beforeSearchList: []
     };
+  }
+
+  componentDidMount() {
+    this.getMembers()
+  }
+
+  getMembers = async () => {
+    let result = await chat.currentUser.showMember(this.state.groupId);
+    let members = result.cont;
+    if(result.status){
+      this.setState({
+        ...this.state,
+        members
+      })
+    }
   }
 
   search= () => {
@@ -138,15 +154,43 @@ class RemoveMembers extends React.Component{
         }
       })
     }
+    if(this.state.isTransfer){
+      if(users.length>1){
+        console.log('超过转让人数上限');
+        Toast.show('超过转让人数上限',{
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER
+        })
+        return;
+      }
+      let result = await chat.currentUser.groupTransfer(this.state.groupId, users[0]);
+      Toast.show(result.msg,{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      })
+      if(result.status){
+        this.props.navigation.goBack();
+        this.props.navigation.state.params.callback();
+      }
+    }else{
+      let users = [];
+      if(this.state.users){
+        this.state.users.find((item)=> {
+          if(item.checked){
+            users.push(item.uuid);
+          }
+        })
+      }
 
-    let result = await chat.currentUser.removeMember(this.state.groupId, users);
-    Toast.show(result.msg,{
-      duration: Toast.durations.SHORT,
-      position: Toast.positions.CENTER
-    })
-    if(result.status){
-      this.props.navigation.goBack();
-      this.props.navigation.state.params.callback();
+      let result = await chat.currentUser.removeMember(this.state.groupId, users);
+      Toast.show(result.msg,{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      })
+      if(result.status){
+        this.props.navigation.goBack();
+        this.props.navigation.state.params.callback();
+      }
     }
   }
 
@@ -188,7 +232,7 @@ class RemoveMembers extends React.Component{
               </FontAwesome>
             </TouchableOpacity>
           }
-          centerComponent={{ text: '删除成员', style: { color: 'black', fontSize: 16 } }}
+          centerComponent={{ text: this.state.isTransfer ? '转让群主': '删除成员', style: { color: 'black', fontSize: 16 } }}
           rightComponent={
             <Button
               title={'确定'}
@@ -201,9 +245,8 @@ class RemoveMembers extends React.Component{
           containerStyle={Styles.headerContainer}
         />
 
-        {/*搜索框*/}
 
-        <SearchBar
+        {/* <SearchBar
           platform={'android'}
           placeholder="搜索好友"
           value={this.state.search}
@@ -213,7 +256,6 @@ class RemoveMembers extends React.Component{
           onChangeText={this.updateSearch}
         />
 
-        {/*搜索内容*/}
         {
           this.state.search!==''?
             <ListItem
@@ -224,7 +266,7 @@ class RemoveMembers extends React.Component{
                 <Text>{"搜索:"+this.state.search}</Text>
               </ListItem.Title>
             </ListItem> : null
-        }
+        } */}
         
         {/*通讯列表*/}
         <SectionList
