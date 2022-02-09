@@ -14,20 +14,41 @@ import Entypo from "react-native-vector-icons/Entypo";
 const dataConversion = (messageList, _user) => {
     let messageObj = {};
     let messageArray = [];
-    for(let i = messageList.length - 1 ; i > 0; i--) {
-        let item = messageList[i];
-        messageObj = {
-            _id: item.messageId,
-            text: item.content.content,
-            createdAt: new Date(item.sentTime),
-            user: {
-                _id: item.senderUserId,
-                name: _user.nickname,
-                avatar: _user.portraitUri,
-            }
-        };
-        messageArray.push(messageObj);
+    if(_user instanceof Array) {
+        for(let i = messageList.length - 1 ; i >= 0; i--) {
+            let messageItem = messageList[i];
+            const userElement = _user.find((item) => {
+                return item.uuid === messageItem.senderUserId;
+            });
+            messageObj = {
+                _id: messageItem.messageId,
+                text: messageItem.content.content,
+                createdAt: new Date(messageItem.sentTime),
+                user: {
+                    _id: messageItem.senderUserId,
+                    name: userElement.name,
+                    avatar: userElement.portraitUri,
+                }
+            };
+            messageArray.push(messageObj);
+        }
+    } else {
+        for(let i = messageList.length - 1 ; i > 0; i--) {
+            let messageItem = messageList[i];
+            messageObj = {
+                _id: messageItem.messageId,
+                text: messageItem.content.content,
+                createdAt: new Date(messageItem.sentTime),
+                user: {
+                    _id: messageItem.senderUserId,
+                    name: _user.nickname,
+                    avatar: _user.portraitUri,
+                }
+            };
+            messageArray.push(messageObj);
+        }
     }
+    console.log(messageArray);
     return messageArray;
 };
 
@@ -36,9 +57,6 @@ export default function ChatView(props) {
     const _user = props.navigation.getParam('user');
 
     const chat = YCChat.getInstance();
-    console.log('chatView')
-    console.log(_user);
-    
     const toName = _user.hasOwnProperty('_allCanSay') ? _user._name : _user.username;
     const toId = _user._id;
     
@@ -47,12 +65,24 @@ export default function ChatView(props) {
         let conversation = chat.getConversation(toId, _user.hasOwnProperty('_allCanSay') ? ConversationType.GROUP : ConversationType.PRIVATE);
         (async () => {
             await conversation.open();
-            conversation.addListener('receive-text-message', (message) => {
-                console.log(`message: `);
-                console.log(message);
-                setMessages(dataConversion(conversation.messageList, _user));
+            conversation.addListener('receive-text-message', async (message) => {
+                if(_user.hasOwnProperty('_allCanSay')){
+                    let result = await chat.currentUser.showMember(_user._id,1,_user._memberCount);
+                    if(result.status){
+                        setMessages(dataConversion(conversation.messageList, result.cont));
+                    }
+                }else{
+                    setMessages(dataConversion(conversation.messageList, _user));
+                }
             });
-            setMessages(dataConversion(conversation.messageList, _user));
+            if(_user.hasOwnProperty('_allCanSay')){
+                let result = await chat.currentUser.showMember(_user._id,1,_user._memberCount);
+                if(result.status){
+                    setMessages(dataConversion(conversation.messageList, result.cont));
+                }
+            }else{
+                setMessages(dataConversion(conversation.messageList, _user));
+            }
         })();
 
         return () => {

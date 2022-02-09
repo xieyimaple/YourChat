@@ -25,6 +25,9 @@ import GroupManage from '../View/GroupManage'
 import LoginView from '../View/LoginView'
 import AddFriend from '../View/AddFriend'
 import CreateGroup from '../View/CreateGroup';
+import AddMembers from '../View/AddMembers';
+import RemoveMembers from '../View/RemoveMembers';
+import UpdateGroupNotice from '../View/UpdateGroupNotice';
 import GroupList from '../View/GroupList';
 import NewFriends from '../View/NewFriends';
 import EnterGroupName from '../View/EnterGroupName';
@@ -129,6 +132,24 @@ const MainNavigator = createStackNavigator({
   },
   CreateGroup: {
     screen: CreateGroup,
+    navigationOptions: {
+      header: null
+    }
+  },
+  AddMembers: {
+    screen: AddMembers,
+    navigationOptions: {
+      header: null
+    }
+  },
+  RemoveMembers: {
+    screen: RemoveMembers,
+    navigationOptions: {
+      header: null
+    }
+  },
+  UpdateGroupNotice: {
+    screen: UpdateGroupNotice,
     navigationOptions: {
       header: null
     }

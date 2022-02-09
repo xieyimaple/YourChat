@@ -282,6 +282,8 @@ export class YCUser extends YCObject implements YCUserInfo {
 
     // 初始化群组列表
     await this.initGroups();
+
+    await this.initSelfInfo();
   }
 
   // 将用户信息转为JSON格式，用于进程间通信或者数据发送
@@ -391,7 +393,7 @@ export class YCUser extends YCObject implements YCUserInfo {
     };
   }
 
-  // 获取申请列表
+  // 获取申请列表 TODO
   public async applyList(): Promise<{
     status: boolean;
     msg: string;
@@ -405,7 +407,7 @@ export class YCUser extends YCObject implements YCUserInfo {
     };
   }
 
-  // 处理申请列表
+  // 处理申请列表 TODO
   public async applyDeal(msgst: number, uuid:string): Promise<{
     status: boolean;
     msg: string;
@@ -663,10 +665,110 @@ export class YCUser extends YCObject implements YCUserInfo {
     return this.groups.find((group) => group.id === groupId);
   }
 
+  // 根据群组ID获取成员
+  public async showMember(groupId: string, page: number, size: number): Promise<{
+    status: boolean;
+    msg: string;
+    cont: [];
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.showMember, {
+      groupId,
+      page,
+      size
+    });
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg,
+        cont: result.cont
+      }
+    } else {
+      throw new Error(`获取群成员失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // 增加群成员
+  public async addMember(groupId: string, memberId: string[]): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.addMember, {
+      groupId,
+      memberId
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`增加群成员失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // 删除群成员
+  public async removeMember(groupId: string, memberId: string[]): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.removeMember, {
+      groupId,
+      memberId
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`删除群成员失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // 退出群
+  public async quitGroupChat(groupId: string): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.quitGroupChat, {
+      groupId
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`退出群失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // 更新群公告
+  public async updateGroupNotice(groupId: string, groupNotice: string): Promise<{
+    status: boolean;
+    msg: string;
+  }> {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.updateGroupNotice, {
+      groupId,
+      groupNotice
+    });
+    console.log(result);
+    if (result.rst) {
+      return {
+        status: result.rst,
+        msg: result.msg
+      }
+    } else {
+      throw new Error(`更新群公告失败，详细信息: ${result.msg}`);
+    }
+  }
+
+
   public async initGroups() {
     const result = await chatHttp.post(YCHttpInterfaceEnum.getAllGroups);
-    console.log(`getAllGroups result`);
-    console.log(result);
     if (result.rst) {
       const groups = [];
       const groupInfoList = result.cont as YCGroupInfo[];
@@ -689,6 +791,18 @@ export class YCUser extends YCObject implements YCUserInfo {
       this._groups = groups;
     } else {
       throw new Error(`初始化群组失败，详细信息: ${result.msg}`);
+    }
+  }
+
+  // TODO
+  public async initSelfInfo() {
+    const result = await chatHttp.post(YCHttpInterfaceEnum.queryUserInfo);
+    if (result.rst) {
+      this._nickname = result.cont.nickname;
+      this._photoUrl = result.cont.portraitUri;
+      this._gender = result.cont.gender;
+    } else {
+      throw new Error(`初始化个人信息，详细信息: ${result.msg}`);
     }
   }
 }

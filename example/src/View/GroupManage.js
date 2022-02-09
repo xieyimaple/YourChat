@@ -15,6 +15,7 @@ import {TouchableOpacity, View, Image} from 'react-native'
 import {connect} from "react-redux";
 import {UpdateUser} from '../Redux/actionCreators'
 import getStyle from './Style/GroupManageStyle'
+import Toast from "react-native-root-toast";
 
 import { YCChat } from '../observable/lib/chat';
 
@@ -28,70 +29,23 @@ class GroupManage extends React.Component{
     this.state = {
       //allowNotice: true
       _group: this.props.navigation.state.params,
-      group: {
-        allMember:[{
-          createTime: "2022-01-22 01:54:41",
-          default: false,
-          friendUuid: "daaebm128bce16ec4f4e909c57dce04da10ed6",
-          msgst: 20,
-          nickname: "明年",
-          portraitUri: "http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          uuid: "daaebm128bce16ec4f4e909c57dce04da10ed6"
-        },{
-          createTime: "2022-01-22 01:54:41",
-          default: false,
-          friendUuid: "daaebm128bce16ec4f4e909c57dce04da10ed6",
-          msgst: 20,
-          nickname: "今年",
-          portraitUri: "http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          uuid: "daaebm128bce16ec4f4e909c57dce04da10ed6"
-        },{
-          createTime: "2022-01-22 01:54:41",
-          default: false,
-          friendUuid: "daaebm128bce16ec4f4e909c57dce04da10ed6",
-          msgst: 20,
-          nickname: "去年",
-          portraitUri: "http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          uuid: "daaebm128bce16ec4f4e909c57dce04da10ed6"
-        },{
-          createTime: "2022-01-22 01:54:41",
-          default: false,
-          friendUuid: "daaebm128bce16ec4f4e909c57dce04da10ed6",
-          msgst: 20,
-          nickname: "明年",
-          portraitUri: "http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          uuid: "daaebm128bce16ec4f4e909c57dce04da10ed6"
-        },{
-          createTime: "2022-01-22 01:54:41",
-          default: false,
-          friendUuid: "daaebm128bce16ec4f4e909c57dce04da10ed6",
-          msgst: 20,
-          nickname: "今年",
-          portraitUri: "http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          uuid: "daaebm128bce16ec4f4e909c57dce04da10ed6"
-        },{
-          createTime: "2022-01-22 01:54:41",
-          default: false,
-          friendUuid: "daaebm128bce16ec4f4e909c57dce04da10ed6",
-          msgst: 20,
-          nickname: "去年",
-          portraitUri: "http://api.new689collection88.com/png/2022/01/07/692a995ca1e64a6f92bc8eb516e5d9e4.png",
-          uuid: "daaebm128bce16ec4f4e909c57dce04da10ed6"
-        }]
-      }
-    };
+      members: []
+    }
   }
 
   componentDidMount() {
-    // let result = chat.currentUser.getGroup(this.state._group._id);
-    // console.log('get group')
-    // console.log(result)
-    // let group = result.group;
-    // if(result.status){
-    //   this.setState({
-    //     group
-    //   })
-    // }
+    this.getMembers()
+  }
+
+  getMembers = async () => {
+    let result = await chat.currentUser.showMember(this.state._group._id, 1 , this.state._group._memberCount);
+    let members = result.cont;
+    if(result.status){
+      this.setState({
+        ...this.state,
+        members
+      })
+    }
   }
 
   // setAllowNotice = allowNotice => {
@@ -99,8 +53,17 @@ class GroupManage extends React.Component{
   //   console.log(this.state.allowNotice);
   // };
 
-  delete = () => {
-    console.log('delete');
+  delete = async () => {
+    let result = await chat.currentUser.quitGroupChat(this.state._group._id);
+    console.log(result);
+    if(result.status){
+
+    }else{
+      Toast.show(result.msg,{
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER
+      })
+    }
   }
 
   render(){
@@ -137,11 +100,11 @@ class GroupManage extends React.Component{
         </ListItem> */}
 
         <View style={Styles.allmember}>
-          {this.state.group.allMember.map((item, i) => (
+          {this.state.members.map((item, i) => (
             <ListItem key={i}
                       containerStyle={{flexDirection: 'column',width: 100}}
                       onPress={() => {
-                        console.log(item.nickname)
+                        console.log(item.name)
                       }}>
               <Avatar
                 activeOpacity={0.2}
@@ -151,14 +114,17 @@ class GroupManage extends React.Component{
               />
               <ListItem.Content style={Styles.singleMember}>
                 <ListItem.Title>
-                  <Text style={{width: '100%', fontSize: 12}}>{item.nickname}</Text>
+                  <Text style={{width: '100%', fontSize: 12}}>{item.name}</Text>
                 </ListItem.Title>
               </ListItem.Content> 
             </ListItem>
           ))}
           {
             this.state._group._creatorId === this.props.user._id ?
-            <ListItem containerStyle={{flexDirection: 'column',width: 100}}>
+            <ListItem containerStyle={{flexDirection: 'column',width: 100}}
+              onPress={()=>{
+                this.props.navigation.navigate('AddMembers', { members: this.state.members, groupId: this.state._group._id, callback: () => {this.getMembers()} });
+              }}>
               <Avatar
                 activeOpacity={0.2}
                 containerStyle={{ backgroundColor: "#BDBDBD", marginBottom: 10 }}
@@ -174,7 +140,10 @@ class GroupManage extends React.Component{
           }
           {
             this.state._group._creatorId === this.props.user._id ?
-            <ListItem containerStyle={{flexDirection: 'column',width: 100}}>
+            <ListItem containerStyle={{flexDirection: 'column',width: 100}}
+              onPress={()=>{
+                this.props.navigation.navigate('RemoveMembers', { members: this.state.members, groupId: this.state._group._id, callback: () => {this.getMembers()} });
+              }}>
               <Avatar
                 activeOpacity={0.2}
                 containerStyle={{ backgroundColor: "#BDBDBD", marginBottom: 10 }}
@@ -225,7 +194,7 @@ class GroupManage extends React.Component{
         </ListItem>
         <ListItem containerStyle={Styles.listItem}
                   onPress={() => {
-                    console.log('群公告');
+                    this.props.navigation.navigate('UpdateGroupNotice', { groupId: this.state._group._id });
                   }}>
           <ListItem.Title>
             <Text>群公告</Text>

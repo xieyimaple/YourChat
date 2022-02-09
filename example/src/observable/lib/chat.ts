@@ -144,7 +144,7 @@ export class YCChat extends YCObject {
 		if (conversationType === ConversationType.GROUP) {
 			target = target as YCGroup;
 			conversation = new YCGroupConversation(this, {
-				conversationType: ConversationType.PRIVATE, // 会话类型
+				conversationType: ConversationType.GROUP, // 会话类型
 				conversationTitle: target.title, // 会话标题（私人会话一般就是好友的昵称或者网名）
 				isTop: false, // 会话是否置顶
 				unreadMessageCount: 0, // 未读消息数目

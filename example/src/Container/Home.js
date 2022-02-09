@@ -22,6 +22,8 @@ import config from '../Config'
 import {sort} from '../Util/Tool'
 import { YCChat } from '../observable/lib/chat';
 
+const chat = YCChat.getInstance();
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -30,19 +32,9 @@ class Home extends React.Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
+  async UNSAFE_componentWillMount() {
     const user = this.props.user;
-    // const loginObj = this.props.loginObj;
-    // if(loginObj.login){
-    //   global.io.emit('login', user, (mes)=>{
-    //     Toast.show(mes,{
-    //       duration: Toast.durations.SHORT,
-    //       position: Toast.positions.TOP
-    //     })
-    //   })
-    // }else{
-    //   this.props.navigation.navigate('LoginView');
-    // }
+    await chat.currentUser.init()
   }
 
   componentDidMount() {
@@ -202,8 +194,6 @@ class Home extends React.Component {
     );
   }
 }
-
-const chat = YCChat.getInstance();
 
 const mapState = state => ({
   user: chat.currentUser,
