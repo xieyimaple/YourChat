@@ -120,7 +120,7 @@ class AddRole extends React.Component{
       <View
         style={{
           height: 30,
-          backgroundColor: 'gray',
+          backgroundColor: '#ededed',
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: 10,

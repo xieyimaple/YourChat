@@ -129,7 +129,7 @@ class LoginView extends React.Component{
                   fontSize: 16
                 }}
                 buttonStyle={Styles.LoginButton}
-                //loading={this.props.loginObj.loading}
+                loading={this.props.loginObj.loading}
                 onPress={this.login}
                 disabled={this.state.username === '' || this.state.password === ''}
               >

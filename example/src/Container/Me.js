@@ -53,7 +53,7 @@ class Me extends React.Component {
             <Text style={Styles.notes}>{this.props.user._nickname || ''}</Text>
           </View>
           <View style={ Styles.iconRight }>
-            <AntDesign style={{marginLeft:'5%'}} name={'right'} size={20} />
+            <AntDesign style={{marginLeft:'6%'}} name={'right'} size={20} />
           </View> 
         </ListItem>
 
@@ -61,7 +61,7 @@ class Me extends React.Component {
         <ListItem onPress={()=>{
             this.props.navigation.navigate('AccountSecurity');
           }} containerStyle={Styles.listItemContainer}>
-          <AntDesign name='setting' size={12}/>
+          <AntDesign name='setting' size={20}/>
           <ListItem.Title>
             <Text>账号安全</Text>
           </ListItem.Title>
@@ -70,7 +70,7 @@ class Me extends React.Component {
 
 
         <ListItem containerStyle={Styles.version}>
-          <AntDesign name='infocirlceo' size={12}/>
+          <AntDesign name='infocirlceo' size={20}/>
           <ListItem.Title>
             <Text>当前版本 {client.appVersion}</Text>
           </ListItem.Title>

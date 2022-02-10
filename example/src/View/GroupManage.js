@@ -102,7 +102,7 @@ class GroupManage extends React.Component{
         <View style={Styles.allmember}>
           {this.state.members.map((item, i) => (
             <ListItem key={i}
-                      containerStyle={{flexDirection: 'column',width: 100}}
+                      containerStyle={Styles.listItemContainer}
                       onPress={() => {
                         console.log(item.name)
                       }}>
@@ -121,7 +121,7 @@ class GroupManage extends React.Component{
           ))}
           {
             this.state._group._creatorId === this.props.user._id ?
-            <ListItem containerStyle={{flexDirection: 'column',width: 100}}
+            <ListItem containerStyle={Styles.listItemContainer}
               onPress={()=>{
                 this.props.navigation.navigate('AddMembers', { members: this.state.members, groupId: this.state._group._id, callback: () => {this.getMembers()} });
               }}>
@@ -131,7 +131,7 @@ class GroupManage extends React.Component{
                 size="small"
                 ImageComponent={() => (
                   <Image
-                    style={{width:33,height:34.6}}
+                    style={{width:33,height:33}}
                     source={require('../images/add.png')}
                   />
                 )}
@@ -140,7 +140,7 @@ class GroupManage extends React.Component{
           }
           {
             this.state._group._creatorId === this.props.user._id ?
-            <ListItem containerStyle={{flexDirection: 'column',width: 100}}
+            <ListItem containerStyle={Styles.listItemContainer}
               onPress={()=>{
                 this.props.navigation.navigate('RemoveMembers', { members: this.state.members, groupId: this.state._group._id, callback: () => {this.getMembers()} });
               }}>
@@ -150,7 +150,7 @@ class GroupManage extends React.Component{
                 size="small"
                 ImageComponent={() => (
                   <Image
-                    style={{width:33,height:34.6}}
+                    style={{width:33,height:33}}
                     source={require('../images/delete.png')}
                   />
                 )}
@@ -173,7 +173,7 @@ class GroupManage extends React.Component{
           <Avatar
             activeOpacity={0.2}
             avatarStyle={{}}
-            containerStyle={{ backgroundColor: "#BDBDBD",marginLeft: '75%' }}
+            containerStyle={{ backgroundColor: "#BDBDBD" }}
             icon={{}}
             iconStyle={{}}
             imageProps={{}}

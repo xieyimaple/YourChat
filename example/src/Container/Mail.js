@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Image
 } from 'react-native';
 import { Header, ListItem, Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -67,9 +68,14 @@ class Mail extends React.Component {
           style={{height: 66}}
           containerStyle={{height: 66}}>
           <Avatar
-            icon={{name: 'account-plus', type: 'material-community'}}
-            iconStyle={{backgroundColor: '#fbcf52', color: 'white',height: 33.8,width: 33.8}}
-          />
+            activeOpacity={0.2}
+            containerStyle={{ backgroundColor: "white"}}
+            ImageComponent={() => (
+              <Image
+                style={{width:33,height:33}}
+                source={require('../images/tianjiayonghu.png')}
+              />
+            )}/>
           <ListItem.Content>
             <ListItem.Title>
               <Text>新的朋友</Text>
@@ -82,9 +88,14 @@ class Mail extends React.Component {
           style={{height: 66}}
           containerStyle={{height: 66}}>
           <Avatar
-            icon={{name: 'account-group', type: 'material-community'}}
-            iconStyle={{backgroundColor: '#448ef1', color: 'white', height: 33.8, width: 33.8}}
-          />
+            activeOpacity={0.2}
+            containerStyle={{ backgroundColor: "white" }}
+            ImageComponent={() => (
+              <Image
+                style={{width:33,height:33}}
+                source={require('../images/qunzu.png')}
+              />
+            )}/>
           <ListItem.Content>
             <ListItem.Title>
               <Text>群组</Text>
@@ -129,7 +140,7 @@ class Mail extends React.Component {
       <View
         style={{
           height: 30,
-          backgroundColor: 'gray',
+          backgroundColor: '#ededed',
           flexDirection: 'row',
           alignItems: 'center',
           paddingHorizontal: 10,

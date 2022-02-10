@@ -91,7 +91,7 @@ class CommentView extends React.Component{
 
   render(){
     return(
-      <View style={{backgroundColor: 'gray', width: 15, height: 15}}>
+      <View style={{backgroundColor: '#ededed', width: 15, height: 15}}>
         <TouchableOpacity
           onPress={()=>{
             this.setState({

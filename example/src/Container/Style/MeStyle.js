@@ -10,7 +10,6 @@
 
 
 export default getStyle = function () {
-
   return {
     userContainer: {
       height: 200,
@@ -19,12 +18,16 @@ export default getStyle = function () {
       justifyContent: 'space-between'
     },
     textBox: {
-      width: '55%',
-      marginLeft: '10%',
+      width: '61%',
+      marginLeft: '5%',
       marginTop: 120
     },
+    username: {
+      fontSize: 18
+    },
     notes: {
-      marginTop: 10
+      marginTop: 20,
+      fontSize: 14
     },
     iconRight: {
       marginTop: 130

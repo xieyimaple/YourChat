@@ -240,7 +240,7 @@ class RegisterView extends React.Component{
             title={"注册"}
             buttonStyle={Styles.RegisterButton}
             onPress={this.register}
-            loading={this.props.loading}
+            loading={this.props.registerObj.loading}
             disabled={this.state.username === '' || this.state.password === ''}
           ></Button>
         </ScrollView>

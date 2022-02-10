@@ -8,7 +8,7 @@
 * */
 
 import React from 'react';
-import {Header, ListItem, Avatar} from "react-native-elements";
+import {Header, ListItem, Avatar, Text} from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MainView from '../components/MainView'
 import {TouchableOpacity} from 'react-native'
@@ -20,6 +20,14 @@ import {UpdateUser} from '../Redux/actionCreators'
 import ApiUtil from '../Service/ApiUtil'
 import Toast from "react-native-root-toast";
 import { YCChat } from '../observable/lib/chat';
+
+let Styles = {
+  listItem: {
+    backgroundColor: '#ffffff',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+}
 
 class UserView extends React.Component{
   constructor(props) {
@@ -57,44 +65,6 @@ class UserView extends React.Component{
     });
   }
 
-  uploadImage= async (mediaPath) => {
-    let uploadUrl = config.baseURL + '/api/upload/uploadImage'
-
-    let uploadBegin = (response) => {
-      let jobId = response.jobId;
-      console.log('UPLOAD HAS BEGUN! JobId: ' + jobId);
-    };
-
-    let uploadProgress = (response) => {
-      let percentage = Math.floor((response.totalBytesSent / response.totalBytesExpectedToSend) * 100);
-      console.log('UPLOAD IS ' + percentage + '% DONE!');
-    };
-
-    let files = [
-      {
-        name: 'test1',
-        filename: 'test1.w4a',
-        filepath: mediaPath,
-        filetype: 'audio/x-m4a'
-      }
-    ];
-
-    return await RNFS.uploadFiles({
-      toUrl: uploadUrl,
-      files: files,
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-      },
-      fields: {
-        'hello': 'world',
-      },
-      begin: uploadBegin,
-      progress: uploadProgress
-    }).promise
-  }
-
-
   render(){
     return(
       <MainView>
@@ -120,68 +90,56 @@ class UserView extends React.Component{
         />
 
         
-        <ListItem
+        <ListItem containerStyle={Styles.listItem}
           bottomDivider
           chevron
           onPress={this.uploadAvatar}
         >
-          <ListItem.Content>
-            <ListItem.Title>
-              头像
-            </ListItem.Title>
-          </ListItem.Content>
+          <ListItem.Title>
+            头像
+          </ListItem.Title>
           <Avatar size={'large'}
+            rounded
             source={{
               uri: this.props.user._photoUrl
             }}
           />
         </ListItem>
-        <ListItem bottomDivider
+        <ListItem containerStyle={Styles.listItem}
+          bottomDivider
           chevron
           onPress={()=>{
             this.props.navigation.navigate('ChangeName')
           }}
         >
-          <ListItem.Content>
-            <ListItem.Title>
-              昵称
-            </ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Content>
-            <ListItem.Title>
-              {this.props.user._nickname || ''}
-            </ListItem.Title>
-          </ListItem.Content>
+          <ListItem.Title>
+            昵称
+          </ListItem.Title>
+          <Text>
+            {this.props.user._nickname || ''}
+          </Text>
         </ListItem>
-        <ListItem
+        <ListItem containerStyle={Styles.listItem}
           bottomDivider
           chevron
         >
-          <ListItem.Content>
-            <ListItem.Title>
-              账号
-            </ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Content>
-            <ListItem.Title>
+          <ListItem.Title>
+            账号
+          </ListItem.Title>
+          <Text>
             {this.props.user._name || ''}
-            </ListItem.Title>
-          </ListItem.Content>
+          </Text>
         </ListItem>
-        <ListItem
+        <ListItem containerStyle={Styles.listItem}
           bottomDivider
           chevron
         >
-          <ListItem.Content>
-            <ListItem.Title>
-              性别
-            </ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Content>
-            <ListItem.Title>
-            {this.props.user.sex || '男'}
-            </ListItem.Title>
-          </ListItem.Content>
+          <ListItem.Title>
+            性别
+          </ListItem.Title>
+          <Text>
+          {this.props.user.sex || '男'}
+          </Text>
         </ListItem>
         {/* <ListItem bottomDivider
           chevron
@@ -189,11 +147,9 @@ class UserView extends React.Component{
             this.props.navigation.navigate('UserMoreView');
           }}
         >
-          <ListItem.Content>
-            <ListItem.Title>
-            更多
-            </ListItem.Title>
-          </ListItem.Content>
+          <ListItem.Title>
+          更多
+          </ListItem.Title>
         </ListItem> */}
       </MainView>
     )

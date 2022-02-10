@@ -229,7 +229,7 @@ class FriendList extends React.Component{
 
         {
           this.props.showInput?
-            <View style={[{backgroundColor: 'gray', justifyContent: 'space-around', paddingHorizontal: 20, paddingVertical: 5, flexDirection: 'row', alignItems: 'center'},
+            <View style={[{backgroundColor: '#ededed', justifyContent: 'space-around', paddingHorizontal: 20, paddingVertical: 5, flexDirection: 'row', alignItems: 'center'},
               {marginBottom: this.state.keyboardHeight}
             ]}
             >

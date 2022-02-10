@@ -142,7 +142,7 @@ class ListItem extends React.Component{
           </View>
 
           {/*赞 与 评论*/}
-          <View style={{backgroundColor: 'gray', marginTop: 10}}>
+          <View style={{backgroundColor: '#ededed', marginTop: 10}}>
             {
               this.state.thumbs.length?this.state.thumbs.map((item)=>{
                   return(

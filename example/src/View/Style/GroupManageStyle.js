@@ -13,8 +13,12 @@ export default getStyle = function () {
     allmember: {
       backgroundColor: '#ffffff',
       flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around'
+      width: window.width,
+      flexWrap: 'wrap'
+    },
+    listItemContainer:{
+      flexDirection: 'column',
+      width: window.width/4
     },
     listItem: {
       backgroundColor: '#ffffff',
@@ -29,6 +33,7 @@ export default getStyle = function () {
     resetPsw: {
       backgroundColor: '#ffffff',
       flexDirection: 'row',
+      justifyContent: 'space-between',
       marginTop: 10
     },
     logout: {
