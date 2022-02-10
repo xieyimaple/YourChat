@@ -12,20 +12,21 @@ import MainView from '../components/MainView';
 import {
   FlatList,
   SectionList,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
   Image
 } from 'react-native';
-import { Header, ListItem, Avatar } from 'react-native-elements';
+import { Header, ListItem, Avatar, Text} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropMenu from '../components/DropMenu';
 import { connect } from 'react-redux';
 import config from '../Config/index';
 import Pinyin from '../Util/ChinesePY';
 
-let Styles = {};
+let Styles = {
+
+};
 
 class Mail extends React.Component {
   constructor(props) {
@@ -185,36 +186,65 @@ class Mail extends React.Component {
             }
           }}
         >
-          <Header
-            placement="left"
-            leftComponent={<Text style={{ fontSize: 16 }}>通讯录</Text>}
-            rightComponent={
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: 10 }} />
-                <TouchableOpacity
-                  onPress={() => {
-                    this.setState({
-                      show: !this.state.show,
-                    });
-                  }}
-                >
-                  <Ionicons
-                    name={'ios-add-circle-outline'}
-                    size={24}
-                    color={'#44a0df'}
-                  />
-                </TouchableOpacity>
-              </View>
-            }
-            containerStyle={{
-              backgroundColor: 'white',
-              justifyContent: 'space-around',
-              paddingRight: 30,
-              height: 60,
-              marginTop: 24,
-            }}
-          />
+        <Header
+          placement="left"
+          leftComponent={<Text style={{ fontSize: 16 }}>通讯录</Text>}
+          rightComponent={
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ width: 10 }} />
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({
+                    show: !this.state.show,
+                  });
+                }}
+              >
+                <Ionicons
+                  name={'ios-add-circle-outline'}
+                  size={24}
+                  color={'#44a0df'}
+                />
+              </TouchableOpacity>
+            </View>
+          }
+          containerStyle={{
+            backgroundColor: 'white',
+            justifyContent: 'space-around',
+            paddingRight: 30,
+            height: 60,
+            marginTop: 24,
+          }}
+        />
         </TouchableWithoutFeedback>
+
+        {/* <View style={{position:'absolute', top:150, right: 0, width: 30, height: 200, zIndex: 999}}>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>a</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>b</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>c</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>d</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>e</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>f</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>g</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>h</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>i</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>j</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>k</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>l</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>m</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>n</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>o</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>p</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>q</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>r</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>s</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>t</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>u</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>v</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>w</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>x</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>y</Text>
+          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>z</Text>
+        </View> */}
 
         {/*通讯列表*/}
         <SectionList

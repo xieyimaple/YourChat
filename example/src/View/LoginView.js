@@ -12,7 +12,7 @@ import {Text, View, Image, TouchableOpacity} from "react-native";
 import MainView from '../components/MainView'
 import getStyle from './Style/LoginViewStyle'
 import {connect} from "react-redux";
-import {login} from '../Service/action'
+import {login, reset} from '../Service/action'
 import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
 import { Input } from 'react-native-elements';
@@ -45,6 +45,10 @@ class LoginView extends React.Component{
     if(nextProps.loginObj.login){
       this.props.navigation.navigate('Main')
     }
+  }
+
+  componentDidMount() {
+    this.props.reset()
   }
 
   //登录
@@ -168,6 +172,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   login(param) {
     dispatch(login(param))
+  },
+  reset(param) {
+    dispatch(reset(param))
   }
 })
 

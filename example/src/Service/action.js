@@ -33,6 +33,11 @@ export const login = (param) => async (dispatch) => {
 
 }
 
+//重置
+export const reset = (param) => async (dispatch) => {
+  dispatch(LoginIn({loading: false, tip: '', login: false}));
+}
+
 export const uploadImage = (param) => async (dispatch) => {
   dispatch(UploadImage({loading: true, tip: '', uploadImage: false}));
   try {
