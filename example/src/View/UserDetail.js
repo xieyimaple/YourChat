@@ -110,13 +110,13 @@ class UserDetail extends React.Component{
             <TouchableOpacity onPress={()=>{
               this.props.navigation.goBack();
             }}>
-              <FontAwesome name={'angle-left'} size={24} color={'black'}
+              <FontAwesome name={'angle-left'} size={24} color={'#44a0df'}
               >
               </FontAwesome>
             </TouchableOpacity>
           }
           centerComponent={
-            { text: this.state.isFriend ? '详细资料': '添加好友', style: { color: '#000',marginTop: 5, textAlign:'center'}}
+            { text: this.state.isFriend ? '详细资料': '添加好友', style: { color: '#000', fontSize: 16, textAlign:'center'}}
           }
           containerStyle={{
             backgroundColor: 'rgb(238, 238, 238)',
@@ -127,30 +127,23 @@ class UserDetail extends React.Component{
           }}
         />
 
-        {/**/}
-        <ListItem
-          containerStyle={{paddingVertical: 30, paddingHorizontal: 30}}
-          onPress={()=>{
-            this.props.navigation.navigate('UserView');
-          }}
-          bottomDivider
-        >
-          <Avatar
-            size={'medium'}
-            source={{
-              uri: user.portraitUri
-            }}
-          />
-          <ListItem.Title>
-          {user.nickname}
-          </ListItem.Title>
-          <ListItem.Subtitle>
-          {user.lastLoginZone}
-          </ListItem.Subtitle>
-        </ListItem>
         {
           this.state.isFriend?
             <View>
+                <ListItem
+                  containerStyle={{paddingVertical: 30, paddingHorizontal: 30, display:'flex', flexDirection: 'column',}}
+                  bottomDivider
+                >
+                <Avatar
+                  size={'large'}
+                  rounded
+                  source={{
+                  uri: user.portraitUri
+                }}/>
+                <ListItem.Title style={{marginTop: 10}}>
+                  {user.nickname}
+                </ListItem.Title>
+              </ListItem>
               <Button
                 title="发消息"
                 titleStyle={{color:'white'}}
@@ -171,6 +164,23 @@ class UserDetail extends React.Component{
             
             :
             <View>
+              <ListItem
+                containerStyle={{paddingVertical: 30, paddingHorizontal: 30}}
+                // onPress={()=>{
+                //   this.props.navigation.navigate('UserView');
+                // }}
+                bottomDivider
+              >
+                <Avatar
+                  size={'medium'}
+                  source={{
+                    uri: user.portraitUri
+                  }}
+                />
+                <ListItem.Title>
+                {user.nickname}
+                </ListItem.Title>
+              </ListItem>
               <ListItem containerStyle={{backgroundColor: '#ededed'}}>
                 <Text>申请留言</Text>
               </ListItem>

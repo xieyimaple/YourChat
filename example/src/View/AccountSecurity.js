@@ -56,7 +56,7 @@ class AccountSecurity extends React.Component{
             <TouchableOpacity onPress={()=>{
               this.props.navigation.goBack();
             }}>
-              <FontAwesome name={'angle-left'} size={24} color={'black'}
+              <FontAwesome name={'angle-left'} size={24} color={'#44a0df'}
               >
               </FontAwesome>
             </TouchableOpacity>

@@ -10,6 +10,7 @@ import { ConversationType } from '@rongcloud/react-native-imlib';
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 
 const dataConversion = (messageList, _user) => {
     let messageObj = {};
@@ -134,7 +135,7 @@ export default function ChatView(props) {
         leftComponent={<TouchableOpacity onPress={() => {
           props.navigation.goBack();
         } }>
-          <FontAwesome name={'angle-left'} size={24} color={'black'}
+          <FontAwesome name={'angle-left'} size={24} color={'#44a0df'}
           >
           </FontAwesome>
         </TouchableOpacity>}
@@ -150,11 +151,11 @@ export default function ChatView(props) {
         centerContainerStyle={{}}
         rightComponent={<TouchableOpacity onPress={() => {
             _user.hasOwnProperty('_allCanSay') ? 
-            props.navigation.navigate('GroupManage', { ..._user }) : console.log('好友信息')
+            props.navigation.navigate('GroupManage', { ..._user }) : props.navigation.navigate('UserDetail', { ..._user })
         } }>
-        <Entypo name={'dots-three-horizontal'} size={20} color={'black'}
-        >
-        </Entypo>
+        {  _user.hasOwnProperty('_allCanSay') ? 
+            <SimpleLineIcons name={'people'} style={{marginTop: 5}} size={20} color={'#44a0df'} ></SimpleLineIcons> : 
+            <SimpleLineIcons name={'user'} style={{marginTop: 5}} size={20} color={'#44a0df'} ></SimpleLineIcons> }
         </TouchableOpacity>} /><SafeAreaView style={styles.mainContent}>
           <GiftedChat
             messages={messages}

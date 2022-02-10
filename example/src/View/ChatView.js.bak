@@ -351,7 +351,7 @@ class ChatView extends React.Component{
               this.props.deleteRoomUnReadMsg({'roomId': this.state.roomId})
               this.props.navigation.navigate('Home');
             }}>
-              <FontAwesome name={'angle-left'} size={24} color={'black'}
+              <FontAwesome name={'angle-left'} size={24} color={'#44a0df'}
               >
               </FontAwesome>
             </TouchableOpacity>
