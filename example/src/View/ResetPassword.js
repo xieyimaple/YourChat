@@ -66,7 +66,7 @@ class ResetPassword extends React.Component{
     return(
       <MainView>
         <Header
-          placement="left"
+          placement="center"
           leftComponent={
             <TouchableOpacity onPress={()=>{
               this.props.navigation.goBack();

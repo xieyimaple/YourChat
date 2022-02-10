@@ -342,7 +342,7 @@ class ChatView extends React.Component{
         {/*头部*/}
 
         <Header
-          placement="left"
+          placement="center"
           leftComponent={
             <TouchableOpacity onPress={()=>{
               if(lastMessage.text){

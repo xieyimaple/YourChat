@@ -99,7 +99,7 @@ class RegisterView extends React.Component{
     return(
       <MainView>
         <Header
-            placement="left"
+            placement="center"
             leftComponent={
               <FontAwesome onPress={
                 () => {this.props.navigation.navigate('LoginView')}

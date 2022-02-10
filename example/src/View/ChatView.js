@@ -131,7 +131,7 @@ export default function ChatView(props) {
 
     return (
       <><Header
-        placement="left"
+        placement="center"
         leftComponent={<TouchableOpacity onPress={() => {
           props.navigation.goBack();
         } }>

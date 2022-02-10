@@ -65,7 +65,7 @@ class AddFriend extends React.Component{
         {/*头部*/}
 
         <Header
-          placement="left"
+          placement="center"
           leftComponent={
             <TouchableOpacity onPress={()=>{
               this.props.navigation.goBack();
