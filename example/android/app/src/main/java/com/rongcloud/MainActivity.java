@@ -1,4 +1,4 @@
-package com.example.rongcloudreactnativeimlib;
+package cn.rongcloud.rongcloudreactnativeimlib;
 
 import com.facebook.react.ReactActivity;
 
