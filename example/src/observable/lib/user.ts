@@ -9,7 +9,7 @@ import { YCFriend, YCFriendInfo } from './friend';
 import { YCGroup, YCGroupInfo } from './group';
 import type { YCConversation } from './conversation';
 import { ConversationType } from '@rongcloud/react-native-imlib';
-// import Realm from "realm";
+import RNFS from 'react-native-fs';
 
 /**
  * 用户信息接口
@@ -153,14 +153,22 @@ export class YCUser extends YCObject implements YCUserInfo {
   private _password: string;
   private _photoUrl: string;
   private _photoPath: string;
-  private _nickname: string = 'a';
+  private _nickname: string;
   private _gender: 'female' | 'male';
   private _account: string;
 
   private _currentChattingFriend: YCFriend;
   private _friends: YCFriend[] = [];
-  private _groups: YCGroup[];
+  private _groups: YCGroup[] = [];
   private _owner: YCChat;
+
+  get directoryPath(): string {
+    return `${RNFS.DocumentDirectoryPath}/user/${this.id}`;
+  }
+
+  get conversationDirectoryPath(): string {
+		return `${this.directoryPath}/conversation`;
+	}
 
   get owner(): YCChat {
     return this._owner;
@@ -275,12 +283,35 @@ export class YCUser extends YCObject implements YCUserInfo {
   // 初始化方法
   // 1. 构建好友对象
   public async init() {
-    // 初始化本地数据库
+    // 1.0 初始化本地存储文件夹
+    // if (!await RNFS.exists(`${RNFS.DocumentDirectoryPath}/user`)) {
+    //   await RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/user`);
+    //   console.log(`${RNFS.DocumentDirectoryPath}/user 创建成功`);
+    // } else {
+    //   console.log(`${RNFS.DocumentDirectoryPath}/user 存在`);
+    // }
+
+    // if (!await RNFS.exists(this.directoryPath)) {
+    //   await RNFS.mkdir(this.directoryPath);
+    //   console.log(`${this.directoryPath} 创建成功`);
+    // } else {
+    //   console.log(`${this.directoryPath} 存在`);
+    // }
+
+    // if (!await RNFS.exists(this.conversationDirectoryPath)) {
+    //   await RNFS.mkdir(this.conversationDirectoryPath);
+    //   console.log(`${this.conversationDirectoryPath} 创建成功`);
+    // } else {
+    //   console.log(`${this.conversationDirectoryPath} 存在`);
+    // }
+
+    // 2.0 创建会话列表数据库
+    await this.owner.init();
     
-    // 初始化好友列表
+    // 3.0 初始化好友列表
     await this.initFriends();
 
-    // 初始化群组列表
+    // 4.0 初始化群组列表
     await this.initGroups();
 
     await this.initSelfInfo();
@@ -507,7 +538,7 @@ export class YCUser extends YCObject implements YCUserInfo {
         allCanSay: result.cont.allCanSay,
       });
       this.groups.push(group);
-      const conversation = this.owner.createConversation(
+      const conversation = await this.owner.createConversation(
         group.id,
         ConversationType.GROUP
       );

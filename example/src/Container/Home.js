@@ -29,20 +29,38 @@ class Home extends React.Component {
     super(props);
     this.state={
       show: false,
+      talkList: []
     }
   }
 
   async UNSAFE_componentWillMount() {
     const user = this.props.user;
-    await chat.currentUser.init()
+    await chat.currentUser.init();
+    this.updateTalkList();
   }
 
   componentDidMount() {
     const user = this.props.user;
-    this.props.initFriends();
-    this.props.getGroupList();
   }
 
+  updateTalkList = () => {
+    let talkList = chat.conversationList.map( (item)=> {
+      return {
+        _id: item._id,
+        username: item._conversationTitle,
+        avator: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
+        lastMsg: {
+          text: '你可真臭'
+        },
+        unReadMsg: 22
+      }
+    });
+    this.setState({
+      talkList
+    });
+    console.log('this.state.talkList');
+    console.log(this.state.talkList);
+  }
 
   goChat=(item)=>{
     if(this.state.show){
@@ -198,45 +216,37 @@ class Home extends React.Component {
 const mapState = state => ({
   user: chat.currentUser,
   //loginObj: state.UserReducer.get('loginObj').toJS(),
-  //talkList: state.UserReducer.get('talkList').toJS()
-  talkList: [{
-    _id: 123123,
-    username: 'xxx',
-    avator: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
-    lastMsg: {
-      text: '你可真臭'
-    },
-    unReadMsg: 22
-  },
-  {
-    _id: 123124,
-    username: 'xxxx',
-    avator: 'https://img2.baidu.com/it/u=3886895525,3764775842&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-    lastMsg: {
-      text: 'woshinibaba'
-    },
-    unReadMsg: 1
-  },{
-    _id: 123125,
-    username: 'xxxxx',
-    avator: 'https://img2.baidu.com/it/u=2955499920,3807435344&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
-    lastMsg: {
-      text: 'woshichoudidi'
-    },
-    unReadMsg: 5
-  }]
+  //talkList: state.UserReducer.get('talkList').toJS(),
+  talkList: [],
+  // talkList: [{
+  //   _id: 123123,
+  //   username: 'xxx',
+  //   avator: 'https://img0.baidu.com/it/u=4117713405,2961605581&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
+  //   lastMsg: {
+  //     text: '你可真臭'
+  //   },
+  //   unReadMsg: 22
+  // },
+  // {
+  //   _id: 123124,
+  //   username: 'xxxx',
+  //   avator: 'https://img2.baidu.com/it/u=3886895525,3764775842&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+  //   lastMsg: {
+  //     text: 'woshinibaba'
+  //   },
+  //   unReadMsg: 1
+  // },{
+  //   _id: 123125,
+  //   username: 'xxxxx',
+  //   avator: 'https://img2.baidu.com/it/u=2955499920,3807435344&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400',
+  //   lastMsg: {
+  //     text: 'woshichoudidi'
+  //   },
+  //   unReadMsg: 5
+  // }]
 })
 
 const mapDispatch = dispatch => ({
-  init(param){
-    dispatch()
-  },
-  initFriends(param) {
-    dispatch(initFriends(param))
-  },
-  getGroupList(param) {
-    dispatch(getGroupList(param))
-  },
   deleteTalk(obj){
     dispatch(DeleteTalkList(obj))
   }

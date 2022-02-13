@@ -23,7 +23,8 @@ import DropMenu from '../components/DropMenu';
 import { connect } from 'react-redux';
 import config from '../Config/index';
 import Pinyin from '../Util/ChinesePY';
-
+import { YCChat } from '../observable/lib/chat';
+const chat = YCChat.getInstance();
 let Styles = {
 
 };
@@ -155,6 +156,8 @@ class Mail extends React.Component {
   render() {
     let sectionData = [];
 
+    console.log('this.props.friendList');
+    console.log(this.props.friendList);
     let data = {};
     this.props.friendList.length !== 0 &&
       this.props.friendList.forEach((item, index) => {
@@ -279,7 +282,7 @@ class Mail extends React.Component {
 }
 
 const mapState = (state) => ({
-  friendList: state.UserReducer.get('friendList').toJS(),
+  friendList: chat.currentUser.friends
 });
 
 const mapDispatch = (dispatch) => ({});

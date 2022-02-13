@@ -17,7 +17,7 @@ import ApiUtil from '../Service/ApiUtil'
 import {connect} from "react-redux";
 import Toast from "react-native-root-toast";
 import ActionSheet from 'react-native-actionsheet'
-import {DeleteTalkList, AddTalkList} from '../Redux/actionCreators'
+import {DeleteTalkList} from '../Redux/actionCreators'
 import {sort} from '../Util/Tool'
 import { YCChat } from '../observable/lib/chat';
 
@@ -68,7 +68,6 @@ class UserDetail extends React.Component{
     const {id} = this.props.self
     const roomId = sort(id, _id)
     const data = {...this.state.user, roomId}
-    this.props.addTalkList(data)
     //this.props.navigation.navigate('ChatView',{'friendName': username, 'friendId': _id});
     this.props.navigation.navigate('ChatView', {user:
       {
@@ -237,15 +236,12 @@ class UserDetail extends React.Component{
 
 const mapState = state => ({
   self: state.UserReducer.get('user').toJS(),
-  friendList: state.UserReducer.get('friendList').toJS()
+  friendList: chat.currentUser.friends
 })
 
 const mapDispatch = dispatch => ({
   deleteFriend(param){
     dispatch(DeleteTalkList(param))
-  },
-  addTalkList(param){
-    dispatch(AddTalkList(param))
   }
 })
 

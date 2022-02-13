@@ -177,11 +177,19 @@ export class YCValidator extends YCObject {
 	 * @description 注销
 	 */
 	public async logout(isReceivePush?: boolean): Promise<{ status: boolean; msg: string }> {
+		// 1. 与融云SDK断开socket连接
 		this.owner.client.disconnect(isReceivePush);
+
+		// 2. 调注销接口（成功后设置token为''）
 		const result = await chatHttp.post(YCHttpInterfaceEnum.logout, {});
 		if (result.rst) {
 			chatHttp.token = '';
 		}
+
+		// 3. 关闭数据库
+		this.owner.database.close();
+		this.owner.databaseSchemaList = [];
+		
 		return {
 			status: result.rst,
 			msg: result.msg
