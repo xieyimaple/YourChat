@@ -183,7 +183,7 @@ class Home extends React.Component {
 
         <FlatList
           keyExtractor={this.keyExtractor}
-          data={this.props.talkList}
+          data={this.state.talkList}
           renderItem={this.renderItem}
           onScroll={()=>{
             if(this.state.show){

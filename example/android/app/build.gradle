@@ -210,6 +210,8 @@ dependencies {
     }
 
     implementation project(':RN_IMLib')
+
+    implementation project(':react-native-fs')
 }
 
 // Run this once to be able to run the application with BUCK

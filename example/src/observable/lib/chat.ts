@@ -14,6 +14,7 @@ import { ConversationType, ObjectName, SentStatus } from '@rongcloud/react-nativ
 import type { YCFriend } from '..';
 import type { YCGroup } from './group';
 import { YCRealm } from './realm';
+import RNFS from 'react-native-fs';
 
 let chat: YCChat;
 
@@ -166,6 +167,7 @@ export class YCChat extends YCObject {
 		this.databaseSchemaList.push(ConversationListSchema);
 		this._database = new YCRealm({
 			schema: this.databaseSchemaList,
+			path: `${RNFS.DocumentDirectoryPath}/${this.currentUser.id}_default.realm`,
 			deleteRealmIfMigrationNeeded: true,
 			inMemory: false
 		});
