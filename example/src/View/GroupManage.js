@@ -74,11 +74,12 @@ class GroupManage extends React.Component{
         <Header
           placement="center"
           leftComponent={
-            <TouchableOpacity onPress={()=>{
-              this.props.navigation.goBack();
-            }}>
-              <FontAwesome name={'angle-left'} size={24} color={'white'}
-              >
+            <TouchableOpacity 
+              onPress={()=>{
+                this.props.navigation.goBack();
+              }}
+            >
+              <FontAwesome name={'angle-left'} size={24} color={'white'}>
               </FontAwesome>
             </TouchableOpacity>
           }
@@ -114,7 +115,13 @@ class GroupManage extends React.Component{
               />
               <ListItem.Content style={Styles.singleMember}>
                 <ListItem.Title>
-                  <Text style={{width: '100%', fontSize: 12}}>{item.name}</Text>
+                  <Text 
+                    style={{width: '100%', fontSize: 12}}
+                    numberOfLines={ 1 }
+                    ellipsizeMode={ 'tail' }
+                  >
+                      {item.name}
+                  </Text>
                 </ListItem.Title>
               </ListItem.Content> 
             </ListItem>

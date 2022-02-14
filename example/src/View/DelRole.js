@@ -83,6 +83,8 @@ class DelRole extends React.Component{
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item, index}) => {
+    console.log('DelRole:')
+    console.log(item.portraitUri)
     return (
       <TouchableOpacity>
         <ListItem

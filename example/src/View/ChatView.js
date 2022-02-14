@@ -65,7 +65,7 @@ export default function ChatView(props) {
     useEffect(() => {
         let conversation = chat.getConversation(toId, _user.hasOwnProperty('_allCanSay') ? ConversationType.GROUP : ConversationType.PRIVATE);
         (async () => {
-            await conversation.open();
+            //await conversation.open();
             conversation.addListener('receive-text-message', async (message) => {
                 if(_user.hasOwnProperty('_allCanSay')){
                     let result = await chat.currentUser.showMember(_user._id,1,_user._memberCount);
@@ -87,7 +87,7 @@ export default function ChatView(props) {
         })();
 
         return () => {
-            conversation.removeAllListeners('receive-text-message');
+            //conversation.removeAllListeners('receive-text-message');
         }
     }, []);
     const onSend = useCallback(async (msg = []) => {

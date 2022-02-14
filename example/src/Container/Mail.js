@@ -15,19 +15,21 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image
+  Image,
 } from 'react-native';
 import { Header, ListItem, Avatar, Text} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropMenu from '../components/DropMenu';
 import { connect } from 'react-redux';
-import config from '../Config/index';
 import Pinyin from '../Util/ChinesePY';
 import { YCChat } from '../observable/lib/chat';
 const chat = YCChat.getInstance();
-let Styles = {
 
-};
+const ENGLISH = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 
+  'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 
+  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 
+  'Y', 'Z'];
 
 class Mail extends React.Component {
   constructor(props) {
@@ -58,6 +60,7 @@ class Mail extends React.Component {
       });
       return;
     }
+    console.log('this.props.navigation: ', this.props.navigation)
     this.props.navigation.navigate('UserDetail', { ...param });
   };
 
@@ -153,6 +156,23 @@ class Mail extends React.Component {
     );
   };
 
+  renderSearchFirstName = () => {
+    return (
+      ENGLISH.map(item => {
+        return(
+          <TouchableOpacity
+            style={{ width: 30, height: 20 }}
+            onPress={() => { console.log(item) }}
+          >
+            <Text style={{marginTop: 2}}>
+              { item }
+            </Text>
+          </TouchableOpacity>
+        )
+      })
+    )
+  } 
+
   render() {
     let sectionData = [];
 
@@ -220,34 +240,11 @@ class Mail extends React.Component {
         />
         </TouchableWithoutFeedback>
 
-        {/* <View style={{position:'absolute', top:150, right: 0, width: 30, height: 200, zIndex: 999}}>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>a</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>b</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>c</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>d</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>e</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>f</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>g</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>h</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>i</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>j</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>k</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>l</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>m</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>n</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>o</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>p</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>q</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>r</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>s</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>t</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>u</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>v</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>w</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>x</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>y</Text>
-          <Text onPress={() => {console.log(1)}} style={{textAlign: 'center',marginTop: 2}}>z</Text>
-        </View> */}
+        <View
+          style={{position:'absolute', top:150, right: 0, zIndex: 999}}
+        >
+          { this.renderSearchFirstName() }
+        </View>
 
         {/*通讯列表*/}
         <SectionList

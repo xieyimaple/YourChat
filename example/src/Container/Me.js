@@ -7,34 +7,30 @@
 * 修改内容:
 * */
 
-import React from 'react'
+import React, {PureComponent} from 'react'
 import MainView from '../components/MainView'
 import getStyle from './Style/MeStyle';
 import { ListItem, Avatar, Text } from 'react-native-elements'
-import Feather from "react-native-vector-icons/Feather";
-import {TouchableOpacity, View} from "react-native";
+import {View} from "react-native";
 import {connect} from "react-redux";
-import config from '../Config'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { YCChat } from '../observable/lib/chat';
 import { CLIENT } from '../utils/client'
+import { scaleSizeH } from '../Util/scaleSize';
 
 let Styles = {};
 
-class Me extends React.Component {
+class Me extends PureComponent {
   constructor(props) {
     super(props);
-  }
 
-  UNSAFE_componentWillMount() {
-    const user = this.props.user;
+    this.user = this.props.user;
   }
 
   render() {
-    Styles = getStyle();
-    const client = CLIENT;
-    console.log('user');
-    console.log(this.props.user);
+    const Styles = getStyle();
+    const { _photoUrl, _name, _nickname } = this.user;
+
     return (
       <MainView>
         <ListItem style={Styles.userContainer} onPress={()=>{
@@ -42,15 +38,14 @@ class Me extends React.Component {
           }} >
           <Avatar
             activeOpacity={0.2}
-            avatarStyle={{}}
             containerStyle={{ marginTop: 50 }}
             rounded
             size="large"
-            source={{ uri: this.props.user._photoUrl }}
+            source={{ uri: _photoUrl }}
           />
           <View style={Styles.textBox}>
-            <Text style={Styles.username}>{this.props.user._name || ''}</Text>
-            <Text style={Styles.notes}>{this.props.user._nickname || ''}</Text>
+            <Text style={Styles.username}>{_name || ''}</Text>
+            <Text style={Styles.notes}>{_nickname || ''}</Text>
           </View>
           <View style={ Styles.iconRight }>
             <AntDesign style={{marginLeft:'6%'}} name={'right'} size={20} />
@@ -72,7 +67,7 @@ class Me extends React.Component {
         <ListItem containerStyle={Styles.version}>
           <AntDesign name='infocirlceo' size={20}/>
           <ListItem.Title>
-            <Text>当前版本 {client.appVersion}</Text>
+            <Text>当前版本 {CLIENT.appVersion}</Text>
           </ListItem.Title>
         </ListItem>
       </MainView>
@@ -82,16 +77,11 @@ class Me extends React.Component {
 
 
 const chat = YCChat.getInstance();
-const mapState = state => ({
+const mapState = () => ({
   user: chat.currentUser
 })
 
-const mapDispatch = dispatch => ({
-
-})
-
 export default connect(
-  mapState,
-  mapDispatch
+  mapState
 )(Me)
 

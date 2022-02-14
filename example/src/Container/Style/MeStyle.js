@@ -7,12 +7,12 @@
 * 修改时间:
 * 修改内容:
 * */
-
+import { scaleSizeH, scaleSizeW } from "../../Util/scaleSize"
 
 export default getStyle = function () {
   return {
     userContainer: {
-      height: 200,
+      height: scaleSizeH(260),
       backgroundColor: '#ffffff',
       flexDirection: 'row',
       justifyContent: 'space-between'
@@ -20,7 +20,7 @@ export default getStyle = function () {
     textBox: {
       width: '61%',
       marginLeft: '5%',
-      marginTop: 120
+      marginTop: scaleSizeH(120)
     },
     username: {
       fontSize: 18

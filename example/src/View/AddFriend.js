@@ -8,7 +8,7 @@
 * 修改内容:
 * */
 
-import React from 'react'
+import React, {PureComponent} from 'react'
 import MainView from '../components/MainView'
 import {TouchableOpacity} from 'react-native'
 import {Header, ListItem} from "react-native-elements";
@@ -21,7 +21,7 @@ import { YCChat } from '../observable/lib/chat';
 
 const chat = YCChat.getInstance();
 let Styles = {}
-class AddFriend extends React.Component{
+class AddFriend extends PureComponent{
   constructor(props) {
     super(props);
     this.state = {

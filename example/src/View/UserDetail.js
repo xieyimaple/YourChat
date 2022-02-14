@@ -9,19 +9,14 @@
 import React from 'react'
 import {View, Text, TouchableOpacity, Alert, Dimensions} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Entypo from "react-native-vector-icons/Entypo";
 import {Header, ListItem, Button, Avatar, Input} from "react-native-elements";
 import MainView from '../components/MainView'
-import config from '../Config'
-import ApiUtil from '../Service/ApiUtil'
 import {connect} from "react-redux";
 import Toast from "react-native-root-toast";
 import ActionSheet from 'react-native-actionsheet'
 import {DeleteTalkList} from '../Redux/actionCreators'
 import {sort} from '../Util/Tool'
 import { YCChat } from '../observable/lib/chat';
-
-const width = Dimensions.get('window').width;
 
 const chat = YCChat.getInstance();
 
