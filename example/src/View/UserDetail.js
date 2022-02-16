@@ -60,15 +60,15 @@ class UserDetail extends React.Component{
 
   goChat=()=>{
     const {username, _id} = this.state.user
+    console.log('this.state.user');
     console.log(this.state.user);
     const {id} = this.props.self
     const roomId = sort(id, _id)
     const data = {...this.state.user, roomId}
-    //this.props.navigation.navigate('ChatView',{'friendName': username, 'friendId': _id});
     this.props.navigation.navigate('ChatView', {user:
       {
         ...this.state.user, 
-        _id: this.state.user.uuid, 
+        _id: this.state.user._id, 
         username: this.state.user.nickname
       }}
     )

@@ -59,13 +59,20 @@ export default function ChatView(props) {
 
     const chat = YCChat.getInstance();
     const toName = _user.hasOwnProperty('_allCanSay') ? _user._name : _user.username;
+    console.log(_user);
     const toId = _user._id;
     
 
-    useEffect(() => {
-        let conversation = chat.getConversation(toId, _user.hasOwnProperty('_allCanSay') ? ConversationType.GROUP : ConversationType.PRIVATE);
+    useEffect(async () => {
+        console.log('toId');
+        console.log(toId);
+        console.log(ConversationType.GROUP);
+        console.log(ConversationType.PRIVATE);
+        let conversation = await chat.getConversation(toId, _user.hasOwnProperty('_allCanSay') ? ConversationType.GROUP : ConversationType.PRIVATE);
+        console.log('conversation');
+        console.log(conversation);
         (async () => {
-            //await conversation.open();
+            await conversation.open();
             conversation.addListener('receive-text-message', async (message) => {
                 if(_user.hasOwnProperty('_allCanSay')){
                     let result = await chat.currentUser.showMember(_user._id,1,_user._memberCount);
@@ -73,6 +80,8 @@ export default function ChatView(props) {
                         setMessages(dataConversion(conversation.messageList, result.cont));
                     }
                 }else{
+                    console.log('conversation.messageList');
+                    console.log(conversation.messageList);
                     setMessages(dataConversion(conversation.messageList, _user));
                 }
             });
@@ -87,7 +96,7 @@ export default function ChatView(props) {
         })();
 
         return () => {
-            //conversation.removeAllListeners('receive-text-message');
+            conversation.removeAllListeners('receive-text-message');
         }
     }, []);
     const onSend = useCallback(async (msg = []) => {

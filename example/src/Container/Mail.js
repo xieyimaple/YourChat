@@ -161,10 +161,11 @@ class Mail extends React.Component {
       ENGLISH.map(item => {
         return(
           <TouchableOpacity
-            style={{ width: 30, height: 20 }}
+            key={ item }
+            style={{ width: 25, height: 20 }}
             onPress={() => { console.log(item) }}
           >
-            <Text style={{marginTop: 2}}>
+            <Text style={{marginTop: 2, textAlign: 'center'}}>
               { item }
             </Text>
           </TouchableOpacity>
